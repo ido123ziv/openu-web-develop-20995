@@ -1,5 +1,5 @@
 # (Temp Name) openu-web-develop-20995 🚀
-This repo is for course 20995 learning how to build web application in the cloud ☁️☁️☁️
+This repo is for openu course [20995](https://www.openu.ac.il/courses/20995.htm) learning how to build web application in the cloud ☁️☁️☁️
 
 
 # Tech Stack
