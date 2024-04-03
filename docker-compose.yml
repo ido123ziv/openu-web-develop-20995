@@ -15,7 +15,7 @@ services:
             - my_network
 
     db:
-        build: ./db
+        build: ./server/util/db
         ports: 
             - 5432:5432
         environment:

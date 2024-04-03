@@ -6,7 +6,17 @@ This repo is for openu course [20995](https://www.openu.ac.il/courses/20995.htm)
 export DB_PASSWORD=1234
 docker-compose up
 ```
-
+---
+**IF YOU HAVE WINDOWS LOOK HERE!**
+```powershell
+$Env:DB_PASSWORD=1234
+docker-compose up
+```
+--- 
+or you can use:
+```
+make up
+```
 
 # Tech Stack
 * Backend -> [nodejs](https://nodejs.org/en)

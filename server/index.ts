@@ -1,6 +1,8 @@
 // Importing required modules
-const express = require('express');
-const path = require('path');
+import express from "express";
+import path from "path";
+
+import router from "./routes/indexRoutes";
 
 // Creating an Express app
 const app = express();
@@ -9,11 +11,10 @@ const app = express();
 const port = 3000;
 
 // Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, '../client/public')));
+app.use(express.static(path.join(__dirname, "../client")));
 
 // Define routes
-const indexRoute = require('./routes/index');
-app.use('/', indexRoute);
+app.use("/", router);
 
 // Start the server
 app.listen(port, () => {
