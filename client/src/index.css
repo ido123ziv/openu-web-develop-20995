@@ -1,0 +1,23 @@
+.navbar {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 5vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+  /* background-color: #694869; */
+  background-color: #1f2449;
+}
+
+.navbar button {
+  height: 4vh;
+  background-color: #d3d4e1;
+  border-radius: 0.5rem;
+  border: none;
+  margin-right: 10px;
+  margin-left: 5px;
+  padding-right: 10px;
+}
