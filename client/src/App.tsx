@@ -1,9 +1,8 @@
 import "./App.css";
-
-import Navbar from "./ui/Navbar";
+import Home from "./pages/home/Home";
 
 const App = () => {
-  return <Navbar />;
+  return <Home />;
 };
 
 export default App;

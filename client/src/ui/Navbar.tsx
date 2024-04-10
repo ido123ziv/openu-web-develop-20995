@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 
 import "../index.css";
-import LoginPopup from "./LoginPopup/LoginPopup";
+import LoginPopup from "../pages/home/LoginPopup/LoginPopup";
 
 //TODO: change the buttons to LINKS
 const Navbar = () => {
