@@ -1,28 +1,29 @@
-/* Home.module.css */
 .imageContainer {
   position: relative;
-  text-align: center;
-  color: white;
-}
-
-.blurImage {
-  filter: blur(8px);
   width: 100%;
-}
-
-.textOverImage {
-  position: absolute;
-  top: 5%;
-  left: 8%;
-  transform: translate(-50%, -50%);
-  font-size: 36px; /* Adjust size as needed */
-  color: rgb(192, 198, 230); /* Text color */
-  width: 100%;
-  text-align: center;
+  height: auto;
+  margin-bottom: 1rem;
 }
 
 .image {
-  /* filter: blur(8px); */
   width: 100%;
-  margin-bottom: 2%;
+  height: 80vh;
+  filter: blur(1px);
+}
+
+.overlayText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-family: Georgia, serif;
+  -webkit-text-stroke: 1px white;
+  font-size: 50px;
+  text-align: center;
+  width: 50%;
+  line-height: 1;
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 10px;
+  border-radius: 10px;
 }
