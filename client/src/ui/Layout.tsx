@@ -1,25 +1,25 @@
 import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NavigationBar from './Navbar'; // Your NavigationBar component
-// import Home from './Home'; // Example component for Home page
+import Home from '../pages/Home/Home'; // Example component for Home page
 // import About from './About'; // Example component for About page
-// import Contact from './Contact'; // Example component for Contact page
+import Contact from '../pages/Contact/Contact'; // Example component for Contact page
 
-function Routes() {
+import ScrollToTopButton from '../ui/ScrollToTopButton'; // Ensure the path is correct
+
+function Layout() {
     return (
         <Router>
             <NavigationBar />
-            {/*<Route exact path="/">*/}
-            {/*    <Home />*/}
-            {/*</Route>*/}
-            {/*<Route path="/about">*/}
-            {/*    <About />*/}
-            {/*</Route>*/}
-            {/*<Route path="/contact">*/}
-            {/*    <Contact />*/}
-            {/*</Route>*/}
+            <Routes>
+                <Route path="/" element={<Home />} />
+                {/*<Route path="/about" element={<About />} />*/}
+                <Route path="/contact" element={<Contact />} />
+            </Routes>
+            <ScrollToTopButton />
+
         </Router>
     );
 }
 
-export default Routes;
+export default Layout;

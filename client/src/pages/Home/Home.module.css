@@ -1,0 +1,22 @@
+/* Home.module.css */
+.imageContainer {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+.blurImage {
+    filter: blur(8px);
+    width: 100%;
+}
+
+.textOverImage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px; /* Adjust size as needed */
+    color: black; /* Text color */
+    width: 100%;
+    text-align: center;
+}

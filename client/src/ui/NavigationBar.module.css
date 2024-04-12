@@ -1,0 +1,4 @@
+/* NavigationBar.module.css */
+.customColor {
+    background-color: #093241 !important; /* Use !important to override Semantic UI's styles */
+}
