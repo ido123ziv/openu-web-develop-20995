@@ -7,7 +7,7 @@ function Info() {
   return (
     <Container textAlign="center">
       <div className="">
-        <Header as="h2">
+        <Header as="h2" block>
           <Icon name="users" />
           Connecting Babysitters & Parents
         </Header>

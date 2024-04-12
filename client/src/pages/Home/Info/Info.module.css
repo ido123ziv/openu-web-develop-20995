@@ -3,15 +3,14 @@
   line-height: 1.75rem; /* 28px */
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
-  /* text-align: center; */
   align-items: center;
 }
 
 .bulletPointsContainer p {
-  float: left !important;
   margin-bottom: 5px !important;
   padding: 0 !important;
+  width: 100%; /* Ensure all <p> tags take up full width of the container */
+  text-align: center; /* Center align the text within each <p> */
 }
 
 .button {
