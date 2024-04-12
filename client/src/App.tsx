@@ -1,8 +1,8 @@
-import "./App.css";
-import Home from "./routes/home/Home";
+import * as React from 'react';
+import Layout from './ui/Layout';
 
-const App = () => {
-  return <Home />;
+const App: React.FC = () => {
+  return <Layout />;
 };
 
 export default App;

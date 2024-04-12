@@ -1,23 +1,32 @@
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import React from 'react';
+import { Menu, MenuItem, Button } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
-import "../index.css";
-import LoginPopup from "../routes/home/LoginPopup/LoginPopup";
+function NavigationBar() {
+    return (
+        <Menu inverted pointing color='grey'>
+            <MenuItem as={Link} to="/" name='home'>
+                Home
+            </MenuItem>
 
-//TODO: change the buttons to LINKS
-const Navbar = () => {
-  const [showPopup, setShowPopup] = useState<boolean>(false);
+            <MenuItem as={Link} to="/about" name='about'>
+                About
+            </MenuItem>
 
-  return (
-    <nav className="navbar">
-      {/* LITTLE LOGO */}
+            <MenuItem as={Link} to="/contact" name='contact'>
+                Contact
+            </MenuItem>
 
-      {/* <Link to={"/"}>ELi</Link> */}
-      <button>Contact Us</button>
-      <button onClick={() => setShowPopup(!showPopup)}>Login</button>
-      {showPopup && <LoginPopup />}
-    </nav>
-  );
-};
+            <MenuItem>
+                <Button primary>Sign up</Button>
+            </MenuItem>
 
-export default Navbar;
+            <MenuItem position='right'>
+                <Button>Log-in</Button>
+            </MenuItem>
+
+        </Menu>
+    );
+}
+
+export default NavigationBar;
