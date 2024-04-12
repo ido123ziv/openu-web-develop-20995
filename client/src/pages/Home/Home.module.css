@@ -1,22 +1,28 @@
 /* Home.module.css */
 .imageContainer {
-    position: relative;
-    text-align: center;
-    color: white;
+  position: relative;
+  text-align: center;
+  color: white;
 }
 
 .blurImage {
-    filter: blur(8px);
-    width: 100%;
+  filter: blur(8px);
+  width: 100%;
 }
 
 .textOverImage {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 24px; /* Adjust size as needed */
-    color: black; /* Text color */
-    width: 100%;
-    text-align: center;
+  position: absolute;
+  top: 5%;
+  left: 8%;
+  transform: translate(-50%, -50%);
+  font-size: 36px; /* Adjust size as needed */
+  color: rgb(192, 198, 230); /* Text color */
+  width: 100%;
+  text-align: center;
+}
+
+.image {
+  /* filter: blur(8px); */
+  width: 100%;
+  margin-bottom: 2%;
 }
