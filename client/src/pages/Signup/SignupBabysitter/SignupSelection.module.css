@@ -1,0 +1,29 @@
+.segmentParent {
+  background-image: url("/babysitter.svg") !important;
+  background-repeat: no-repeat !important;
+  background-size: contain !important;
+  background-position: center !important;
+  background-color: rgb(240, 239, 248) !important;
+  margin-top: 5vh !important;
+  height: 50vh;
+  font-size: 1.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 5rem !important;
+  line-height: 1 !important;
+  color: rgb(174, 168, 194);
+}
+
+.segmentBabySitter {
+  background-image: url("/baby.svg") !important;
+  background-color: rgb(240, 239, 248) !important;
+  margin-top: 5vh !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  font-size: 5rem !important;
+  line-height: 1 !important;
+  color: rgb(174, 168, 194);
+}

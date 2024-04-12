@@ -3,8 +3,6 @@
   line-height: 1.75rem; /* 28px */
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
-  /* text-align: center; */
   align-items: center;
 }
 

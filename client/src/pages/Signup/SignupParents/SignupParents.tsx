@@ -8,8 +8,9 @@ import {
   FormButton,
   Form,
 } from "semantic-ui-react";
+import { useForm, FieldValues } from "react-hook-form";
 
-import styles from "./Signup.module.css";
+import styles from "./SignupParents.module.css";
 
 const options = [
   { key: "m", text: "Male", value: "male" },
@@ -17,14 +18,52 @@ const options = [
   { key: "o", text: "Other", value: "other" },
 ];
 
-const Signup = () => {
+const SignupParents = () => {
+  const {
+    register,
+    handleSubmit,
+    // formState: { errors, isSubmitting },
+    getValues,
+  } = useForm();
+
+  const onSubmit = (data: FieldValues) => {};
+
   return (
     <div className={styles.formContainer}>
       <h1 className={styles.h1}>Sign Up</h1>
-      <Form size="large" className={styles.form}>
+      <Form
+        size="large"
+        className={styles.form}
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <FormGroup widths="equal">
-          <FormInput fluid label="Full Name" placeholder="Full Name" />
-          <FormInput fluid label="Email" placeholder="Email" />
+          <FormInput
+            fluid
+            label="Full Name"
+            placeholder="Full Name"
+            {...register("name", { required: "Please provide a name" })}
+          />
+          <FormInput
+            fluid
+            label="Email"
+            placeholder="Email"
+            {...register("email", {
+              required: "Please provide an email address",
+            })}
+          />{" "}
+          <FormInput
+            fluid
+            label="Password"
+            placeholder="Password"
+            type="password"
+            {...register("password", {
+              required: "Please provide a password",
+              minLength: {
+                value: 6,
+                message: "password must have at least 6 characters",
+              },
+            })}
+          />
           <FormSelect
             fluid
             label="Gender"
@@ -61,4 +100,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default SignupParents;
