@@ -2,15 +2,15 @@ import React, {useState, useEffect} from 'react';
 import {Image} from "semantic-ui-react";
 import styles from "./Home.module.css";
 
-import babysitterImage1 from "../../../public/babysitter.png";
-import babysitterImage2 from "../../../public/new.png";
-import babysitterImage3 from "../../../public/more.png";
-import babysitterImage4 from "../../../public/baby4.png";
+import babysitterImage1 from "/babysitterImage1.png";
+import babysitterImage2 from "/babysitterImage2.png";
+import babysitterImage3 from "/babysitterImage3.png";
+import babysitterImage4 from "/babysitterImage4.png";
 import Info from "./Info/Info";
 
 function Home() {
-    const [currentImage, setCurrentImage] = useState(babysitterImage3);
-    const images = [babysitterImage2, babysitterImage3, babysitterImage1, babysitterImage4];
+    const [currentImage, setCurrentImage] = useState(babysitterImage1);
+    const images = [babysitterImage1, babysitterImage2, babysitterImage3, babysitterImage4];
 
     useEffect(() => {
         const intervalId = setInterval(() => {
