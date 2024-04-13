@@ -8,6 +8,7 @@ import ScrollToTopButton from "../ui/ScrollToTopButton"; // Ensure the path is c
 import SignupSelection from "../pages/Signup/SignupSelection/SignupSelection";
 import SignupParents from "../pages/Signup/SignupParents/SignupParents";
 import SignupBabySitter from "../pages/Signup/SignupBabysitter/SignupBabysitter";
+import Login from "../pages/Login/Login";
 
 function Layout() {
   return (
@@ -20,6 +21,7 @@ function Layout() {
         <Route path="/signup" element={<SignupSelection />} />
         <Route path="/signup/parents" element={<SignupParents />} />
         <Route path="/signup/babysitter" element={<SignupBabySitter />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
       <ScrollToTopButton />
     </Router>

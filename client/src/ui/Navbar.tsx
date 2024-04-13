@@ -22,7 +22,7 @@ function NavigationBar() {
         <Button primary>Sign up</Button>
       </MenuItem>
 
-      <MenuItem position="right">
+      <MenuItem as={Link} to="/login" position="right">
         <Button>Login</Button>
       </MenuItem>
     </Menu>

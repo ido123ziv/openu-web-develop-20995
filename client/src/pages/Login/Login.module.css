@@ -1,0 +1,14 @@
+.formContainer {
+  position: relative !important;
+  top: 5vh;
+  width: 100vw !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.submitContainer {
+  display: flex;
+  justify-content: center;
+}
