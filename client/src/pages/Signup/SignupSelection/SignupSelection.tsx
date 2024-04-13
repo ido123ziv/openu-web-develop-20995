@@ -10,7 +10,7 @@ const SignupSelection = () => {
         <Grid.Row>
           <Grid.Column>
             <Link to="/signup/parents">
-              <Segment className={styles.segmentParent}>Parents</Segment>
+              <Segment className={styles.segmentParent}>Parent</Segment>
             </Link>
           </Grid.Column>
           <Grid.Column>

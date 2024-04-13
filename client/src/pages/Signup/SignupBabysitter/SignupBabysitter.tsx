@@ -1,19 +1,13 @@
+import { FieldValues, useForm } from "react-hook-form";
 import {
-  FormSelect,
-  FormInput,
-  FormGroup,
-  FormButton,
   Form,
+  FormButton,
+  FormGroup,
+  FormInput,
+  FormSelect,
 } from "semantic-ui-react";
-import { useForm, FieldValues } from "react-hook-form";
 
-import styles from "./SignupParents.module.css";
-import { useState } from "react";
-
-type Kids = {
-  age: number;
-  gender: "male" | "female" | "other";
-};
+import styles from "./SignupBabysitter.module.css";
 
 const options = [
   { key: "m", text: "Male", value: "male" },
@@ -21,10 +15,13 @@ const options = [
   { key: "o", text: "Other", value: "other" },
 ];
 
-const SignupParents = () => {
-  const [numOfChildren, setNumOfChildren] = useState<number>(1);
-  const [childrenArr, setChildrenArr] = useState<Kids[] | null>([]);
+const experience = [
+  { key: 0, text: "No Experience", value: 0 },
+  { key: 1, text: "1-3", value: 1 },
+  { key: 2, text: "3+", value: 2 },
+];
 
+const SignupBabySitter = () => {
   const {
     register,
     handleSubmit,
@@ -110,29 +107,21 @@ const SignupParents = () => {
             className={styles.dropDown}
             options={options}
             placeholder="Gender"
-            {...register("gender", { required: "Please select a gender" })}
+            {...register("gender", { required: "Please select an option" })}
           />
-          <FormButton
-            fluid
-            className={styles.addChildrenButton}
-            onClick={() => setNumOfChildren((prevNum) => prevNum + 1)}
-          >
-            Add Child
-          </FormButton>
+          <FormSelect
+            label={
+              <span>
+                Experience <span className={styles.required}>*</span>
+              </span>
+            }
+            className={styles.dropDown}
+            options={experience}
+            placeholder="Experience"
+            {...register("experience", { required: "Please select an option" })}
+          />
         </FormGroup>
-        <FormGroup widths="equal" className={styles.childrenFields}>
-          {Array.from({ length: numOfChildren }).map((_, index) => (
-            <div key={index} className={styles.childRow}>
-              <FormInput label="Child's Name" placeholder="Child's Name" />
-              <FormInput label="Child's Age" placeholder="Child's Age" />
-              <FormButton
-                onClick={() => setNumOfChildren((prevNum) => prevNum - 1)}
-              >
-                -
-              </FormButton>
-            </div>
-          ))}
-        </FormGroup>
+
         <FormGroup className={styles.submitContainer}>
           <FormButton>Submit</FormButton>
         </FormGroup>
@@ -141,4 +130,4 @@ const SignupParents = () => {
   );
 };
 
-export default SignupParents;
+export default SignupBabySitter;

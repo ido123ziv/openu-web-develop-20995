@@ -1,0 +1,26 @@
+.formContainer {
+  position: relative !important;
+  top: 5vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.formContainer form {
+  width: 80vw;
+}
+
+.formContainer input {
+  height: 5vh !important;
+}
+
+.required {
+  color: red;
+}
+
+.submitContainer {
+  display: flex;
+  justify-content: center;
+}
