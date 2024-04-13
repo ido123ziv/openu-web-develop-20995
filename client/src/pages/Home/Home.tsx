@@ -17,12 +17,6 @@ const images = [
 
 function Home() {
   const [currentImage, setCurrentImage] = useState(babysitterImage1);
-  const images = [
-    babysitterImage1,
-    babysitterImage2,
-    babysitterImage3,
-    babysitterImage4,
-  ];
 
   useEffect(() => {
     const intervalId = setInterval(() => {

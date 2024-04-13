@@ -2,6 +2,7 @@ import { Button, Container, Header, Icon } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 
 import styles from "./Info.module.css";
+import { Link } from "react-router-dom";
 
 function Info() {
   return (
@@ -26,6 +27,8 @@ function Info() {
           </p>
         </div>
         <Button
+          as={Link}
+          to="/signup"
           primary
           size="large"
           icon
