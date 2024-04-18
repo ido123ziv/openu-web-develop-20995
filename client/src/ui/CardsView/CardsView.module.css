@@ -1,0 +1,18 @@
+.cardContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 20px !important;
+  justify-content: start !important;
+  align-items: end !important;
+}
+
+.h1 {
+  margin-left: 20px !important;
+}
+
+.card {
+  width: calc(20% - 20px) !important;
+  margin-right: 20px !important;
+  margin-bottom: 20px !important;
+}

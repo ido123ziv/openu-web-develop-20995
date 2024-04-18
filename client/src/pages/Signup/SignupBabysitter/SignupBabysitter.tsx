@@ -42,32 +42,20 @@ const SignupBabySitter = () => {
         <FormGroup widths="equal" className={styles.firstRow}>
           <FormInput
             fluid
-            label={
-              <span>
-                Full Name <span className={styles.required}>*</span>
-              </span>
-            }
+            label="Full Name"
             placeholder="Full Name"
             {...register("name", { required: "Please provide a name" })}
           />
           <FormInput
             fluid
-            label={
-              <span>
-                Email <span className={styles.required}>*</span>
-              </span>
-            }
+            label="Email"
             placeholder="Email"
             {...register("email", {
               required: "Please provide an email address",
             })}
           />
           <FormInput
-            label={
-              <span>
-                Password <span className={styles.required}>*</span>
-              </span>
-            }
+            label="Password"
             placeholder="Password"
             type="password"
             {...register("password", {
@@ -81,40 +69,24 @@ const SignupBabySitter = () => {
         </FormGroup>
         <FormGroup widths="equal" className={styles.secondRow}>
           <FormInput
-            label={
-              <span>
-                City <span className={styles.required}>*</span>
-              </span>
-            }
+            label="City"
             placeholder="City"
             {...register("city", { required: "Please provide a city" })}
           />
           <FormInput
-            label={
-              <span>
-                Street <span className={styles.required}>*</span>
-              </span>
-            }
+            label="Street"
             placeholder="Street"
             {...register("street", { required: "Please provide a street" })}
           />
           <FormSelect
-            label={
-              <span>
-                Gender <span className={styles.required}>*</span>
-              </span>
-            }
+            label="Gender"
             className={styles.dropDown}
             options={options}
             placeholder="Gender"
             {...register("gender", { required: "Please select an option" })}
           />
           <FormSelect
-            label={
-              <span>
-                Experience <span className={styles.required}>*</span>
-              </span>
-            }
+            label="Experience"
             className={styles.dropDown}
             options={experience}
             placeholder="Experience"
