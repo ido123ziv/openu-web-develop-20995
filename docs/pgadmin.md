@@ -21,4 +21,13 @@ launch PGadmin:
 ## Querying
 ![launch-query-tool](./assets/launch-query-tool.png?raw=true)
 ![list all tables:](./assets/list-tables.png?raw=true)
+```sql
+select * 
+from pg_catalog.pg_tables
+WHERE schemaname = 'public';
+```
+
 ![select](./assets/select-query.png?raw=true)
+```sql
+select * from parents;
+```
