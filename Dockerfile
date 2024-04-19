@@ -1,6 +1,6 @@
 FROM node:18-alpine as frontend
 WORKDIR /app
-COPY client/ /app/client
+COPY client/ .
 RUN npm install --save
 EXPOSE 5173
 CMD [ "npm" "run" "dev" ]
