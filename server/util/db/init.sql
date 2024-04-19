@@ -1,7 +1,7 @@
 CREATE TYPE experience AS ENUM IF NOT EXISTS(
     'no_experience', 'mid', 'high');
 
-CREATE TABLE babysitter IF NOT EXISTS(
+CREATE TABLE babysitters IF NOT EXISTS(
     babysitter_id SERIAL PRIMARY KEY,
     babysitter_name VARCHAR(255) NOT NULL,
     city VARCHAR(255) NOT NULL,
