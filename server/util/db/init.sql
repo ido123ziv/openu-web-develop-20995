@@ -1,8 +1,8 @@
-CREATE TYPE experience AS ENUM IF NOT EXISTS(
+CREATE type experience AS ENUM(
     'no_experience', 'mid', 'high');
-CREATE TYPE moderator_status AS ENUM IF NOT EXISTS(
+CREATE type moderator_status AS ENUM(
     'new', 'seen', 'working-on', 'done');
-CREATE TYPE request_type AS ENUM IF NOT EXISTS(
+CREATE type request_type AS ENUM (
     'activation', 'contact', 'report');
 
 CREATE TABLE babysitters IF NOT EXISTS(
