@@ -46,12 +46,12 @@ CREATE table IF NOT EXISTS recommendations (
 );
 
 CREATE table IF NOT EXISTS parents_babysitters_interactions (
-    last_visit_timestamp TIMESTAMP CURRENT_TIMESTAMP,
+    last_visit_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     contacted BOOLEAN NOT NULL DEFAULT FALSE,
     worked_with BOOLEAN NOT NULL DEFAULT FALSE,
-    PRIMARY KEY(parent_id, babysitter_id),
-    FOREIGN KEY(parent_id) REFERENCES parents(parent_id)
-    FOREIGN KEY(babysitter_id) REFERENCES babysitters(babysitter_id)
+    parent_id INT REFERENCES parents,
+    babysitter_id INT REFERENCES babysitters,
+	PRIMARY KEY(parent_id, babysitter_id)
 );
 
 CREATE table IF NOT EXISTS moderator_requests (
