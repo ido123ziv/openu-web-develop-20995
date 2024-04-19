@@ -1,0 +1,46 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.icon {
+  margin-bottom: 2vh !important;
+}
+
+header {
+  margin-bottom: 20px;
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+h2 {
+  color: #555;
+  margin-top: 2vh !important;
+  margin-bottom: 2vh;
+  /* text-align: left !important; */
+}
+
+p {
+  color: #777;
+  margin-bottom: 20px;
+  text-align: left !important;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
+  text-align: left !important;
+}
+
+strong {
+  font-weight: bold;
+}
