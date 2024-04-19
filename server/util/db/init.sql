@@ -1,5 +1,9 @@
 CREATE TYPE experience AS ENUM IF NOT EXISTS(
     'no_experience', 'mid', 'high');
+CREATE TYPE moderator_status AS ENUM IF NOT EXISTS(
+    'new', 'seen', 'working-on', 'done');
+CREATE TYPE request_type AS ENUM IF NOT EXISTS(
+    'activation', 'contact', 'report');
 
 CREATE TABLE babysitters IF NOT EXISTS(
     babysitter_id SERIAL PRIMARY KEY,
@@ -48,4 +52,11 @@ CREATE TABLE parents_babysitters_interactions IF NOT EXISTS(
     PRIMARY KEY(parent_id, babysitter_id),
     FOREIGN KEY(parent_id) REFERENCES parents(parent_id)
     FOREIGN KEY(babysitter_id) REFERENCES babysitters(babysitter_id)
+);
+
+CREATE TABLE moderator_requests IF NOT EXISTS(
+    request_id SERIAL PRIMARY KEY,
+    request_status moderator_status DEFAULT 'new',
+    request_type request_type NOT NULL,
+    request_diff JSON
 );
