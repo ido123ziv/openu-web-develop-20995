@@ -14,11 +14,11 @@ We use Postgres Docker version 14 because the latest (15) removed features we ha
 # Setup the connection
 launch PGadmin:
 
-[start a new connection](./assets/connect.png?raw=true)
+![start a new connection](./assets/connect.png?raw=true)
 ## Configuration
-[Configure](./assets/connection-tab-connection-setup.png?raw=true)
-[Configure](./assets/general-tab-connection-setup.png?raw=true)
+![Configure](./assets/connection-tab-connection-setup.png?raw=true)
+![Configure](./assets/general-tab-connection-setup.png?raw=true)
 ## Querying
-[launch-query-tool](./assets/launch-query-tool.png?raw=true)
-[list all tables:](./assets/list-tables.png?raw=true)
-[select](./assets/select-query.png?raw=true)
+![launch-query-tool](./assets/launch-query-tool.png?raw=true)
+![list all tables:](./assets/list-tables.png?raw=true)
+![select](./assets/select-query.png?raw=true)
