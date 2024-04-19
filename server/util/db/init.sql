@@ -5,7 +5,7 @@ CREATE type moderator_status AS ENUM(
 CREATE type request_type AS ENUM (
     'activation', 'contact', 'report');
 
-CREATE TABLE babysitters IF NOT EXISTS(
+CREATE table IF NOT EXISTS babysitters (
     babysitter_id SERIAL PRIMARY KEY,
     babysitter_name VARCHAR(255) NOT NULL,
     city VARCHAR(255) NOT NULL,
@@ -16,13 +16,13 @@ CREATE TABLE babysitters IF NOT EXISTS(
     min_kid_age INT default 0,
     max_kid_age INT default 18,
     working_hours JSON NOT NULL,
-    end_timestamp bigint unsigned default '9999999999' NOT NULL,
-    start_timestamp bigint unsigned default '0' NOT NULL,
+    end_timestamp bigint default '9999999999' NOT NULL,
+    start_timestamp bigint default '0' NOT NULL,
     image_string VARCHAR(255) NOT NULL,
     comments TEXT
 );
 
-CREATE TABLE parents IF NOT EXISTS(
+CREATE table IF NOT EXISTS parents (
     parent_id SERIAL PRIMARY KEY,
     parent_name VARCHAR(255) NOT NULL,
     city VARCHAR(255) NOT NULL,
@@ -31,12 +31,12 @@ CREATE TABLE parents IF NOT EXISTS(
     min_kid_age INT NOT NULL,
     max_kid_age INT NOT NULL,
     num_of_kid INT NOT NULL,
-    end_timestamp bigint unsigned default '9999999999' NOT NULL,
-    start_timestamp bigint unsigned default '0' NOT NULL,
+    end_timestamp bigint default '9999999999' NOT NULL,
+    start_timestamp bigint default '0' NOT NULL,
     comments TEXT
 );
 
-CREATE TABLE recommendations IF NOT EXISTS(
+CREATE table IF NOT EXISTS recommendations (
     recommendation_id SERIAL,
     rating INT CHECK(rating > -1 AND rating < 6),
     recommendation_text TEXT,
@@ -45,7 +45,7 @@ CREATE TABLE recommendations IF NOT EXISTS(
     FOREIGN KEY(babysitter_id) REFERENCES babysitters(babysitter_id)
 );
 
-CREATE TABLE parents_babysitters_interactions IF NOT EXISTS(
+CREATE table IF NOT EXISTS parents_babysitters_interactions (
     last_visit_timestamp TIMESTAMP CURRENT_TIMESTAMP,
     contacted BOOLEAN NOT NULL DEFAULT FALSE,
     worked_with BOOLEAN NOT NULL DEFAULT FALSE,
@@ -54,7 +54,7 @@ CREATE TABLE parents_babysitters_interactions IF NOT EXISTS(
     FOREIGN KEY(babysitter_id) REFERENCES babysitters(babysitter_id)
 );
 
-CREATE TABLE moderator_requests IF NOT EXISTS(
+CREATE table IF NOT EXISTS moderator_requests (
     request_id SERIAL PRIMARY KEY,
     request_status moderator_status DEFAULT 'new',
     request_type request_type NOT NULL,
