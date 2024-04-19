@@ -1,0 +1,33 @@
+.container {
+  display: flex !important;
+  flex-direction: column !important;
+  margin-top: 5vh;
+  margin-left: 5vw;
+  margin-right: 5vw;
+  margin-bottom: 5vh;
+}
+
+.main {
+  display: flex;
+  justify-content: start;
+}
+
+.analytics {
+  display: flex;
+  flex-direction: column;
+  margin-right: 20vw !important;
+}
+
+.analytics h2 {
+  margin-left: 2vw;
+}
+
+.analytics p {
+  margin-left: 3vw;
+}
+
+.imageContainer {
+  display: flex !important;
+  justify-content: center !important;
+  margin-top: 5vh !important;
+}

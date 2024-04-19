@@ -1,0 +1,71 @@
+.formContainer {
+  position: relative !important;
+  top: 5vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.formContainer form {
+  width: 80vw;
+}
+
+.formContainer input {
+  height: 5vh !important;
+}
+
+.formContainer button {
+  width: 10vw !important;
+  height: 4vh !important;
+  align-self: flex-end !important;
+  margin-top: 2.5vh !important;
+}
+
+.dropDown {
+  height: 5vh !important;
+}
+
+.firstRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.secondRow {
+  display: flex !important;
+  justify-content: space-between !important;
+  margin-bottom: 20px !important;
+}
+
+.submitContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.required {
+  color: red;
+}
+
+.childRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2vh;
+  margin-right: 1vw !important;
+}
+
+.childRow input {
+  margin-right: 1vw !important;
+}
+
+.childRow button {
+  width: 10vw !important;
+
+  text-align: center;
+}
+
+.childrenFields {
+  display: flex !important;
+  flex-direction: column !important;
+}
