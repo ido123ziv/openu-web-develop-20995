@@ -32,6 +32,12 @@ CREATE TABLE parents IF NOT EXISTS(
     comments TEXT
 );
 
-
-
-
+CREATE TABLE recommendations IF NOT EXISTS(
+    parent_id SERIAL,
+    babysitter_id SERIAL,
+    rating INT CHECK(rating > -1 AND rating < 6),
+    recommendation_text TEXT,
+    PRIMARY KEY(parent_id, babysitter_id),
+    FOREIGN KEY(parent_id) REFERENCES parents(parent_id)
+    FOREIGN KEY(babysitter_id) REFERENCES babysitters(babysitter_id)
+);
