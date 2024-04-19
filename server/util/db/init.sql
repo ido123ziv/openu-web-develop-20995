@@ -38,11 +38,11 @@ CREATE table IF NOT EXISTS parents (
 
 CREATE table IF NOT EXISTS recommendations (
     recommendation_id SERIAL,
+	parent_id INT REFERENCES parents, 
+	babysitter_id INT REFERENCES babysitters,
     rating INT CHECK(rating > -1 AND rating < 6),
     recommendation_text TEXT,
-    PRIMARY KEY(parent_id, babysitter_id),
-    FOREIGN KEY(parent_id) REFERENCES parents(parent_id)
-    FOREIGN KEY(babysitter_id) REFERENCES babysitters(babysitter_id)
+	PRIMARY KEY(parent_id, babysitter_id)	
 );
 
 CREATE table IF NOT EXISTS parents_babysitters_interactions (
