@@ -33,10 +33,18 @@ CREATE TABLE parents IF NOT EXISTS(
 );
 
 CREATE TABLE recommendations IF NOT EXISTS(
-    parent_id SERIAL,
-    babysitter_id SERIAL,
+    recommendation_id SERIAL,
     rating INT CHECK(rating > -1 AND rating < 6),
     recommendation_text TEXT,
+    PRIMARY KEY(parent_id, babysitter_id),
+    FOREIGN KEY(parent_id) REFERENCES parents(parent_id)
+    FOREIGN KEY(babysitter_id) REFERENCES babysitters(babysitter_id)
+);
+
+CREATE TABLE parents_babysitters_interactions IF NOT EXISTS(
+    last_visit_timestamp TIMESTAMP CURRENT_TIMESTAMP,
+    contacted BOOLEAN NOT NULL DEFAULT FALSE,
+    worked_with BOOLEAN NOT NULL DEFAULT FALSE,
     PRIMARY KEY(parent_id, babysitter_id),
     FOREIGN KEY(parent_id) REFERENCES parents(parent_id)
     FOREIGN KEY(babysitter_id) REFERENCES babysitters(babysitter_id)
