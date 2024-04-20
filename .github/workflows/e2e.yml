@@ -1,5 +1,5 @@
 name: end to end testing
-run-name: Running End to End testing on ${{ github.ref }} -> ${{ github.sha }}
+run-name: Running End to End testing on ${{ github.head_ref || github.ref_name }} -> ${{ github.sha }}
 on:
   workflow_dispatch:
     
@@ -10,14 +10,17 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.ref }}
+          ref: ${{ github.head_ref || github.ref_name }}
       - name: setup tests
         working-directory: ./test
         run:
           npm install
       - name: launch application
+        env:
+          DB_PASSWORD: 1234
         run: docker compose up -d
       - name: api test
+        id: api_test
         working-directory: ./test
         run: |
           passed=""
@@ -28,7 +31,9 @@ jobs:
           else
             echo "API test passed! ✅" >> $GITHUB_STEP_SUMMARY
           fi
+          echo "passed=$passed" >> $GITHUB_OUTPUT
       - name: ui test
+        id: ui_test
         working-directory: ./test
         run: |
           passed=""
@@ -38,4 +43,15 @@ jobs:
           else
             echo "Browser test passed! ✅" >> $GITHUB_STEP_SUMMARY
           fi
-          
+          echo "passed=$passed" >> $GITHUB_OUTPUT
+      - name: consolidate
+        run: |
+          docker compose down
+          api=${{ steps.api_test.outputs.passed }}
+          ui=${{ steps.ui_test.outputs.passed }}
+          if [[ -n "$api" ]] || [[ -n "$ui" ]]; then
+            echo "not all test passed, failing the workflow"
+            exit 1
+          else
+            echo "__Great Success!__" >> $GITHUB_STEP_SUMMARY
+          fi
