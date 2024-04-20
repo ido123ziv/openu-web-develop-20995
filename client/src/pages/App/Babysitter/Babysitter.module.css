@@ -1,3 +1,19 @@
+.iconContainer {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center !important;
+  align-items: center;
+}
+
+.iconContainer .icon {
+  margin-top: 2vh !important;
+}
+
+.iconContainer p {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
 .container {
   display: flex !important;
   flex-direction: column !important;
@@ -5,6 +21,14 @@
   margin-left: 5vw;
   margin-right: 5vw;
   margin-bottom: 5vh;
+  padding-top: 5vh;
+  padding-bottom: 5vh;
+  background-color: rgb(233, 233, 233);
+  border-radius: 0.5rem;
+}
+
+.h1 {
+  margin-left: 20px;
 }
 
 .main {

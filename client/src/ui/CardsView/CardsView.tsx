@@ -6,7 +6,6 @@ import styles from "./CardsView.module.css";
 const CardsView = ({ data }) => {
   return (
     <>
-      <h1 className={styles.h1}>Hello, PLACEHOLDER</h1>
       <div className={styles.cardContainer}>
         {data.map((_card: unknown, index: number) => (
           <Card

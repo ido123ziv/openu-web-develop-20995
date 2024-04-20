@@ -1,0 +1,23 @@
+.iconContainer {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center !important;
+  align-items: center;
+}
+
+.iconContainer .icon {
+  margin-top: 2vh !important;
+}
+
+.iconContainer p {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.h1 {
+  margin-left: 20px;
+}
+
+.iconContainer .h1 {
+  margin-left: 20px !important;
+}
