@@ -22,18 +22,31 @@ h2 {
   color: #555;
   margin-top: 2vh !important;
   margin-bottom: 2vh;
-  /* text-align: left !important; */
 }
 
 p {
   color: #777;
   margin-bottom: 20px;
   text-align: left !important;
+  padding-top: 1vh;
+  margin-bottom: 2vh;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  padding-bottom: 1vw;
+  border: 1px solid #000;
+  border-radius: 0.375rem;
 }
 
 ul {
   list-style: none;
   padding: 0;
+  margin-bottom: 2vh;
+  padding-top: 1vh;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  padding-bottom: 1vw;
+  border: 1px solid #000;
+  border-radius: 0.375rem;
 }
 
 li {
@@ -43,4 +56,13 @@ li {
 
 strong {
   font-weight: bold;
+}
+
+p {
+  margin-bottom: 2vh;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  padding-bottom: 1vw;
+  border: 1px solid #000;
+  border-radius: 0.375rem;
 }
