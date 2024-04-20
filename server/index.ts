@@ -15,6 +15,7 @@ app.use(express.static(path.join(__dirname, "../client")));
 
 // Define routes
 app.use("/", router);
+app.use('/api', router);
 
 // Start the server
 app.listen(port, () => {

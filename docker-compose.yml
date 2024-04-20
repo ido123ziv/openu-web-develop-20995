@@ -1,7 +1,19 @@
 version: "3.9"
 services: 
+    app:
+        build: 
+            context: .
+            target: frontend
+        ports: 
+            - 5173:5173
+        depends_on: 
+            - api
+        networks:
+            - my_network
     api:
-        build: .
+        build: 
+            context: .
+            target: backend
         ports: 
             - 3000:3000
         depends_on: 
