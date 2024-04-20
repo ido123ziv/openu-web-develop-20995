@@ -4,6 +4,8 @@ services:
         build: 
             context: .
             target: frontend
+        ports: 
+            - 5173:5173
         depends_on: 
             - api
         networks:
