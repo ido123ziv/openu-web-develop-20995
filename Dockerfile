@@ -3,7 +3,7 @@ WORKDIR /app
 COPY client/ .
 RUN npm install --save
 EXPOSE 5173
-CMD [ "npm" "run" "dev" ]
+CMD [ "npm", "run", "dev" ]
 
 FROM node:18-alpine as builder
 WORKDIR /app
