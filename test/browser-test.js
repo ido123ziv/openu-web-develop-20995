@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 // Import Puppeteer
 const puppeteer = require('puppeteer');
 
@@ -10,7 +11,7 @@ const puppeteer = require('puppeteer');
   
   try {
     // Navigate to a website with options for waiting for the page to load
-    await page.goto('https://example.com', {
+    await page.goto('http://localhost:5173', {
       waitUntil: 'load', // Wait until the 'load' event completes
       timeout: 10000 // Set a timeout of 10 seconds for page load
     });
