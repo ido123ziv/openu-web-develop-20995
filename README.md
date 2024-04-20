@@ -17,7 +17,9 @@ or you can use:
 ```
 make up
 ```
-
+---
+__IF YOU USE PGAdmin Please Refer to [docs](./docs/pgadmin.md)__
+---
 # Tech Stack
 * Backend -> [nodejs](https://nodejs.org/en)
 
