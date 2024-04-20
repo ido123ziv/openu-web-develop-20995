@@ -1,0 +1,30 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+const fetch = require('node-fetch');
+
+// Define URLs to test
+const urls = {
+    front: 'http://localhost:5173/',
+    back: 'http://localhost:3000/api/hello'
+};
+
+// Function to perform HTTP GET request and check status code
+async function testUrl(url) {
+    try {
+        const response = await fetch(url);
+        if (response.status !== 200) {
+            throw new Error(`Error Code: ${response.status}`);
+        } else {
+            console.log(`Loaded: ${url}`);
+        }
+    } catch (error) {
+        console.error(error);
+        process.exit(1); // Exit with code 1 if any error occurs
+    }
+}
+
+// Perform tests for each URL
+(async () => {
+    for (const url of Object.values(urls)) {
+        await testUrl(url);
+    }
+})();
