@@ -27,7 +27,7 @@ services:
       - my_network
 
   db:
-    build: ./server/util/db
+    build: ./server/utils/db
     ports:
       - target: 5432
         published: ${DB_PORT:-5432}
