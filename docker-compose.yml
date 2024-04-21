@@ -1,46 +1,48 @@
 version: "3.9"
-services: 
-    app:
-        build: 
-            context: .
-            target: frontend
-        ports: 
-            - 5173:5173
-        depends_on: 
-            - api
-        networks:
-            - my_network
-    api:
-        build: 
-            context: .
-            target: backend
-        ports: 
-            - 3000:3000
-        depends_on: 
-            - db
-        environment:
-            DATABASE_NAME: docker
-            DATABASE_USERNAME: docker
-            DATABASE_PASSWORD: ${DB_PASSWORD}
-            DATABASE_URL: db
-        networks:
-            - my_network
+services:
+  app:
+    build:
+      context: .
+      target: frontend
+    ports:
+      - 5173:5173
+    depends_on:
+      - api
+    networks:
+      - my_network
+  api:
+    build:
+      context: .
+      target: backend
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+    environment:
+      DATABASE_NAME: ${DB_NAME:-docker}
+      DATABASE_USERNAME: ${DB_USERNAME:-docker}
+      DATABASE_PASSWORD: ${DB_PASSWORD:-1234}
+      DATABASE_URL: db
+    networks:
+      - my_network
 
-    db:
-        build: ./server/util/db
-        ports: 
-            - 5432:5432
-        environment:
-            POSTGRES_USER: docker
-            POSTGRES_PASSWORD: ${DB_PASSWORD}
-            POSTGRES_db: docker
-        volumes: 
-            - db:/var/lib/postgresql/data
-        networks:
-            - my_network                                                                                 
+  db:
+    build: ./server/utils/db
+    ports:
+      - target: 5432
+        published: ${DB_PORT:-5432}
+        protocol: tcp
+    environment:
+      POSTGRES_USER: ${DB_USERNAME:-docker}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-1234}
+      POSTGRES_db: ${DB_NAME:-docker}
+    volumes:
+      - db:/var/lib/postgresql/data
+    networks:
+      - my_network
 volumes:
   db:
     driver: local
-                                                                                       
-networks:                                                                              
-  my_network:     
+
+networks:
+  my_network:
