@@ -27,9 +27,9 @@ jobs:
       - name: get context from name
         id: context
         run: |
-            if [[ ${{ matrix.images }} =~ "app" ]]; then
+            if [[ "${{ matrix.images }}" =~ "app" ]]; then
                 echo "context='client'" >> $GITHUB_OUTPUT
-            elif [[ ${{matrix.images}} =~ "api" ]]; then
+            elif [[ "${{matrix.images}}" =~ "api" ]]; then
                 echo "context='server'"" >> $GITHUB_OUTPUT
             else
                 echo "context='server/utils/db" >> $GITHUB_OUTPUT
