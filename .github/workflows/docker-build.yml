@@ -51,5 +51,6 @@ jobs:
         with:
           context: ${{ steps.context.outputs.context }}
           push: true
+          target: development
           tags: ${{ steps.meta.outputs.tags }}-${{ matrix.images }}
           labels: ${{ steps.meta.outputs.labels }}
