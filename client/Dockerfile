@@ -1,16 +1,16 @@
 FROM node:18-alpine as development
 WORKDIR /app
 COPY client/package.json .
-RUN npm install 
-COPY client/ .
+RUN npm install && npm cache clean --force
+COPY . .
 EXPOSE 5173
 CMD [ "npm", "run", "dev" ]
 
 FROM node:18-alpine as builder
 WORKDIR /app
 COPY client/package.json .
-RUN npm install 
-COPY client/ .
+RUN npm install  && npm cache clean --force
+COPY . .
 RUN npm run build 
 
 FROM node:18-alpine as production
