@@ -37,7 +37,7 @@ docker tag old-tag new-tag
 ## Working with container registry
 We are uploading the images to github packages so we can pull whenever we need
 ```bash
-docker pull ghcr.io/openu-web-develop-20995-api
+docker pull ghcr.io/ido123ziv/openu-web-develop-20995-api
 ```
 
 ## Debugging
