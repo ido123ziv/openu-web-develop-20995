@@ -1,6 +1,6 @@
 FROM node:18-alpine as development
 WORKDIR /app
-COPY client/package.json .
+COPY package*.json .
 RUN npm install && npm cache clean --force
 COPY . .
 EXPOSE 5173
