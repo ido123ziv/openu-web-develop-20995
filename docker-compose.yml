@@ -1,6 +1,7 @@
 version: "3.9"
 services:
   app:
+    image: ghcr.io/ido123ziv/openu-web-develop-20995/app:feat-docker-seperation
     build:
       context: client
       target: development
@@ -14,6 +15,7 @@ services:
     networks:
       - my_network
   api:
+    image: ghcr.io/ido123ziv/openu-web-develop-20995/api:feat-docker-seperation
     restart: always
     build:
       context: server
@@ -34,6 +36,7 @@ services:
       - my_network
 
   db:
+    image: ghcr.io/ido123ziv/openu-web-develop-20995/db:feat-docker-seperation
     build: ./server/utils/db
     ports:
       - target: 5432
