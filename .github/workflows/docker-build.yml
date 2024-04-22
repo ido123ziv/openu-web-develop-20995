@@ -30,7 +30,7 @@ jobs:
             if [[ "${{ matrix.images }}" =~ "app" ]]; then
                 echo "context='client'" >> $GITHUB_OUTPUT
             elif [[ "${{matrix.images}}" =~ "api" ]]; then
-                echo "context='server'"" >> $GITHUB_OUTPUT
+                echo "context='server'" >> $GITHUB_OUTPUT
             else
                 echo "context='server/utils/db" >> $GITHUB_OUTPUT
             fi
