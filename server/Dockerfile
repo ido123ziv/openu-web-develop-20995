@@ -2,7 +2,9 @@ FROM node:18-alpine as builder
 WORKDIR /app
 COPY package*.json ./
 RUN npm install -D @types/express typescript ts-node --save && npm cache clean --force
-COPY index.ts tsconfig.json routes/ utils/ /app/
+COPY index.ts tsconfig.json /app/
+COPY ./routes /app/routes/
+COPY ./utils /app/utils/
 RUN npm run build 
 
 FROM node:18-alpine
