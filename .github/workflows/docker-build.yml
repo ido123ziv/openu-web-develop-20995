@@ -4,7 +4,7 @@ run-name: "Build Images for ${{ github.ref_name }}"
 on:
   workflow_dispatch:
   push:
-    branches: ['main']
+    branches: ['main', 'feat/docker-seperation']
 
 env:
   REGISTRY: ghcr.io
