@@ -1,19 +1,19 @@
 {
-  "name": "openu-web-develop-20995",
+  "name": "server",
   "version": "1.0.0",
-  "description": "\"Hey there look at me\"",
-  "main": "server/index.js",
+  "description": "api backend for taf",
+  "main": "index.js",
   "scripts": {
     "lint": "eslint .",
-    "build": "npx tsc -p server",
-    "start": "node server/dist/index.js",
+    "build": "npx tsc -p .",
+    "start": "node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ido123ziv/openu-web-develop-20995.git"
   },
-  "author": "",
+  "author": "ido123ziv",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ido123ziv/openu-web-develop-20995/issues"
@@ -21,18 +21,10 @@
   "homepage": "https://github.com/ido123ziv/openu-web-develop-20995#readme",
   "devDependencies": {
     "@types/express": "^4.17.21",
-    "@typescript-eslint/eslint-plugin": "^7.5.0",
-    "@typescript-eslint/parser": "^7.5.0",
-    "eslint": "^8.57.0",
-    "eslint-plugin-react": "^7.34.1",
-    "express": "^4.19.2",
-    "nodemon": "^3.1.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.3"
+    "typescript": "^5.4.5"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "semantic-ui-css": "^2.5.0"
+    "express": "^4.19.2"
   }
 }

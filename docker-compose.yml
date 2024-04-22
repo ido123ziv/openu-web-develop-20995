@@ -1,19 +1,25 @@
 version: "3.9"
 services:
   app:
+    image: ghcr.io/ido123ziv/openu-web-develop-20995/app:feat-docker-seperation
     build:
-      context: .
-      target: frontend
+      context: client
+      target: development
     ports:
       - 5173:5173
     depends_on:
       - api
+    volumes:
+      - ./client:/app/
+      - /app/node_modules
     networks:
       - my_network
   api:
+    image: ghcr.io/ido123ziv/openu-web-develop-20995/api:feat-docker-seperation
+    restart: always
     build:
-      context: .
-      target: backend
+      context: server
+      # target: backend
     ports:
       - 3000:3000
     depends_on:
@@ -23,10 +29,14 @@ services:
       DATABASE_USERNAME: ${DB_USERNAME:-docker}
       DATABASE_PASSWORD: ${DB_PASSWORD:-1234}
       DATABASE_URL: db
+    # volumes:
+    #   - ./server:/app/
+    #   - /app/node_modules
     networks:
       - my_network
 
   db:
+    image: ghcr.io/ido123ziv/openu-web-develop-20995/db:feat-docker-seperation
     build: ./server/utils/db
     ports:
       - target: 5432

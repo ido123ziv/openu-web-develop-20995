@@ -1,5 +1,19 @@
-# (Temp Name) openu-web-develop-20995 🚀
+# TAF (openu-web-develop-20995) 🚀
+TAF is a website for babysitters and parents to meet and schedule with each other for happier parents and happier babysitters
+
 This repo is for openu course [20995](https://www.openu.ac.il/courses/20995.htm) learning how to build web application in the cloud ☁️☁️☁️
+* [how-to-run](#how-to-run)
+
+* [tech-stack](#tech-stack)
+
+* [prerequisites](#installation)
+
+* [docs](./docs/)
+
+* [local-dev](#project)
+
+and some important tools we are working with [linter](#linter) & [pre-commit](#pre-commit)
+
 
 # How To Run
 ```bash

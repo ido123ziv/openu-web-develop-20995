@@ -3,7 +3,6 @@ const fetch = require('node-fetch');
 
 // Define URLs to test
 const urls = {
-    front: 'http://localhost:5173/',
     back: 'http://localhost:3000/api/hello'
 };
 
