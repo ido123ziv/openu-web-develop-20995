@@ -8,9 +8,13 @@ services:
       - 5173:5173
     depends_on:
       - api
+    volumes:
+      - ./client:/app/
+      - /app/node_modules
     networks:
       - my_network
   api:
+    restart: always
     build:
       context: server
       target: backend
@@ -23,6 +27,9 @@ services:
       DATABASE_USERNAME: ${DB_USERNAME:-docker}
       DATABASE_PASSWORD: ${DB_PASSWORD:-1234}
       DATABASE_URL: db
+    # volumes:
+    #   - ./server:/app/
+    #   - /app/node_modules
     networks:
       - my_network
 
