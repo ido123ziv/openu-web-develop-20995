@@ -17,7 +17,7 @@ services:
     restart: always
     build:
       context: server
-      target: backend
+      # target: backend
     ports:
       - 3000:3000
     depends_on:
