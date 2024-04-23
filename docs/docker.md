@@ -55,3 +55,13 @@ are fixed by running:
 docker volume rm openu-web-develop-20995_db
 docker compose up
 ```
+
+When building:
+>  => => transferring dockerfile: 591B                                                                                                  0.0s 
+ => [app internal] load .dockerignore                                                                                                 0.0s 
+ => => transferring context: 2B                                                                                                       0.0s 
+ => CANCELED [app internal] load build context                                                                                        0.0s 
+ => => transferring context: 3.40kB                                                                                                   0.0s 
+ failed to solve: Canceled: context canceled
+
+if on `client` folder then remove the node_modules locally and run build again
