@@ -1,3 +1,11 @@
+FROM node:18-alpine as development
+WORKDIR /app
+COPY package*.json ./
+RUN npm install && npm cache clean --force
+COPY . /app/
+EXPOSE 3000
+CMD [ "npm", "run", "dev" ]
+
 FROM node:18-alpine as builder
 WORKDIR /app
 COPY package*.json ./
