@@ -2,7 +2,10 @@ FROM node:18-alpine as development
 WORKDIR /app
 COPY package*.json ./
 RUN npm install && npm cache clean --force
-COPY . /app/
+RUN npm install -g nodemon
+COPY *ts* /app/
+COPY routes/ /app/routes/
+COPY utils/ /app/utils/
 EXPOSE 3000
 CMD [ "npm", "run", "dev" ]
 

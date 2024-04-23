@@ -1,5 +1,5 @@
-**/node_modules/
-**/dist
+*node_modules/*
+**/dist/*
 .git
 .github
 npm-debug.log
@@ -7,3 +7,4 @@ npm-debug.log
 .coverage.*
 .env
 .aws
+Dockerfile

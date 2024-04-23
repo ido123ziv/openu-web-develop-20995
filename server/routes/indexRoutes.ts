@@ -13,7 +13,7 @@ router.get('/hello', (request, response) => {
 router.get('/hello/:username', (request, response) => {
     console.log(request.params);
     let username = request.params.username
-    let response_message = "hello" + username + "!"
+    let response_message = "hello " + username + " !! "
     response.send(response_message);
   });
 router.get('/db', (request, response) => {
