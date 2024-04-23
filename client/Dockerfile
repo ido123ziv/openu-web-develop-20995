@@ -2,7 +2,7 @@ FROM node:18-alpine as development
 WORKDIR /app
 COPY package*.json .
 RUN npm install && npm cache clean --force
-COPY . .
+COPY src/ public/ index.html *config* /app/
 EXPOSE 5173
 CMD [ "npm", "run", "dev" ]
 
