@@ -4,14 +4,10 @@ services:
     image: ghcr.io/ido123ziv/openu-web-develop-20995/app:latest
     build:
       context: client
-      target: development
     ports:
-      - 5173:5173
+      - 8080:8080
     depends_on:
       - api
-    volumes:
-      - ./client:/app/
-      - /app/node_modules
     networks:
       - my_network
   api:
@@ -19,7 +15,6 @@ services:
     restart: always
     build:
       context: server
-      target: development
     ports:
       - 3000:3000
     depends_on:
@@ -29,9 +24,6 @@ services:
       DATABASE_USERNAME: ${DB_USERNAME:-docker}
       DATABASE_PASSWORD: ${DB_PASSWORD:-1234}
       DATABASE_URL: db
-    volumes:
-      - ./server:/app/
-      - /app/node_modules
     networks:
       - my_network
 
