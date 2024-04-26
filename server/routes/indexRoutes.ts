@@ -1,4 +1,4 @@
-import { Router, text } from 'express';
+import { Router } from 'express';
 import db from "../utils/db/db"
 const router = Router();
 
@@ -44,11 +44,12 @@ router.get('/db/health', (request, response) => {
           throw new Error(`Issue with ${element} table`)
         }
       })
+    response.send('ALL DB Tables initialized correctly!');
+
     } catch (error) {
       response.send(error)
     }
     
-    response.send('ALL DB Tables initialized correctly!');
   });
 
 
