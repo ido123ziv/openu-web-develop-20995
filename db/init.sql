@@ -73,7 +73,7 @@ CREATE table IF NOT EXISTS parents_babysitters_interactions (
     parent_id INT REFERENCES parents,
     babysitter_id INT REFERENCES babysitters,
 	PRIMARY KEY(parent_id, babysitter_id)
-);ֿ
+);
 
 INSERT INTO parents_babysitters_interactions (parent_id, babysitter_id, contacted, worked_with)
 VALUES
