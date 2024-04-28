@@ -34,7 +34,17 @@ export default [
   },
   {
     languageOptions: {
-      parser: tseslint.parser
+      parser: tseslint.parser,
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true
+        }
+      }
+    }
+  },
+  {
+    settings: {
+      version: "detect",
     }
   }
 ];
