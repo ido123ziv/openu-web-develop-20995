@@ -25,7 +25,11 @@ jobs:
         working-directory: ${{ matrix.bundle }}
         run: |
           npm install eslint --save-dev globals @eslint/js typescript-eslint eslint
-
+      - name: extra-client-installation
+        working-directory: client
+        if: ${{ matrix.bundle == 'client' }}
+        run: |
+          npm install --save-dev eslint-plugin-react
       - name: Run ESLint on ${{ matrix.bundle }}
         id: lint
         run: |
