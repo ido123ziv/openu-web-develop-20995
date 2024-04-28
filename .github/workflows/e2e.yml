@@ -19,7 +19,18 @@ jobs:
         run:
           npm install
       - name: launch application
-        run: docker compose up -d
+        run: |
+          docker compose build
+          docker compose up -d
+      - name: wait for api
+        run: |
+          if ! curl "http://localhost:3000/api/hello"; then
+            sleep 5;
+          fi
+      - name: see containers
+        run: docker ps
+      - name: see logs
+        run: docker compose logs
       - name: api test
         id: api_test
         working-directory: ./test
