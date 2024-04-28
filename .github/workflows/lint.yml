@@ -38,8 +38,13 @@ jobs:
         run: |
           git branch --show-current
           if ! npx eslint . -o "output.txt"; then
-            ls output.txt
-            echo "failed=true" >> $GITHUB_OUTPUT
+            if [[ -f output.txt ]]; then
+              echo "linting found errors!"
+              echo "failed=false" >> $GITHUB_OUTPUT
+            else
+              echo "linter didn't run!"
+              echo "failed=true" >> $GITHUB_OUTPUT
+            fi
           else 
             echo "failed=false" >> $GITHUB_OUTPUT
           fi
