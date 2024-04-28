@@ -38,6 +38,7 @@ jobs:
         run: |
           git branch --show-current
           if ! npx eslint . -o "output.txt"; then
+            ls output.txt
             echo "failed=true" >> $GITHUB_OUTPUT
           else 
             echo "failed=false" >> $GITHUB_OUTPUT
