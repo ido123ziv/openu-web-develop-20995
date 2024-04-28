@@ -33,8 +33,10 @@ jobs:
         run: |
           npm install --save-dev eslint-plugin-react eslint-plugin-react-refresh eslint-plugin-react-hooks 
       - name: Run ESLint on ${{ matrix.bundle }}
+        working-directory: ${{ matrix.bundle }}
         id: lint
         run: |
+          git branch --show-current
           if ! npx eslint . -o "output.txt"; then
             echo "failed=true" >> $GITHUB_OUTPUT
           else 
