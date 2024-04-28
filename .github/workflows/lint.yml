@@ -50,6 +50,8 @@ jobs:
           fi
         continue-on-error: true
       - name: see output
+        working-directory: ${{ matrix.bundle }}
+
         run: |
           if [[ "${{ steps.lint.outputs.failed }}" =~ 'true' ]]; then
             echo "# ${{ matrix.bundle }} Lint failed ❌" >> $GITHUB_STEP_SUMMARY
