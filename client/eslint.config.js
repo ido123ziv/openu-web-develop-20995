@@ -1,6 +1,7 @@
 import globals from "globals";
 import pluginJs from "@eslint/js";
 import tseslint from "typescript-eslint";
+import typescriptParser from "@typescript-eslint/parser";
 import pluginReactConfig from "eslint-plugin-react/configs/recommended.js";
 import reactRefresh from "eslint-plugin-react-refresh";
 import reactHooks from "eslint-plugin-react-hooks"
@@ -12,6 +13,7 @@ export default [
   ...tseslint.configs.recommended,
   pluginReactConfig,
   {
+    files: ["**/*.{js,jsx,mjs,cjs,ts,tsx}"],
     plugins: {
       "react-refresh": reactRefresh,
       "react-hooks": reactHooks
@@ -34,7 +36,7 @@ export default [
   },
   {
     languageOptions: {
-      parser: tseslint.parser,
+      parser: typescriptParser,
       parserOptions: {
         ecmaFeatures: {
           jsx: true
