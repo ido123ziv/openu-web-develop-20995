@@ -10,27 +10,41 @@ on:
 
 jobs:
   eslint:
-    name: Run eslint scanning
+    name: Run eslint scanning on ${{ matrix.bundle }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    strategy:
+      matrix: 
+        bundle: ["client", "server"]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Install ESLint
+        working-directory: ${{ matrix.bundle }}
         run: |
-          npm install eslint
-          npm install @microsoft/eslint-formatter-sarif@2.1.7
+          npm install eslint --save-dev globals @eslint/js typescript-eslint eslint
 
-      - name: Run ESLint
-        run: npx eslint .
-          --config .eslintrc.yaml
-          --ext .js,.jsx,.ts,.tsx
-          --format @microsoft/eslint-formatter-sarif
-          --output-file eslint-results.sarif
+      - name: Run ESLint on ${{ matrix.bundle }}
+        id: lint
+        run: |
+          if ! npx eslint . -o "output.txt"; then
+            echo "failed=true" >> $GITHUB_OUTPUT
+          else 
+            echo "failed=false" >> $GITHUB_OUTPUT
+          fi
         continue-on-error: true
       - name: see output
         run: |
-          cat eslint-results.sarif || echo "can't lint"
-          cat eslint-results.sarif >> $GITHUB_STEP_SUMMARY || echo "Linting is done" >> $GITHUB_STEP_SUMMARY
+          if [[ "${{ steps.lint.outputs.failed }}" =~ 'true' ]]; then
+            echo "# ${{ matrix.bundle }} Lint failed ❌" >> $GITHUB_STEP_SUMMARY
+            exit 1;
+          fi
+          echo "# ${{ matrix.bundle }} Lint result:" >> $GITHUB_STEP_SUMMARY
+          if [[ -f "output.txt" ]]; then
+            cat output.txt >> $GITHUB_STEP_SUMMARY 
+            exit 1;
+          else
+            echo "Linter finished with no errors :rocket:" >> $GITHUB_STEP_SUMMARY
+          fi
