@@ -12,8 +12,8 @@ router.get('/hello', (request, response) => {
   });
 router.get('/hello/:username', (request, response) => {
     console.log(request.params);
-    let username = request.params.username
-    let response_message = "hello " + username + " !! "
+    const username = request.params.username
+    const response_message = "hello " + username + " !! "
     response.send(response_message);
   });
 router.get('/db/tables', async (request, response) => {
