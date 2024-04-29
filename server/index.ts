@@ -7,6 +7,7 @@ import router from "./routes/indexRoutes";
 import loginRouter from "./routes/login/loginRoutes";
 import headerSetup from "./middlewares/headerSetup";
 import securitySetup from "./middlewares/security";
+import signupRouter from "./routes/signup/signupRoutes";
 
 // Creating an Express app
 const app = express();
@@ -23,7 +24,9 @@ securitySetup(app);
 headerSetup(app);
 
 // Define routes
-app.use("/api", loginRouter);
+// TODO: ADD "/api" ROUTING ONCE WE GET THE APPLICATION RUNNING
+app.use("/signup", signupRouter);
+app.use("/login", loginRouter);
 app.use("/", router);
 
 // Start the server
