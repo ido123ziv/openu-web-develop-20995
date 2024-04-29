@@ -29,6 +29,7 @@ services:
       DATABASE_USERNAME: ${DB_USERNAME:-docker}
       DATABASE_PASSWORD: ${DB_PASSWORD:-1234}
       DATABASE_URL: db
+      DATABASE_PORT: ${DB_PORT:-5432}
     volumes:
       - ./server:/app/
       - /app/node_modules
@@ -37,7 +38,7 @@ services:
 
   db:
     image: ghcr.io/ido123ziv/openu-web-develop-20995/db:latest
-    build: ./server/utils/db
+    build: ./db
     ports:
       - target: 5432
         published: ${DB_PORT:-5432}
