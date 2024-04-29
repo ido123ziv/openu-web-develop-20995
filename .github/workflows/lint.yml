@@ -10,27 +10,57 @@ on:
 
 jobs:
   eslint:
-    name: Run eslint scanning
+    name: Run eslint scanning on ${{ matrix.bundle }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    strategy:
+      matrix: 
+        bundle: ["client", "server"]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          ref:  ${{ github.event.pull_request.head.sha }}
 
       - name: Install ESLint
+        working-directory: ${{ matrix.bundle }}
         run: |
-          npm install eslint
-          npm install @microsoft/eslint-formatter-sarif@2.1.7
-
-      - name: Run ESLint
-        run: npx eslint .
-          --config .eslintrc.yaml
-          --ext .js,.jsx,.ts,.tsx
-          --format @microsoft/eslint-formatter-sarif
-          --output-file eslint-results.sarif
+          npm install eslint --save-dev globals @eslint/js typescript-eslint eslint
+      - name: extra-client-installation
+        working-directory: client
+        if: ${{ matrix.bundle == 'client' }}
+        run: |
+          npm install --save-dev eslint-plugin-react eslint-plugin-react-refresh eslint-plugin-react-hooks 
+      - name: Run ESLint on ${{ matrix.bundle }}
+        working-directory: ${{ matrix.bundle }}
+        id: lint
+        run: |
+          git branch --show-current
+          if ! npx eslint . -o "output.txt"; then
+            if [[ -f output.txt ]]; then
+              echo "linting found errors!"
+              echo "failed=false" >> $GITHUB_OUTPUT
+            else
+              echo "linter didn't run!"
+              echo "failed=true" >> $GITHUB_OUTPUT
+            fi
+          else 
+            echo "failed=false" >> $GITHUB_OUTPUT
+          fi
         continue-on-error: true
       - name: see output
+        working-directory: ${{ matrix.bundle }}
+
         run: |
-          cat eslint-results.sarif || echo "can't lint"
-          cat eslint-results.sarif >> $GITHUB_STEP_SUMMARY || echo "Linting is done" >> $GITHUB_STEP_SUMMARY
+          if [[ "${{ steps.lint.outputs.failed }}" =~ 'true' ]]; then
+            echo "# ${{ matrix.bundle }} Lint failed ❌" >> $GITHUB_STEP_SUMMARY
+            exit 1;
+          fi
+          echo "# ${{ matrix.bundle }} Lint result:" >> $GITHUB_STEP_SUMMARY
+          if [[ -f output.txt ]]; then
+            cat output.txt >> $GITHUB_STEP_SUMMARY 
+            exit 1;
+          else
+            echo "Linter finished with no errors :rocket:" >> $GITHUB_STEP_SUMMARY
+          fi

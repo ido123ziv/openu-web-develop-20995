@@ -18,6 +18,7 @@
     "semantic-ui-react": "^2.1.5"
   },
   "devDependencies": {
+    "@eslint/js": "^9.1.1",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@types/react-router-dom": "^5.3.3",
@@ -25,9 +26,12 @@
     "@typescript-eslint/parser": "^7.2.0",
     "@vitejs/plugin-react": "^4.2.1",
     "eslint": "^8.57.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react": "^7.34.1",
+    "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.6",
+    "globals": "^15.1.0",
     "typescript": "^5.2.2",
+    "typescript-eslint": "^7.7.1",
     "vite": "^5.2.0"
   }
 }
