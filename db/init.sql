@@ -24,9 +24,9 @@ CREATE table IF NOT EXISTS babysitters (
 
 INSERT INTO babysitters (babysitter_name, city, street, experience, age, phone_number, working_hours, image_string, comments)
 VALUES 
-('Amit', 'Holon', 'Arlozorov', 'mid', 20, '0505050050', '{"monday": "9am-3pm", "tuesday": "9am-3pm", "wednesday": "9am-3pm", "thursday": "9am-3pm", "friday": "9am-3pm"}' , 'https://media.licdn.com/dms/image/C4D03AQFREc4ImmXDAw/profile-displayphoto-shrink_100_100/0/1650354859697?e=1719446400&v=beta&t=aAcbM2Tgyq_7UkkFytyNuxtqIejm1XefENtIuNO2BIo', 'I need a job, please hire me.'),
-('Alon', 'Haifa', 'Habonim', 'high', 21, '0524854877', '{"monday": "8am-5pm", "tuesday": "8am-5pm", "wednesday": "8am-5pm", "thursday": "8am-5pm", "friday": "8am-5pm"}' , 'https://media.licdn.com/dms/image/D4E03AQFcO4ogwEp9ow/profile-displayphoto-shrink_100_100/0/1644427643755?e=1719446400&v=beta&t=LgsyYW-5kXla-QV_9YeoBoQ8wLSjU4F_GzxlJXZl36U', 'I am the perfect babysitter!'),
-('Yuval', 'Jerusalem', 'Hankin', 'no_experience', 30, '0532648574', '{"monday": "9am-6pm", "tuesday": "9am-6pm", "wednesday": "9am-6pm", "thursday": "9am-6pm", "friday": "9am-6pm"}' , 'https://media.licdn.com/dms/image/D5603AQEeGyd2rQGFOQ/profile-displayphoto-shrink_200_200/0/1688181234210?e=1719446400&v=beta&t=OB3m799RQirTHGGsjMq9dAAiNJoGi6cR0DnT0fWPdiw', 'the most professional nanny.');
+('Amit', 'Holon', 'Arlozorov', 'mid', 20, '0505050050', '{"monday": "9am-3pm", "tuesday": "9am-3pm", "wednesday": "9am-3pm", "thursday": "9am-3pm", "friday": "9am-3pm"}' , '', 'I need a job, please hire me.'),
+('Alon', 'Haifa', 'Habonim', 'high', 21, '0524854877', '{"monday": "8am-5pm", "tuesday": "8am-5pm", "wednesday": "8am-5pm", "thursday": "8am-5pm", "friday": "8am-5pm"}' , '', 'I am the perfect babysitter!'),
+('Yuval', 'Jerusalem', 'Hankin', 'no_experience', 30, '0532648574', '{"monday": "9am-6pm", "tuesday": "9am-6pm", "wednesday": "9am-6pm", "thursday": "9am-6pm", "friday": "9am-6pm"}' , '', 'the most professional nanny.');
 
 
 CREATE table IF NOT EXISTS parents (
