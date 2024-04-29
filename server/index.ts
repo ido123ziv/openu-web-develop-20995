@@ -18,6 +18,11 @@ app.use(express.static(path.join(__dirname, "../client")));
 // Middlewares Setup
 app.use(bodyParser.json());
 
+console.log(process.env.DATABASE_URL);
+console.log(process.env.DATABASE_USERNAME, process.env.DATABASE_NAME);
+console.log(process.env.DATABASE_PASSWORD);
+console.log(process.env.DATABASE_PORT);
+
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
