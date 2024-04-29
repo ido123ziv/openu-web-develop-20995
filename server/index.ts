@@ -5,6 +5,8 @@ import bodyParser from "body-parser";
 
 import router from "./routes/indexRoutes";
 import loginRouter from "./routes/login/loginRoutes";
+import headerSetup from "./middlewares/headerSetup";
+import securitySetup from "./middlewares/security";
 
 // Creating an Express app
 const app = express();
@@ -17,20 +19,8 @@ app.use(express.static(path.join(__dirname, "../client")));
 
 // Middlewares Setup
 app.use(bodyParser.json());
-
-console.log(process.env.DATABASE_URL);
-console.log(process.env.DATABASE_USERNAME, process.env.DATABASE_NAME);
-console.log(process.env.DATABASE_PASSWORD);
-console.log(process.env.DATABASE_PORT);
-
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
+securitySetup(app);
+headerSetup(app);
 
 // Define routes
 app.use("/api", loginRouter);
