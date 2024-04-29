@@ -24,6 +24,7 @@ services:
       DATABASE_USERNAME: ${DB_USERNAME:-docker}
       DATABASE_PASSWORD: ${DB_PASSWORD:-1234}
       DATABASE_URL: db
+      DATABASE_PORT: ${DB_PORT:-5432}
     networks:
       - my_network
 
