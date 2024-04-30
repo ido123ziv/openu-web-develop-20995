@@ -1,15 +1,12 @@
 import { Router } from "express";
+import Handler from "./signupHandler";
 
 const signupRouter = Router();
 
-// const handler = new Handler();
+const handler = new Handler();
 
-signupRouter.post("/parents", () => {
-  console.log("In Parents");
-});
+signupRouter.post("/parents", handler.signupParent);
 
-signupRouter.post("/babysitter", () => {
-  console.log("In Babysitter");
-});
+signupRouter.post("/babysitter", handler.signupBabysitter);
 
 export default signupRouter;
