@@ -6,6 +6,6 @@ const loginRouter = Router();
 
 const handler = new Handler();
 
-loginRouter.post("/", handler.loginUser);
+loginRouter.post("/", handler.loginValidation, handler.loginUser);
 
 export default loginRouter;

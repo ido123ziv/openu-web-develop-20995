@@ -1,12 +1,22 @@
 import db from "../../utils/db/db";
+import { UserLogin } from "./loginTypes";
 
 export default class DBHandler {
-  async login(email: string, password: string) {
-    const query = `select parent_id from parents`;
+  async login(email: string): Promise<UserLogin | null> {
+    const parentQuery = `SELECT parent_id, parent_name, email, password FROM parents WHERE email = $1 LIMIT 1`;
+    const babysitterQuery = `SELECT parent_id, parent_name, email, password FROM babysitters WHERE email = $1 LIMIT 1`;
 
-    const parents = await db.query(query);
+    try {
+      const parent = await db.query(parentQuery, [email]);
 
-    console.log(parents.rows[0]);
-    return;
+      if (parent.rows) {
+        return parent.rows[0];
+      } else {
+        const babysitter = await db.query(babysitterQuery, [email]);
+        return babysitter.rows[0];
+      }
+    } catch (error) {
+      throw new Error(String(error));
+    }
   }
 }

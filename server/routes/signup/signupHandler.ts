@@ -1,4 +1,6 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
+import * as EmailValidator from "email-validator";
+
 import DBHandler from "./signupDBHandler";
 import { hash } from "bcrypt";
 import { ParentSignup } from "./signupTypes";
@@ -14,46 +16,50 @@ export default class Handler {
     return this.dbHandler;
   }
 
-  signupValidation = (
-    data: ParentSignup
-  ): {
-    isValid: boolean;
-    message?: string;
-  } => {
-    // if (!data.email || !data.password) {
-    //   return { isValid: false, message: "Incorrect email or password" };
-    // }
+  signupValidation = (req: Request, res: Response, next: NextFunction) => {
+    const minPasswordLength = 4;
+    const { comments, ...inputs } = req.body;
 
-    // TODO: bcrypt
-    // if (!data.name) {
-    //   return { isValid: false, message: "Incorrect email or password" };    }
+    const hasNullInput = Object.values(inputs).some(
+      (value) => value === null || value === "" || value === 0
+    );
 
-    return { isValid: true };
+    if (
+      hasNullInput ||
+      !EmailValidator.validate(req.body.email) ||
+      req.body.password.length < minPasswordLength
+    ) {
+      res
+        .status(401)
+        .json({ message: "Please fill out all the required fields" });
+    } else {
+      next();
+    }
   };
 
   signupParent = async (req: Request, res: Response) => {
-    // TODO: Destructure req.body properly
-    // const {
-    //   name,
-    //   email,
-    //   city,
-    //   street,
-    //   gender,
-    //   phoneNumber,
-    //   minKidAge,
-    //   maxKidAge,
-    //   numOfKids,
-    //   comments,
-    // } = req.body; //TODO: add password
+    try {
+      const existingParent = await this.dbHandler.existingParent(
+        req.body.email
+      );
 
-    console.log("pre try-catch", req.body);
+      if (existingParent) {
+        return res.status(401).json({ message: "Email is already in use" });
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(401).json({ message: "Failed sign up" });
+    }
 
-    //TODO: hash password and convert to array called data
-    // const hashedPassword = await hash(password, 12);
+    const { password } = req.body;
 
     try {
-      const data = await this.dbHandler.signUpParent(req.body);
-      console.log(data);
+      const hashedPassword = await hash(password, 12);
+      await this.dbHandler.signUpParent({
+        ...req.body,
+        password: hashedPassword,
+      });
+
       res.status(200).json({ message: "Signed up successfully" });
     } catch (error) {
       console.log(error);
@@ -62,16 +68,26 @@ export default class Handler {
   };
 
   signupBabysitter = async (req: Request, res: Response) => {
-    // TODO: Destructure req.body properly
-    // const { email, password } = req.body;
-
-    //TODO: hash password and convert to array called data
-    // const hashedPassword = await hash(password, 12);
-
     try {
-      //   const data = await this.dbHandler.signUpBabySitter(req.body);
-      //   console.log(data);
-      //   res.status(200).json({ message: "Signed up successfully", data });
+      const existingBabysitter = await this.dbHandler.existingBabysitter(
+        req.body.email
+      );
+      if (existingBabysitter) {
+        return res.status(401).json({ message: "Email is already in use" });
+      }
+    } catch (error) {
+      res.status(500).json({ message: "Failed sign up" });
+    }
+
+    const { password } = req.body;
+    try {
+      const hashedPassword = await hash(password, 12);
+      await this.dbHandler.signUpBabysitter({
+        ...req.body,
+        password: hashedPassword,
+      });
+
+      res.status(200).json({ message: "Signed up successfully" });
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Failed sign up" });
