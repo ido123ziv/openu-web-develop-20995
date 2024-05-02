@@ -1,26 +1,28 @@
 .formContainer {
   position: relative !important;
   top: 5vh;
-  width: 100vw;
+  width: 50vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-.formContainer form {
-  width: 80vw;
+  margin: 0 auto;
+  background-color: #ececed;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+  border-radius: 0.5rem;
 }
 
 .formContainer input {
   height: 5vh !important;
 }
 
-.required {
-  color: red;
+.submitButton {
+  margin: 0 auto !important;
 }
 
-.submitContainer {
-  display: flex;
-  justify-content: center;
+.submitButton button {
+  color: white !important;
+  /* background-color: rgb(77, 90, 234) !important; */
+  background-color: #2185d0 !important;
 }

@@ -1,7 +1,7 @@
-/* NavigationBar.module.css */
 .navbar {
-  background-color: #092935 !important; /* Use !important to override Semantic UI's styles */
+  background-color: #092935 !important;
   margin-top: 0px !important;
   margin-bottom: 0px !important;
   border-radius: 0 !important;
+  z-index: 1;
 }

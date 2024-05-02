@@ -4,11 +4,13 @@ import {
   FormGroup,
   FormButton,
   Form,
+  FormTextArea,
+  FormCheckbox,
 } from "semantic-ui-react";
 import { useForm, FieldValues } from "react-hook-form";
 
 import styles from "./SignupParents.module.css";
-import { useState } from "react";
+import BackgroundSVG from "../../../ui/BackgroundSVG/BackgroundSVG";
 
 type Kids = {
   age: number;
@@ -22,9 +24,6 @@ const options = [
 ];
 
 const SignupParents = () => {
-  const [numOfChildren, setNumOfChildren] = useState<number>(1);
-  const [childrenArr, setChildrenArr] = useState<Kids[] | null>([]);
-
   const {
     register,
     handleSubmit,
@@ -35,85 +34,135 @@ const SignupParents = () => {
   const onSubmit = (data: FieldValues) => {};
 
   return (
-    <div className={styles.formContainer}>
-      <h1 className={styles.h1}>Sign Up</h1>
-      <Form
-        size="large"
-        className={styles.form}
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <FormGroup widths="equal" className={styles.firstRow}>
-          <FormInput
-            fluid
-            label="Full Name"
-            placeholder="Full Name"
-            {...register("name", { required: "Please provide a name" })}
+    <>
+      <BackgroundSVG />
+
+      <div className={styles.formContainer}>
+        <h1 className={styles.h1}>Sign Up</h1>
+        <Form
+          size="large"
+          className={styles.form}
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <FormGroup widths="equal">
+            <FormInput
+              fluid
+              label="Full Name"
+              placeholder="Full Name"
+              {...register("name", { required: "Please provide a name" })}
+            />
+            <FormInput
+              fluid
+              label="Email"
+              placeholder="Email"
+              {...register("email", {
+                required: "Please provide an email address",
+              })}
+            />
+          </FormGroup>
+
+          <FormGroup widths="equal">
+            <FormInput
+              label="Password"
+              placeholder="Password"
+              type="password"
+              {...register("password", {
+                required: "Please provide a password",
+                minLength: {
+                  value: 4,
+                  message: "Password must have at least 4 characters",
+                },
+              })}
+            />
+
+            <FormInput
+              label="Confirm Password"
+              placeholder="Confirm Password"
+              type="password"
+              {...register("password", {
+                required: "Please provide a password",
+                minLength: {
+                  value: 4,
+                  message: "Password must have at least 4 characters",
+                },
+              })}
+            />
+          </FormGroup>
+
+          <FormGroup widths="equal">
+            <FormInput
+              label="City"
+              placeholder="City"
+              {...register("city", { required: "Please provide a city" })}
+            />
+            <FormInput
+              label="Street"
+              placeholder="Street"
+              {...register("street", { required: "Please provide a street" })}
+            />
+          </FormGroup>
+
+          <FormGroup widths="equal">
+            <FormInput
+              label="Phone Number"
+              placeholder="Phone Number"
+              {...register("phoneNumber", {
+                required: "Please provide a phone number",
+              })}
+            />
+            <FormSelect
+              label="Gender"
+              className={styles.dropDown}
+              options={options}
+              placeholder="Gender"
+              {...register("gender", { required: "Please select a gender" })}
+            />
+          </FormGroup>
+
+          <FormGroup widths="equal">
+            <FormInput
+              label="Youngest Child Age"
+              {...register("minKidAge", {
+                required: "Please provide a value",
+              })}
+            />
+            <FormInput
+              label="Eldest Child Age"
+              {...register("maxKidAge", {
+                required: "Please provide a value",
+              })}
+            />
+            <FormInput
+              placeholder="Total number of kids"
+              label="Total Number of Kids"
+              {...register("numOfKids", {
+                required: "Please provide a value",
+              })}
+            />
+          </FormGroup>
+          <FormTextArea
+            label="Comments"
+            placeholder="Tell us more about you or the children"
           />
-          <FormInput
-            fluid
-            label="Email"
-            placeholder="Email"
-            {...register("email", {
-              required: "Please provide an email address",
-            })}
-          />
-          <FormInput
-            label="Password"
-            placeholder="Password"
-            type="password"
-            {...register("password", {
-              required: "Please provide a password",
-              minLength: {
-                value: 6,
-                message: "Password must have at least 6 characters",
-              },
-            })}
-          />
-        </FormGroup>
-        <FormGroup widths="equal" className={styles.secondRow}>
-          <FormInput
-            label="City"
-            placeholder="City"
-            {...register("city", { required: "Please provide a city" })}
-          />
-          <FormInput
-            label="Street"
-            placeholder="Street"
-            {...register("street", { required: "Please provide a street" })}
-          />
-          <FormSelect
-            label="Gender"
-            className={styles.dropDown}
-            options={options}
-            placeholder="Gender"
-            {...register("gender", { required: "Please select a gender" })}
-          />
-          <FormButton
-            fluid
-            className={styles.addChildrenButton}
-            onClick={() => setNumOfChildren((prevNum) => prevNum + 1)}
-          >
-            Add Child
-          </FormButton>
-        </FormGroup>
-        <FormGroup widths="equal" className={styles.childrenFields}>
-          {Array.from({ length: numOfChildren }).map((_, index) => (
-            <div key={index} className={styles.childRow}>
-              <FormInput label="Child's Name" placeholder="Child's Name" />
-              <FormInput label="Child's Age" placeholder="Child's Age" />
-              <FormButton
-                onClick={() => setNumOfChildren((prevNum) => prevNum - 1)}
-              >
-                -
-              </FormButton>
-            </div>
-          ))}
-        </FormGroup>
-        <FormGroup className={styles.submitContainer}>
-          <FormButton>Submit</FormButton>
-        </FormGroup>
-      </Form>
-    </div>
+
+          <FormGroup className={styles.checkbox}>
+            <FormCheckbox
+              label="I agree to the Terms and Conditions"
+              className={styles.checkbox}
+              {...register("", {
+                required: "Please check this box",
+              })}
+            />
+          </FormGroup>
+
+          <FormGroup>
+            <FormButton size="large" className={styles.submitButton}>
+              Submit
+            </FormButton>
+          </FormGroup>
+        </Form>
+      </div>
+    </>
   );
 };
 
