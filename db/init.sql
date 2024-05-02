@@ -16,12 +16,10 @@ CREATE table IF NOT EXISTS babysitters (
     age INT NOT NULL,
     phone_number VARCHAR(255) NOT NULL,
     gender VARCHAR(255) NOT NULL,
-    min_kid_age INT default 0,
-    max_kid_age INT default 18,
     working_hours JSON NOT NULL,
     end_timestamp bigint default '9999999999' NOT NULL,
     start_timestamp bigint default '0' NOT NULL,
-    image_string VARCHAR(255) NOT NULL,
+    image_string VARCHAR(255),
     comments TEXT
 );
 
@@ -49,9 +47,9 @@ CREATE table IF NOT EXISTS parents (
     comments TEXT
 );
 
-INSERT INTO parents (parent_name, email, password, city, street, phone_number,gender, min_kid_age, max_kid_age, num_of_kids)
+INSERT INTO parents (parent_name, email, password, city, street, phone_number, gender, min_kid_age, max_kid_age, num_of_kids, comments)
 VALUES
-('Dilen', 'dilen@test.com','$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG','Haifa', 'Habonim', '0500041247','F', 1, 1, 1),
+('Dilen', 'dilen@test.com','$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG','Haifa', 'Habonim', '0500041247','F', 1, 1, 1, 'The Bex'),
 ('Robbi','robbi@test.com','$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'Haifa', 'Herzel', '0500555557','M', 1, 4, 3, 'Experienced nanny? we want you!'),
 ('Shoshi', 'shoshi@test.com','$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG','Holon', 'HaShalom', '0558748566', 'F', 2, 4, 2, 'Looking for a great babysitter.');
 
