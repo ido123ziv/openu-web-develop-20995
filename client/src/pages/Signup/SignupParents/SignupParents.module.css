@@ -13,10 +13,6 @@
   padding-bottom: 2vh;
 }
 
-.formContainer input {
-  /* height: 5vh !important; */
-}
-
 .formContainer button {
   width: 10vw !important;
   height: 4vh !important;

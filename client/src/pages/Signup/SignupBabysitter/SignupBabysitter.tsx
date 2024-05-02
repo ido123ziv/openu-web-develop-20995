@@ -32,7 +32,9 @@ const SignupBabySitter = () => {
     getValues,
   } = useForm();
 
-  const onSubmit = (data: FieldValues) => {};
+  const onSubmit = (data: FieldValues) => {
+    console.log(data);
+  };
 
   return (
     <>
@@ -75,12 +77,14 @@ const SignupBabySitter = () => {
               label="Confirm Password"
               placeholder="Confirm Password"
               type="password"
-              {...register("password", {
+              {...register("", {
                 required: "Please provide a password",
                 minLength: {
                   value: 4,
                   message: "Password must have at least 4 characters",
                 },
+                validate: (value) =>
+                  value === getValues("password") || "Password must match",
               })}
             />
           </FormGroup>

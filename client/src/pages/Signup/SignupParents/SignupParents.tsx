@@ -12,11 +12,6 @@ import { useForm, FieldValues } from "react-hook-form";
 import styles from "./SignupParents.module.css";
 import BackgroundSVG from "../../../ui/BackgroundSVG/BackgroundSVG";
 
-type Kids = {
-  age: number;
-  gender: "male" | "female" | "other";
-};
-
 const options = [
   { key: "m", text: "Male", value: "male" },
   { key: "f", text: "Female", value: "female" },
@@ -31,7 +26,9 @@ const SignupParents = () => {
     getValues,
   } = useForm();
 
-  const onSubmit = (data: FieldValues) => {};
+  const onSubmit = (data: FieldValues) => {
+    console.log(data);
+  };
 
   return (
     <>
@@ -79,12 +76,14 @@ const SignupParents = () => {
               label="Confirm Password"
               placeholder="Confirm Password"
               type="password"
-              {...register("password", {
+              {...register("", {
                 required: "Please provide a password",
                 minLength: {
                   value: 4,
                   message: "Password must have at least 4 characters",
                 },
+                validate: (value) =>
+                  value === getValues("password") || "Password must match",
               })}
             />
           </FormGroup>
