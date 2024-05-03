@@ -6,7 +6,7 @@ services:
       context: client
       target: development
     ports:
-      - 5173:5173
+      - 5172:5172
     depends_on:
       - api
     volumes:
