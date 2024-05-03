@@ -1,17 +1,37 @@
+import { useNavigate } from "react-router-dom";
 import { Form, FormButton, FormGroup, FormInput } from "semantic-ui-react";
+import { FieldValues, useForm } from "react-hook-form";
+import { useMutation } from "react-query";
+import { useSetRecoilState } from "recoil";
 
 import styles from "./Login.module.css";
-import { FieldValues, useForm } from "react-hook-form";
+import { userLogin } from "./loginService";
+import { userState } from "../../state/atoms/userAtom";
 
 const Login = () => {
   const {
     register,
     handleSubmit,
     // formState: { errors, isSubmitting },
-    getValues,
   } = useForm();
+  const navigate = useNavigate();
 
-  const onSubmit = (data: FieldValues) => {};
+  const setUser = useSetRecoilState(userState);
+
+  const { mutate } = useMutation({
+    mutationKey: ["userLogin"],
+    mutationFn: userLogin,
+    onSuccess: (data) => {
+      // setup recoil state
+      // setUser({})
+      navigate("/app");
+    },
+  });
+
+  const onSubmit = (data: FieldValues) => {
+    console.log(data);
+    // mutate(data)
+  };
 
   return (
     <>
