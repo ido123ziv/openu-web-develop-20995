@@ -2,8 +2,20 @@ import { Card } from "semantic-ui-react";
 
 import styles from "./CardsView.module.css";
 
-//TODO: PROP VALIDATION
-const CardsView = ({ data }) => {
+interface ICardsData {
+  data: {
+    image: string;
+    header: string;
+    meta: string;
+    description: string;
+  };
+}
+
+interface ICardsProps {
+  data: ICardsData[];
+}
+
+const CardsView = ({ data }: ICardsProps) => {
   return (
     <>
       <div className={styles.cardContainer}>

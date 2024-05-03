@@ -35,7 +35,7 @@ function Info() {
           labelPosition="right"
           className={styles.button}
         >
-          Let's Start
+          Lets Start
           <Icon name="arrow right" />
         </Button>
       </div>
