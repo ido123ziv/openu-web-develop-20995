@@ -18,7 +18,6 @@ export default class Handler {
   signupValidation = (req: Request, res: Response, next: NextFunction) => {
     const minPasswordLength = 4;
     const { comments, ...inputs } = req.body;
-    // const { ...inputs } = req.body;
 
     const hasNullInput = Object.values(inputs).some(
       (value) => value === null || value === "" || value === 0
@@ -48,7 +47,7 @@ export default class Handler {
       }
     } catch (error) {
       console.log(error);
-      res.status(401).json({ message: "Failed sign up" });
+      res.status(500).json({ message: "Failed sign up" });
     }
 
     const { password } = req.body;
