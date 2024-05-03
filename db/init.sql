@@ -28,10 +28,6 @@ VALUES
 ('Amit','amit@test.com','$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'Holon', 'Arlozorov', 'mid', 20, '0505050050','F', '{"monday": "9am-3pm", "tuesday": "9am-3pm", "wednesday": "9am-3pm", "thursday": "9am-3pm", "friday": "9am-3pm"}' , '', 'I need a job, please hire me.'),
 ('Alon','alon@test.com','$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'Haifa', 'Habonim', 'high', 21, '0524854877','M', '{"monday": "8am-5pm", "tuesday": "8am-5pm", "wednesday": "8am-5pm", "thursday": "8am-5pm", "friday": "8am-5pm"}' , '', 'I am the perfect babysitter!'),
 ('Yuval', 'yuval@test.com', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'Jerusalem', 'Hankin', 'no_experience', 30, '0532648574', 'M', '{"monday": "9am-6pm", "tuesday": "9am-6pm", "wednesday": "9am-6pm", "thursday": "9am-6pm", "friday": "9am-6pm"}' , '', 'the most professional nanny.');
-<<<<<<< HEAD
-=======
-
->>>>>>> bf4d0003d9156c577700ed93bfd29bedc1efefa7
 
 
 CREATE table IF NOT EXISTS parents (
