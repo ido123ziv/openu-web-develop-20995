@@ -5,6 +5,10 @@ on:
   workflow_dispatch:
   push:
     branches: ['main']
+    paths: 
+      - server
+      - client
+      - db
 
 env:
   REGISTRY: ghcr.io
