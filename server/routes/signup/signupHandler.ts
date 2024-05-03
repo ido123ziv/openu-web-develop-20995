@@ -3,7 +3,6 @@ import * as EmailValidator from "email-validator";
 
 import DBHandler from "./signupDBHandler";
 import { hash } from "bcrypt";
-import { ParentSignup } from "./signupTypes";
 
 export default class Handler {
   private dbHandler: DBHandler;
@@ -19,6 +18,7 @@ export default class Handler {
   signupValidation = (req: Request, res: Response, next: NextFunction) => {
     const minPasswordLength = 4;
     const { comments, ...inputs } = req.body;
+    // const { ...inputs } = req.body;
 
     const hasNullInput = Object.values(inputs).some(
       (value) => value === null || value === "" || value === 0
