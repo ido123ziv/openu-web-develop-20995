@@ -10,10 +10,10 @@ export default class DBHandler {
       const parent = await db.query(parentQuery, [email]);
 
       if (parent.rows) {
-        return parent.rows[0];
+        return { ...parent.rows[0], role: "parents" };
       } else {
         const babysitter = await db.query(babysitterQuery, [email]);
-        return babysitter.rows[0];
+        return { ...babysitter.rows[0], role: "babysitter" };
       }
     } catch (error) {
       throw new Error(String(error));

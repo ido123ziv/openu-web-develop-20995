@@ -3,7 +3,10 @@ import * as EmailValidator from "email-validator";
 
 import DBHandler from "./signupDBHandler";
 import { hash } from "bcrypt";
+<<<<<<< HEAD
 import { ParentSignup } from "./signupTypes";
+=======
+>>>>>>> bf4d0003d9156c577700ed93bfd29bedc1efefa7
 
 export default class Handler {
   private dbHandler: DBHandler;
@@ -48,7 +51,11 @@ export default class Handler {
       }
     } catch (error) {
       console.log(error);
+<<<<<<< HEAD
       res.status(401).json({ message: "Failed sign up" });
+=======
+      res.status(500).json({ message: "Failed sign up" });
+>>>>>>> bf4d0003d9156c577700ed93bfd29bedc1efefa7
     }
 
     const { password } = req.body;
