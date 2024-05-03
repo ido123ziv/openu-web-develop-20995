@@ -30,6 +30,7 @@ VALUES
 ('Yuval', 'yuval@test.com', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'Jerusalem', 'Hankin', 'no_experience', 30, '0532648574', 'M', '{"monday": "9am-6pm", "tuesday": "9am-6pm", "wednesday": "9am-6pm", "thursday": "9am-6pm", "friday": "9am-6pm"}' , '', 'the most professional nanny.');
 
 
+
 CREATE table IF NOT EXISTS parents (
     parent_id SERIAL PRIMARY KEY,
     parent_name VARCHAR(255) NOT NULL,
