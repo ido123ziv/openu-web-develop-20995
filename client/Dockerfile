@@ -5,7 +5,7 @@ RUN npm install && npm cache clean --force
 COPY src/ /app/src/
 COPY public/ /app/public/
 COPY index.html *config* /app/
-EXPOSE 5173
+EXPOSE 5172
 CMD [ "npm", "run", "dev" ]
 
 FROM node:18-alpine as builder

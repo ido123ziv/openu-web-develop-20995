@@ -1,8 +1,13 @@
 // Importing required modules
 import express from "express";
 import path from "path";
+import bodyParser from "body-parser";
 
 import router from "./routes/indexRoutes";
+import loginRouter from "./routes/login/loginRoutes";
+import headerSetup from "./middlewares/headerSetup";
+import securitySetup from "./middlewares/security";
+import signupRouter from "./routes/signup/signupRoutes";
 
 // Creating an Express app
 const app = express();
@@ -13,9 +18,16 @@ const port = 3000;
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, "../client")));
 
+// Middlewares Setup
+app.use(bodyParser.json());
+securitySetup(app);
+headerSetup(app);
+
 // Define routes
+// TODO: ADD "/api" ROUTING ONCE WE GET THE APPLICATION RUNNING
+app.use("/signup", signupRouter);
+app.use("/login", loginRouter);
 app.use("/", router);
-app.use('/api', router);
 
 // Start the server
 app.listen(port, () => {
