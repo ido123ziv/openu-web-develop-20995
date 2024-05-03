@@ -7,7 +7,6 @@ export default [
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    // files: ["*.ts"],
     rules: {
       "@typescript-eslint/no-unused-vars": "off",
     },
