@@ -29,18 +29,18 @@ export default class Handler {
     const { email, password } = req.body;
 
     try {
-      const data = await this.dbHandler.login(email);
+      const userDetails = await this.dbHandler.login(email);
 
-      if (!data) {
+      if (!userDetails) {
         return res.status(401).json({ message: "Incorrect email or password" });
       }
 
-      const matchingPassword = await compare(password, data.password);
+      const matchingPassword = await compare(password, userDetails.password);
       if (!matchingPassword) {
         return res.status(401).json({ message: "Incorrect email or password" });
       }
 
-      res.status(200).json({ message: "Logged in successfully", data });
+      res.status(200).json({ message: "Logged in successfully", userDetails });
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Failed Login" });
