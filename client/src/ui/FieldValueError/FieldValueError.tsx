@@ -1,9 +1,11 @@
-interface FieldValueProp {
+import styles from "./FieldValueError.module.css";
+
+interface FieldValueProps {
   errorMessage: string;
 }
 
-const FieldValueError = ({ errorMessage }: FieldValueProp) => {
-  return <li>{errorMessage}</li>;
+const FieldValueError = ({ errorMessage }: FieldValueProps) => {
+  return <li className={styles.errorItem}>{errorMessage}</li>;
 };
 
 export default FieldValueError;

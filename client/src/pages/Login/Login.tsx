@@ -55,8 +55,8 @@ const Login = () => {
           className={styles.form}
           onSubmit={handleSubmit(onSubmit)}
         >
-          <FormGroup className={styles.inputGroup}>
-            <FormField>
+          <FormGroup>
+            <FormField className={styles.inputField}>
               <input
                 placeholder="Email"
                 {...register("email", {
@@ -65,8 +65,9 @@ const Login = () => {
               />
             </FormField>
           </FormGroup>
-          <FormGroup className={styles.inputGroup}>
-            <FormField>
+
+          <FormGroup>
+            <FormField className={styles.inputField}>
               <input
                 type="password"
                 placeholder="password"
@@ -80,24 +81,26 @@ const Login = () => {
               />
             </FormField>
           </FormGroup>
-          <FormGroup>
-            <ul>
-              {errors.email && (
-                <FieldValueError errorMessage={`${errors.email.message}`} />
-              )}
-              {errors.password && (
-                <FieldValueError errorMessage={`${errors.password.message}`} />
-              )}
-              {wrongCredentials && (
-                <FieldValueError errorMessage="Incorrect email or password" />
-              )}
-            </ul>
-          </FormGroup>
-          <FormGroup className={styles.submitContainer}>
-            <FormButton type="submit" primary disabled={isSubmitting}>
-              Submit
-            </FormButton>
-          </FormGroup>
+
+          <ul className={styles.errorsContainer}>
+            {errors.email && (
+              <FieldValueError errorMessage={`${errors.email.message}`} />
+            )}
+            {errors.password && (
+              <FieldValueError errorMessage={`${errors.password.message}`} />
+            )}
+            {wrongCredentials && (
+              <FieldValueError errorMessage="Incorrect email or password" />
+            )}
+          </ul>
+
+          <FormButton
+            type="submit"
+            disabled={isSubmitting}
+            className={styles.submitBtn}
+          >
+            Submit
+          </FormButton>
         </Form>
       </div>
     </>
