@@ -6,6 +6,6 @@ const parentsRouter = Router();
 
 const handler = new Handler();
 
-parentsRouter.post("/app/parents", handler.babysitters);
+parentsRouter.get("/", handler.getAllBabysitters);
 
 export default parentsRouter;

@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 
 import DBHandler from "./parentsDBHandler";
 
@@ -13,9 +13,9 @@ export default class Handler {
       return this.dbHandler;
     }
 
-    babysitters = async (req: Request, res: Response) => {
+    getAllBabysitters = async (req: Request, res: Response) => {
         try {
-            const data = await this.dbHandler.allBabysitters();
+            const data = await this.dbHandler.getAllBabysitters();
             res.status(200).json({ message: "Successfully retrieved data", data });
         } catch (error) {
             console.log(error);
