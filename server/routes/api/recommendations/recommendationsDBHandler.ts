@@ -17,7 +17,7 @@ export default class DBHandler {
         }
     }
     async getBabySitterRecommendation(babysitter_id: number): Promise<recommendation[] | null> {
-        const babysitterQuery = "SELECT * FROM recommendations WHERE babysitter_id = ?;"
+        const babysitterQuery = "SELECT * FROM recommendations WHERE babysitter_id = ($1)"
         try {
             const recommendations = await db.query(babysitterQuery, [babysitter_id]);
             if (recommendations.rows){
@@ -32,7 +32,7 @@ export default class DBHandler {
         }
     }
     async getParentRecommendation(parent_id: number): Promise<recommendation[] | null> {
-        const parentQuery = "SELECT * FROM recommendations WHERE parent_id = ?;"
+        const parentQuery = "SELECT * FROM recommendations WHERE parent_id = ($1)"
         try {
             const recommendations = await db.query(parentQuery, [parent_id]);
             if (recommendations.rows){
@@ -47,7 +47,7 @@ export default class DBHandler {
         }
     }
     async getParentBabysitterRecommendation(parent_id: number, babysitter_id: number): Promise<recommendation[] | null> {
-        const parentBabysitterQuery = "SELECT * FROM recommendations WHERE babysitter_id = ? AND parent_id = ?"
+        const parentBabysitterQuery = "SELECT * FROM recommendations WHERE babysitter_id = ($1) AND parent_id = ($2)"
         try {
             const recommendations = await db.query(parentBabysitterQuery, [babysitter_id, parent_id]);
             if (recommendations.rows){

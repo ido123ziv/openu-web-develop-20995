@@ -12,6 +12,7 @@ export default class Handler {
     }
 
     getPreview = async (req: Request, res: Response) => {
+        console.log("Got request for: getPreview")
         try {
             const data = await this.dbHandler.getRecommendationPreview();
             if (!data){
@@ -26,10 +27,12 @@ export default class Handler {
     }
     getBabysitter = async (req: Request, res: Response) => {
         const babysitter_id = +req.params.babysitter
+        console.log("Got request for: getBabysitter")
+
         try {
             const data = await this.dbHandler.getBabySitterRecommendation(babysitter_id);
-            if (!data){
-                return res.status(404).json({ message : `no recommendation found for ${babysitter_id}`})
+            if (!data || data.length === 0){
+                return res.status(404).json({ message : `no recommendation found for babysitter_id: ${babysitter_id}`})
             }
             res.status(200).json(data);
 
@@ -39,11 +42,13 @@ export default class Handler {
         }
     }
     getParent = async (req: Request, res: Response) => {
+        console.log("Got request for: getParent")
+
         const parent_id = +req.params.parent
         try {
             const data = await this.dbHandler.getParentRecommendation(parent_id);
-            if (!data){
-                return res.status(404).json({ message : `no recommendation found for ${parent_id}`})
+            if (!data || data.length === 0){
+                return res.status(404).json({ message : `no recommendation found for parent_id: ${parent_id}`})
             }
             res.status(200).json(data);
 
@@ -53,12 +58,14 @@ export default class Handler {
         }
     }
     getBabySitterParent = async (req: Request, res: Response) => {
+        console.log("Got request for: getBabySitterParent")
+
         const parent_id = +req.params.parent
         const babysitter_id = +req.params.babysitter
         try {
             const data = await this.dbHandler.getParentBabysitterRecommendation(parent_id, babysitter_id);
-            if (!data){
-                return res.status(404).json({ message : `no recommendation found for ${parent_id} and ${babysitter_id}`})
+            if (!data || data.length === 0){
+                return res.status(404).json({ message : `no recommendation found for parent_id: ${parent_id} and babysitter_id: ${babysitter_id}`})
             }
             res.status(200).json(data);
 
