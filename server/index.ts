@@ -4,7 +4,7 @@ import path from "path";
 import bodyParser from "body-parser";
 
 import router from "./routes/indexRoutes";
-import parentsRouter from "./routes/app/parents/parentsRoutes";
+import parentsRouter from "./routes/api/parents/parentsRoutes";
 import loginRouter from "./routes/login/loginRoutes";
 import headerSetup from "./middlewares/headerSetup";
 import securitySetup from "./middlewares/security";
@@ -28,9 +28,8 @@ headerSetup(app);
 // TODO: ADD "/api" ROUTING ONCE WE GET THE APPLICATION RUNNING
 app.use("/signup", signupRouter);
 app.use("/login", loginRouter);
+app.use("/api/parents", parentsRouter)
 app.use("/", router);
-app.use('/api', router);
-app.use("/app/parents", parentsRouter)
 
 // Start the server
 app.listen(port, () => {
