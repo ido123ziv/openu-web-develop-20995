@@ -5,8 +5,7 @@ export default class DBHandler {
         const previewQuery = "SELECT * FROM recommendations LIMIT 10;"
         try {
             const recommendations = await db.query(previewQuery);
-            if (recommendations.rows){
-                console.log("preview: \n" + recommendations.rows);
+            if (recommendations.rows && recommendations.rows.length > 0){
                 return recommendations.rows;
             }
             else {
@@ -20,7 +19,7 @@ export default class DBHandler {
         const babysitterQuery = "SELECT * FROM recommendations WHERE babysitter_id = ($1)"
         try {
             const recommendations = await db.query(babysitterQuery, [babysitter_id]);
-            if (recommendations.rows){
+            if (recommendations.rows && recommendations.rows.length > 0){
                 console.log(babysitter_id + " " +  recommendations.rows);
                 return recommendations.rows;
             }
@@ -35,7 +34,7 @@ export default class DBHandler {
         const parentQuery = "SELECT * FROM recommendations WHERE parent_id = ($1)"
         try {
             const recommendations = await db.query(parentQuery, [parent_id]);
-            if (recommendations.rows){
+            if (recommendations.rows && recommendations.rows.length > 0){
                 console.log(recommendations.rows);
                 return recommendations.rows;
             }
@@ -50,7 +49,7 @@ export default class DBHandler {
         const parentBabysitterQuery = "SELECT * FROM recommendations WHERE babysitter_id = ($1) AND parent_id = ($2)"
         try {
             const recommendations = await db.query(parentBabysitterQuery, [babysitter_id, parent_id]);
-            if (recommendations.rows){
+            if (recommendations.rows && recommendations.rows.length > 0){
                 console.log(recommendations.rows);
                 return recommendations.rows;
             }

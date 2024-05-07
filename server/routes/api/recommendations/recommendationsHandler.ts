@@ -12,7 +12,6 @@ export default class Handler {
     }
 
     getPreview = async (req: Request, res: Response) => {
-        console.log("Got request for: getPreview")
         try {
             const data = await this.dbHandler.getRecommendationPreview();
             if (!data){
@@ -22,13 +21,11 @@ export default class Handler {
 
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: "We got a problem with recommendations chief!"})
+            res.status(500).json({ message: "Server Encountered a problem with recommendations."})
         }
     }
-    getBabysitter = async (req: Request, res: Response) => {
-        const babysitter_id = +req.params.babysitter
-        console.log("Got request for: getBabysitter")
-
+    getBabysitter = async (req: Request, res: Response) => {   
+        const { babysitter_id } = Number(req.params)
         try {
             const data = await this.dbHandler.getBabySitterRecommendation(babysitter_id);
             if (!data || data.length === 0){
@@ -38,12 +35,10 @@ export default class Handler {
 
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: "We got a problem with recommendations chief!"})
+            res.status(500).json({ message: "Server Encountered a problem with recommendations."})
         }
     }
     getParent = async (req: Request, res: Response) => {
-        console.log("Got request for: getParent")
-
         const parent_id = +req.params.parent
         try {
             const data = await this.dbHandler.getParentRecommendation(parent_id);
@@ -54,12 +49,10 @@ export default class Handler {
 
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: "We got a problem with recommendations chief!"})
+            res.status(500).json({ message: "Server Encountered a problem with recommendations."})
         }
     }
     getBabySitterParent = async (req: Request, res: Response) => {
-        console.log("Got request for: getBabySitterParent")
-
         const parent_id = +req.params.parent
         const babysitter_id = +req.params.babysitter
         try {
@@ -71,7 +64,7 @@ export default class Handler {
 
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: "We got a problem with recommendations chief!"})
+            res.status(500).json({ message: "Server Encountered a problem with recommendations."})
         }
     }
 }
