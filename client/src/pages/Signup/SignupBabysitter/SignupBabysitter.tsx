@@ -45,13 +45,11 @@ const SignupBabySitter = () => {
         <Form size="large" onSubmit={handleSubmit(onSubmit)}>
           <FormGroup widths="equal">
             <FormInput
-              fluid
               label="Full Name"
               placeholder="Full Name"
               {...register("name", { required: "Please provide a name" })}
             />
             <FormInput
-              fluid
               label="Email"
               placeholder="Email"
               {...register("email", {

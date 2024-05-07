@@ -2,6 +2,7 @@
   position: relative !important;
   top: 5vh;
   width: 50vw !important;
+  max-width: 750px;
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -5,7 +5,7 @@ interface FieldValueProps {
 }
 
 const FieldValueError = ({ errorMessage }: FieldValueProps) => {
-  return <li className={styles.errorItem}>{errorMessage}</li>;
+  return <p className={styles.errorItem}>{errorMessage}</p>;
 };
 
 export default FieldValueError;
