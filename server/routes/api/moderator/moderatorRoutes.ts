@@ -6,6 +6,6 @@ const moderatorRouter = Router();
 
 const handler = new Handler();
 
-moderatorRouter.get("/", handler.getAllUsers);
+moderatorRouter.get("/allUsers", handler.getAllUsers);
 
 export default moderatorRouter;
