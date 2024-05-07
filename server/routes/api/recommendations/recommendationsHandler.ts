@@ -25,9 +25,9 @@ export default class Handler {
         }
     }
     getBabysitter = async (req: Request, res: Response) => {   
-        const { babysitter_id } = Number(req.params)
+        const { babysitter_id } = req.params
         try {
-            const data = await this.dbHandler.getBabySitterRecommendation(babysitter_id);
+            const data = await this.dbHandler.getBabySitterRecommendation(+babysitter_id);
             if (!data || data.length === 0){
                 return res.status(404).json({ message : `no recommendation found for babysitter_id: ${babysitter_id}`})
             }
@@ -39,10 +39,10 @@ export default class Handler {
         }
     }
     getParent = async (req: Request, res: Response) => {
-        const parent_id = +req.params.parent
+        const { parent_id } = req.params
         try {
-            const data = await this.dbHandler.getParentRecommendation(parent_id);
-            if (!data || data.length === 0){
+            const data = await this.dbHandler.getParentRecommendation(+parent_id);
+            if (!data ){
                 return res.status(404).json({ message : `no recommendation found for parent_id: ${parent_id}`})
             }
             res.status(200).json(data);
@@ -52,11 +52,10 @@ export default class Handler {
             res.status(500).json({ message: "Server Encountered a problem with recommendations."})
         }
     }
-    getBabySitterParent = async (req: Request, res: Response) => {
-        const parent_id = +req.params.parent
-        const babysitter_id = +req.params.babysitter
+    getRecommendationByBabysitterAndParent = async (req: Request, res: Response) => {
+        const { parent_id, babysitter_id } = req.params
         try {
-            const data = await this.dbHandler.getParentBabysitterRecommendation(parent_id, babysitter_id);
+            const data = await this.dbHandler.getParentBabysitterRecommendation(+parent_id, +babysitter_id);
             if (!data || data.length === 0){
                 return res.status(404).json({ message : `no recommendation found for parent_id: ${parent_id} and babysitter_id: ${babysitter_id}`})
             }

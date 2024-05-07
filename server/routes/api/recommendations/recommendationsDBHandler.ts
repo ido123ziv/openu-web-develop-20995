@@ -20,7 +20,7 @@ export default class DBHandler {
         try {
             const recommendations = await db.query(babysitterQuery, [babysitter_id]);
             if (recommendations.rows && recommendations.rows.length > 0){
-                console.log(babysitter_id + " " +  recommendations.rows);
+                console.debug(babysitter_id + " " +  recommendations.rows);
                 return recommendations.rows;
             }
             else {
@@ -35,7 +35,7 @@ export default class DBHandler {
         try {
             const recommendations = await db.query(parentQuery, [parent_id]);
             if (recommendations.rows && recommendations.rows.length > 0){
-                console.log(recommendations.rows);
+                console.debug(recommendations.rows);
                 return recommendations.rows;
             }
             else {
@@ -50,7 +50,6 @@ export default class DBHandler {
         try {
             const recommendations = await db.query(parentBabysitterQuery, [babysitter_id, parent_id]);
             if (recommendations.rows && recommendations.rows.length > 0){
-                console.log(recommendations.rows);
                 return recommendations.rows;
             }
             else {
