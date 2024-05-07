@@ -37,10 +37,11 @@ export default class Handler {
   };
 
   signupParent = async (req: Request, res: Response) => {
+    const { name, email, password, city, street, phoneNumber, gender } =
+      req.body;
+
     try {
-      const existingParent = await this.dbHandler.existingParent(
-        req.body.email
-      );
+      const existingParent = await this.dbHandler.existingParent(email);
 
       if (existingParent) {
         return res.status(401).json({ message: "Email is already in use" });
@@ -50,13 +51,18 @@ export default class Handler {
       res.status(500).json({ message: "Failed sign up" });
     }
 
-    const { password } = req.body;
-
     try {
       const hashedPassword = await hash(password, 12);
+
       await this.dbHandler.signUpParent({
-        ...req.body,
+        name,
+        email,
         password: hashedPassword,
+        city,
+        street,
+        phoneNumber,
+        gender,
+        ...req.body,
       });
 
       res.status(200).json({ message: "Signed up successfully" });

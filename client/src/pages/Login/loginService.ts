@@ -27,9 +27,9 @@ export const userLogin = async (data: FieldValues) => {
           throw new Error(responseData.message);
         }
       }
-      throw new Error("An error occurred during login.");
+      throw new Error("An error occurred during login");
     } else {
-      throw new Error("An error occurred during login.");
+      throw new Error("An error occurred during login");
     }
   }
 };

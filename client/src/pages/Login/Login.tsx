@@ -19,8 +19,8 @@ const Login = () => {
     formState: { errors, isSubmitting },
   } = useForm();
   const [wrongCredentials, setWrongCredentials] = useState<boolean>(false);
-  const navigate = useNavigate();
   const [user, setUser] = useRecoilState(userState);
+  const navigate = useNavigate();
 
   const { mutate } = useMutation({
     mutationKey: ["userLogin"],

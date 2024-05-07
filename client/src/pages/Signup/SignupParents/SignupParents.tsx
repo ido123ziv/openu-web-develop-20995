@@ -6,11 +6,14 @@ import {
   FormField,
 } from "semantic-ui-react";
 import { useForm, FieldValues, Controller } from "react-hook-form";
+import { useMutation } from "react-query";
+import { useState } from "react";
 
 import styles from "./SignupParents.module.css";
 import BackgroundSVG from "../../../ui/BackgroundSVG/BackgroundSVG";
 import FieldValueError from "../../../ui/FieldValueError/FieldValueError";
-import { useState } from "react";
+import { parentSignup } from "./parentSignupService";
+import { useNavigate } from "react-router-dom";
 
 const options = [
   { key: "m", text: "Male", value: "male" },
@@ -25,19 +28,33 @@ const SignupParents = () => {
     formState: { errors, isSubmitting },
     getValues,
     control,
+    reset,
   } = useForm();
   const [checkedCheckbox, setCheckedCheckbox] = useState<boolean | undefined>(
     undefined
   );
+  const navigate = useNavigate();
+
+  const { mutate } = useMutation({
+    mutationKey: ["parentSignup"],
+    mutationFn: parentSignup,
+    onSuccess: async () => {
+      console.log("SUCCESS");
+      navigate("/login");
+    },
+    onError: (error) => {
+      console.log(error);
+      reset();
+    },
+  });
 
   const onSubmit = (data: FieldValues) => {
-    console.log("IN SUBMIT");
-    console.log(checkedCheckbox);
+    // console.log(checkedCheckbox);
     if (!checkedCheckbox) {
       return;
     }
 
-    console.log(data);
+    mutate(data);
   };
 
   return (
@@ -217,13 +234,14 @@ const SignupParents = () => {
             <Controller
               control={control}
               name="termsAndConditions"
-              render={({ field: { onChange } }) => (
+              render={({ field: { onChange, value } }) => (
                 <FormCheckbox
                   label="I agree to the Terms and Conditions"
                   className={styles.checkbox}
                   onChange={() =>
                     onChange(setCheckedCheckbox(() => !checkedCheckbox))
                   }
+                  value={value}
                 />
               )}
             />
