@@ -1,20 +1,47 @@
 .formContainer {
   position: relative !important;
   top: 5vh;
-  width: 50vw;
+  width: 50vw !important;
+  max-width: 750px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin: 0 auto;
   background-color: #ececed;
+  border-radius: 0.5rem;
   padding-top: 2vh;
   padding-bottom: 2vh;
-  border-radius: 0.5rem;
 }
 
-.formContainer input {
+.form {
+  width: 90%;
+}
+
+.formField {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+}
+
+.formField input {
+  margin-bottom: 2.5vh !important;
+}
+
+.error {
+  position: absolute;
+  bottom: 0;
+  padding-left: 1vh;
+}
+
+.dropDown {
   height: 5vh !important;
+}
+
+.checkBoxError {
+  position: absolute;
+  right: 0;
 }
 
 .submitButton {
@@ -25,4 +52,11 @@
   color: white !important;
   /* background-color: rgb(77, 90, 234) !important; */
   background-color: #2185d0 !important;
+}
+
+.formContainer button {
+  width: 10vw !important;
+  height: 4vh !important;
+  align-self: flex-end !important;
+  margin-top: 2.5vh !important;
 }

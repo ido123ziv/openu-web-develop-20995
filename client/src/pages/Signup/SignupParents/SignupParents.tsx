@@ -39,7 +39,6 @@ const SignupParents = () => {
     mutationKey: ["parentSignup"],
     mutationFn: parentSignup,
     onSuccess: async () => {
-      console.log("SUCCESS");
       navigate("/login");
     },
     onError: (error) => {
@@ -49,7 +48,6 @@ const SignupParents = () => {
   });
 
   const onSubmit = (data: FieldValues) => {
-    // console.log(checkedCheckbox);
     if (!checkedCheckbox) {
       return;
     }
@@ -65,34 +63,40 @@ const SignupParents = () => {
         <h1 className={styles.h1}>Sign Up</h1>
         <Form
           size="large"
-          className={styles.form}
           onSubmit={handleSubmit(onSubmit)}
+          className={styles.form}
         >
           <FormGroup widths="equal">
-            <FormField>
-              {/* <label>Email</label> */}
+            <FormField className={styles.formField}>
+              <label>Full Name</label>
               <input
                 placeholder="Full Name"
                 {...register("name", { required: "Please provide a name" })}
               />
-              {errors?.name && (
-                <FieldValueError errorMessage={`${errors.name.message}`} />
-              )}
+              <div className={styles.error}>
+                {errors?.name && (
+                  <FieldValueError errorMessage={`${errors.name.message}`} />
+                )}
+              </div>
             </FormField>
 
-            <FormField>
+            <FormField className={styles.formField}>
+              <label>Email</label>
               <input
                 placeholder="Email"
                 {...register("email", { required: "Please provide an email" })}
               />
-              {errors.email && (
-                <FieldValueError errorMessage={`${errors.email.message}`} />
-              )}
+              <div className={styles.error}>
+                {errors.email && (
+                  <FieldValueError errorMessage={`${errors.email.message}`} />
+                )}
+              </div>
             </FormField>
           </FormGroup>
 
           <FormGroup widths="equal">
-            <FormField>
+            <FormField className={styles.formField}>
+              <label>Password</label>
               <input
                 placeholder="Password"
                 type="password"
@@ -104,12 +108,17 @@ const SignupParents = () => {
                   },
                 })}
               />
-              {errors.password && (
-                <FieldValueError errorMessage={`${errors.password.message}`} />
-              )}
+              <div className={styles.error}>
+                {errors.password && (
+                  <FieldValueError
+                    errorMessage={`${errors.password.message}`}
+                  />
+                )}
+              </div>
             </FormField>
 
-            <FormField>
+            <FormField className={styles.formField}>
+              <label>Confirm Password</label>
               <input
                 type="password"
                 placeholder="Confirm Password"
@@ -123,107 +132,141 @@ const SignupParents = () => {
                     value === getValues("password") || "Password must match",
                 })}
               />
-              {errors.confirmPassword && (
-                <FieldValueError
-                  errorMessage={`${errors.confirmPassword.message}`}
-                />
-              )}
+              <div className={styles.error}>
+                {errors.confirmPassword && (
+                  <FieldValueError
+                    errorMessage={`${errors.confirmPassword.message}`}
+                  />
+                )}
+              </div>
             </FormField>
           </FormGroup>
 
           <FormGroup widths="equal">
-            <FormField>
+            <FormField className={styles.formField}>
+              <label>City</label>
               <input
                 placeholder="City"
                 {...register("city", { required: "Please provide a city" })}
               />
-              {errors.city && (
-                <FieldValueError errorMessage={`${errors.city.message}`} />
-              )}
+              <div className={styles.error}>
+                {errors.city && (
+                  <FieldValueError errorMessage={`${errors.city.message}`} />
+                )}
+              </div>
             </FormField>
 
-            <FormField>
+            <FormField className={styles.formField}>
+              <label>Street</label>
               <input
                 placeholder="Street"
                 {...register("street", { required: "Please provide a street" })}
               />
-              {errors.street && (
-                <FieldValueError errorMessage={`${errors.street.message}`} />
-              )}
+              <div className={styles.error}>
+                {errors.street && (
+                  <FieldValueError errorMessage={`${errors.street.message}`} />
+                )}
+              </div>
             </FormField>
           </FormGroup>
 
           <FormGroup widths="equal">
-            <FormField>
+            <FormField className={styles.formField}>
+              <label>Phone Number</label>
               <input
                 placeholder="Phone Number"
                 {...register("phoneNumber", {
                   required: "Please provide a phone number",
                 })}
               />
-              {errors.phoneNumber && (
-                <FieldValueError
-                  errorMessage={`${errors.phoneNumber.message}`}
-                />
-              )}
+              <div className={styles.error}>
+                {errors.phoneNumber && (
+                  <FieldValueError
+                    errorMessage={`${errors.phoneNumber.message}`}
+                  />
+                )}
+              </div>
             </FormField>
 
-            <Controller
-              name="gender"
-              control={control}
-              rules={{ required: "Please provide a value" }}
-              render={({ field: { onChange, value } }) => (
-                <Form.Select
-                  options={options}
-                  placeholder="Gender"
-                  onChange={(_e, { value }) => onChange(value)}
-                  value={value}
-                />
-              )}
-            />
-            {errors.gender && (
-              <FieldValueError errorMessage={`${errors.gender.message}`} />
-            )}
+            <FormField className={styles.formField}>
+              <label>Street</label>
+              <Controller
+                name="gender"
+                control={control}
+                rules={{ required: "Please provide a value" }}
+                render={({ field: { onChange, value } }) => (
+                  <Form.Select
+                    options={options}
+                    placeholder="Gender"
+                    onChange={(_e, { value }) => onChange(value)}
+                    value={value}
+                  />
+                )}
+              />
+              <div className={styles.error}>
+                {errors.gender && (
+                  <FieldValueError errorMessage={`${errors.gender.message}`} />
+                )}
+              </div>
+            </FormField>
           </FormGroup>
 
           <FormGroup widths="equal">
-            <FormField>
+            <FormField className={styles.formField}>
+              <label>Youngest Child Age</label>
               <input
                 placeholder="Youngest Child Age"
                 {...register("minKidAge", {
                   required: "Please provide a value",
                 })}
               />
-              {errors.minKidAge && (
-                <FieldValueError errorMessage={`${errors.minKidAge.message}`} />
-              )}
+              <div className={styles.error}>
+                {errors.minKidAge && (
+                  <FieldValueError
+                    errorMessage={`${errors.minKidAge.message}`}
+                  />
+                )}
+              </div>
             </FormField>
 
-            <FormField>
+            <FormField className={styles.formField}>
+              <label>Eldest Child Age</label>
+
               <input
                 placeholder="Eldest Child Age"
                 {...register("maxKidAge", {
                   required: "Please provide a value",
                 })}
               />
-              {errors.maxKidAge && (
-                <FieldValueError errorMessage={`${errors.maxKidAge.message}`} />
-              )}
+              <div className={styles.error}>
+                {errors.maxKidAge && (
+                  <FieldValueError
+                    errorMessage={`${errors.maxKidAge.message}`}
+                  />
+                )}
+              </div>
             </FormField>
 
-            <FormField>
+            <FormField className={styles.formField}>
+              <label>Total Number Of Kids</label>
               <input
                 placeholder="Total number of kids"
                 {...register("numOfKids", {
                   required: "Please provide a value",
                 })}
               />
-              {errors.numOfKids && (
-                <FieldValueError errorMessage={`${errors.numOfKids.message}`} />
-              )}
+              <div className={styles.error}>
+                {errors.numOfKids && (
+                  <FieldValueError
+                    errorMessage={`${errors.numOfKids.message}`}
+                  />
+                )}
+              </div>
             </FormField>
           </FormGroup>
           <FormField>
+            <label>Comments</label>
+
             <textarea
               placeholder="Tell us more about you or the children"
               {...register("comments")}
@@ -245,13 +288,15 @@ const SignupParents = () => {
                 />
               )}
             />
-            {checkedCheckbox === false && (
-              <FieldValueError
-                errorMessage={
-                  "Please agree to the Terms and Conditions to proceed"
-                }
-              />
-            )}
+            <div className={styles.checkBoxError}>
+              {checkedCheckbox === false && (
+                <FieldValueError
+                  errorMessage={
+                    "Please agree to the Terms and Conditions to proceed"
+                  }
+                />
+              )}
+            </div>
           </FormGroup>
 
           <FormGroup>

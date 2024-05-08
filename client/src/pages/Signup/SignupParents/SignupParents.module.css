@@ -14,11 +14,32 @@
   padding-bottom: 2vh;
 }
 
+.form {
+  width: 90%;
+}
+
 .formContainer button {
   width: 10vw !important;
   height: 4vh !important;
   align-self: flex-end !important;
   margin-top: 2.5vh !important;
+}
+
+.formField {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+}
+
+.formField input {
+  margin-bottom: 2.5vh !important;
+}
+
+.error {
+  position: absolute;
+  bottom: 0;
+  padding-left: 1vh;
 }
 
 .dropDown {
@@ -27,6 +48,11 @@
 
 .submitButton {
   margin: 0 auto !important;
+}
+
+.checkBoxError {
+  position: absolute;
+  right: 0;
 }
 
 .submitButton button {
