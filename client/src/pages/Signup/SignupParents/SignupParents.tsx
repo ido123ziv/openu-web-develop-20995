@@ -189,7 +189,7 @@ const SignupParents = () => {
             </FormField>
 
             <FormField className={styles.formField}>
-              <label>Street</label>
+              <label>Gender</label>
               <Controller
                 name="gender"
                 control={control}
