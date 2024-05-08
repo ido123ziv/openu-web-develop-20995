@@ -261,13 +261,10 @@ const SignupBabySitter = () => {
             </FormField>
           </FormGroup>
 
-          <FormField className={styles.formField}>
-            <input placeholder="WORKING HOURS" {...register("workingHours")} />
-          </FormField>
-
           <FormField>
+            <label>Comments</label>
             <textarea
-              placeholder="Tell us more about you or the children"
+              placeholder="Tell us more about you, your experience and working hours"
               {...register("comments")}
             />
           </FormField>

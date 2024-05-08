@@ -73,6 +73,7 @@ export default class Handler {
   };
 
   signupBabysitter = async (req: Request, res: Response) => {
+    console.log(req.body);
     try {
       const existingBabysitter = await this.dbHandler.existingBabysitter(
         req.body.email
