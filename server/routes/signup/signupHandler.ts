@@ -3,6 +3,7 @@ import * as EmailValidator from "email-validator";
 
 import DBHandler from "./signupDBHandler";
 import { hash } from "bcrypt";
+import {ParentSignup} from "./signupTypes";
 
 export default class Handler {
   private dbHandler: DBHandler;
@@ -15,54 +16,56 @@ export default class Handler {
     return this.dbHandler;
   }
 
-  signupValidation = (req: Request, res: Response, next: NextFunction) => {
+  signupValidation(email:string, password: string ): { isValid: boolean; message?: string } {
     const minPasswordLength = 4;
-    const { comments, ...inputs } = req.body;
 
-    const hasNullInput = Object.values(inputs).some(
-      (value) => value === null || value === "" || value === 0
-    );
-
-    if (
-      hasNullInput ||
-      !EmailValidator.validate(req.body.email) ||
-      req.body.password.length < minPasswordLength
-    ) {
-      res
-        .status(401)
-        .json({ message: "Please fill out all the required fields" });
-    } else {
-      next();
-    }
-  };
-
-  signupParent = async (req: Request, res: Response) => {
-    try {
-      const existingParent = await this.dbHandler.existingParent(
-        req.body.email
-      );
-
-      if (existingParent) {
-        return res.status(401).json({ message: "Email is already in use" });
-      }
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: "Failed sign up" });
+    if (password.length < minPasswordLength) {
+      return { isValid: false, message: "Password is too short" };
     }
 
-    const { password } = req.body;
+    const existingParent = await this.dbHandler.existingParent(email);
 
+    if (existingParent) {
+      return { isValid: false, message: "Email is already in use" };
+    }
+
+    return { isValid: true };
+  }
+
+  //  signupValidation = (req: Request, res: Response, next: NextFunction) => {
+  //   const minPasswordLength = 4;
+  //   const { comments, ...inputs } = req.body;
+  //
+  //   const hasNullInput = Object.values(inputs).some(
+  //     (value) => value === null || value === "" || value === 0
+  //   );
+  //
+  //   if (
+  //     hasNullInput ||
+  //     !EmailValidator.validate(req.body.email) ||
+  //     req.body.password.length < minPasswordLength
+  //   ) {
+  //     res
+  //       .status(401)
+  //       .json({ message: "Please fill out all the required fields" });
+  //   } else {
+  //     next();
+  //   }
+  // };
+
+
+  async signupParent(data: ParentSignup): Promise<void> {
     try {
-      const hashedPassword = await hash(password, 12);
+      const hashedPassword = await hash(data.password, 12);
+
       await this.dbHandler.signUpParent({
-        ...req.body,
+        data,
         password: hashedPassword,
       });
 
-      res.status(200).json({ message: "Signed up successfully" });
     } catch (error) {
       console.log(error);
-      res.status(401).json({ message: "Failed sign up" });
+      throw error;
     }
   };
 
