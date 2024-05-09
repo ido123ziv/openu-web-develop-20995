@@ -38,6 +38,7 @@
     "cors": "^2.8.5",
     "email-validator": "^2.0.4",
     "express": "^4.19.2",
+    "express-validator": "^7.0.1",
     "pg": "^8.11.5"
   }
 }

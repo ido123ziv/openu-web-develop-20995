@@ -14,8 +14,8 @@ export default class DBHandler {
   }
 
   async signUpBabysitter(data: BabysitterSignup) {
-    const query = `INSERT INTO babysitters (babysitter_name, email, password, city, street, experience,age, phone_number,gender,working_hours, comments)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`;
+    const query = `INSERT INTO babysitters (babysitter_name, email, password, city, street, experience,age, phone_number,gender, comments)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`;
 
     try {
       await db.query(query, Object.values({ ...data }));

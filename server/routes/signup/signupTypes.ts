@@ -1,3 +1,8 @@
+export type Validation = {
+  isValid: boolean;
+  message?: string;
+};
+
 export type ParentSignup = {
   name: string;
   email: string;
@@ -22,16 +27,5 @@ export type BabysitterSignup = {
   age: number;
   phoneNumber: string;
   gender: string;
-  workingHours: WorkingHours;
   comments?: string;
-};
-
-type WorkingHours = {
-  sunday: string;
-  monday: string;
-  tuesday: string;
-  wednesday: string;
-  thursday: string;
-  friday: string;
-  saturday: string;
 };
