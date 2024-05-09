@@ -28,8 +28,6 @@ VALUES
 ('Alon','alon@test.com','$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'Haifa', 'Habonim', 'high', 21, '0524854877','M', '', 'I am the perfect babysitter!'),
 ('Yuval', 'yuval@test.com', '$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'Jerusalem', 'Hankin', 'no_experience', 30, '0532648574', 'M', '', 'the most professional nanny.');
 
-
-
 CREATE table IF NOT EXISTS parents (
     parent_id SERIAL PRIMARY KEY,
     parent_name VARCHAR(255) NOT NULL,
@@ -52,6 +50,21 @@ VALUES
 ('Dilen', 'dilen@test.com','$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG','Haifa', 'Habonim', '0500041247','F', 1, 1, 1, 'The Bex'),
 ('Robbi','robbi@test.com','$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'Haifa', 'Herzel', '0500555557','M', 1, 4, 3, 'Experienced nanny? we want you!'),
 ('Shoshi', 'shoshi@test.com','$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG','Holon', 'HaShalom', '0558748566', 'F', 2, 4, 2, 'Looking for a great babysitter.');
+
+CREATE table IF NOT EXISTS moderators (
+    moderator_id SERIAL PRIMARY KEY,
+    moderator_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL
+);
+
+INSERT INTO moderators (moderator_name, email, password)
+VALUES
+('Liel', 'liel@test.com', '$2a$12$OUO1SwtCGaNZdg.0exRQUut08Bv94z3tHRMt63YdraxPecf30.6aK'),
+('Keren', 'keren@test.com', '$2a$12$OUO1SwtCGaNZdg.0exRQUut08Bv94z3tHRMt63YdraxPecf30.6aK'),
+('Shelly', 'shelly@test.com', '$2a$12$OUO1SwtCGaNZdg.0exRQUut08Bv94z3tHRMt63YdraxPecf30.6aK'),
+('Ido', 'ido@test.com', '$2a$12$OUO1SwtCGaNZdg.0exRQUut08Bv94z3tHRMt63YdraxPecf30.6aK'),
+('Eli', 'eli@test.com', '$2a$12$OUO1SwtCGaNZdg.0exRQUut08Bv94z3tHRMt63YdraxPecf30.6aK');
 
 CREATE table IF NOT EXISTS recommendations (
     recommendation_id SERIAL,
