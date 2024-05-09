@@ -37,21 +37,17 @@ export default class Handler {
   loginUser = async (data: LoginData): Promise<UserDetails | null> => {
     const { email, password } = data;
 
-    try {
-      const user = await this.dbHandler.login(email);
+    const user = await this.dbHandler.login(email);
 
-      if (!user) {
-        return null;
-      }
-
-      const matchingPassword = await compare(password, user.password);
-      if (!matchingPassword) {
-        return null;
-      }
-
-      return { id: user.id, name: user.name, role: user.role };
-    } catch (error) {
-      throw error;
+    if (!user) {
+      return null;
     }
+
+    const matchingPassword = await compare(password, user.password);
+    if (!matchingPassword) {
+      return null;
+    }
+
+    return { id: user.id, name: user.name, role: user.role };
   };
 }
