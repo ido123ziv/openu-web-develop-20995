@@ -1,8 +1,9 @@
-import { NextFunction, Request, Response } from "express";
 import { compare } from "bcrypt";
 import * as EmailValidator from "email-validator";
+import { body } from "express-validator";
 
 import DBHandler from "./loginDBHandler";
+import { LoginData, UserDetails, Validation } from "./loginTypes";
 
 export default class Handler {
   private dbHandler: DBHandler;
@@ -15,35 +16,42 @@ export default class Handler {
     return this.dbHandler;
   }
 
-  loginValidation(req: Request, res: Response, next: NextFunction) {
-    const { email, password } = req.body;
+  fieldValidation = () => {
+    return [
+      body("email").isEmail().notEmpty().withMessage("Email must be a string"),
+      body("password")
+        .isString()
+        .notEmpty()
+        .withMessage("Password must be a string"),
+    ];
+  };
 
-    if (!email || !password || !EmailValidator.validate(email)) {
-      res.status(401).json({ message: "Incorrect email or password" });
-    } else {
-      next();
+  loginValidation = (email: string): Validation => {
+    if (!EmailValidator.validate(email)) {
+      return { isValid: false, message: "Email isn't valid" };
     }
-  }
 
-  loginUser = async (req: Request, res: Response) => {
-    const { email, password } = req.body;
+    return { isValid: true };
+  };
+
+  loginUser = async (data: LoginData): Promise<UserDetails | null> => {
+    const { email, password } = data;
 
     try {
-      const data = await this.dbHandler.login(email);
+      const user = await this.dbHandler.login(email);
 
-      if (!data) {
-        return res.status(401).json({ message: "Incorrect email or password" });
+      if (!user) {
+        return null;
       }
 
-      const matchingPassword = await compare(password, data.password);
+      const matchingPassword = await compare(password, user.password);
       if (!matchingPassword) {
-        return res.status(401).json({ message: "Incorrect email or password" });
+        return null;
       }
 
-      res.status(200).json({ message: "Logged in successfully", data });
+      return { id: user.id, name: user.name, role: user.role };
     } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: "Failed Login" });
+      throw error;
     }
   };
 }
