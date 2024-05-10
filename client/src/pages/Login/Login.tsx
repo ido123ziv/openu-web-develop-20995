@@ -70,7 +70,7 @@ const Login = () => {
             <FormField className={styles.inputField}>
               <input
                 type="password"
-                placeholder="password"
+                placeholder="Password"
                 {...register("password", {
                   required: "Please provide a password",
                   minLength: {
