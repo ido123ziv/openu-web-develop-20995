@@ -1,5 +1,9 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { FieldValues } from "react-hook-form";
+
+interface IAxiosResponse {
+  message?: string;
+}
 
 export const parentSignup = async (data: FieldValues) => {
   try {
@@ -13,6 +17,6 @@ export const parentSignup = async (data: FieldValues) => {
       }
     );
   } catch (error) {
-    throw new Error("An error occurred during signup");
+    throw ((error as AxiosError).response?.data as IAxiosResponse).message;
   }
 };
