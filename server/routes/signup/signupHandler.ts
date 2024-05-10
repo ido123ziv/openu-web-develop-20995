@@ -18,11 +18,7 @@ export default class Handler {
 
   parentsFieldValidation = () => {
     return [
-      body("name")
-        .isString()
-        .notEmpty()
-        .withMessage("Name must be a string")
-        .bail(),
+      body("name").isString().notEmpty().withMessage("Name must be a string"),
       body("email").isEmail().notEmpty().withMessage("Email must be a string"),
       body("password")
         .isString()
