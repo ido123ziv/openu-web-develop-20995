@@ -25,10 +25,9 @@ securitySetup(app);
 headerSetup(app);
 
 // Define routes
-// TODO: ADD "/api" ROUTING ONCE WE GET THE APPLICATION RUNNING
 app.use("/signup", signupRouter);
 app.use("/login", loginRouter);
-app.use("/api/parents", parentsRouter)
+app.use("/api/parents", parentsRouter);
 app.use("/", router);
 
 // Start the server
