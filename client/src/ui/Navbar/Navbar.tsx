@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import styles from "./NavigationBar.module.css";
 
 function NavigationBar() {
+  console.log("test");
   return (
     <Menu inverted pointing className={styles.navbar}>
       <MenuItem as={Link} to="/" name="home">
