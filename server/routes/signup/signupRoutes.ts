@@ -34,7 +34,7 @@ signupRouter.post(
     } = req.body;
 
     try {
-      const validation = await handler.parentSignupValidation(email, password);
+      const validation = await handler.signupValidation(email, password);
 
       if (!validation.isValid) {
         return res.status(400).send({ error: validation.message });
@@ -88,10 +88,7 @@ signupRouter.post(
     } = req.body;
 
     try {
-      const validation = await handler.babysitterSignupValidation(
-        email,
-        password
-      );
+      const validation = await handler.signupValidation(email, password);
 
       if (!validation.isValid) {
         return res.status(400).send({ error: validation.message });

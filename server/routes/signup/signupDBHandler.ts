@@ -7,7 +7,19 @@ export default class DBHandler {
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`;
 
     try {
-      await db.query(query, Object.values({ ...data }));
+      await db.query(query, [
+        data.name,
+        data.email,
+        data.password,
+        data.city,
+        data.street,
+        data.phoneNumber,
+        data.gender,
+        data.minKidAge,
+        data.maxKidAge,
+        data.numOfKids,
+        data.comments,
+      ]);
     } catch (error) {
       throw new Error(String(error));
     }
@@ -18,7 +30,18 @@ export default class DBHandler {
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`;
 
     try {
-      await db.query(query, Object.values({ ...data }));
+      await db.query(query, [
+        data.name,
+        data.email,
+        data.password,
+        data.city,
+        data.street,
+        data.experience,
+        data.age,
+        data.phoneNumber,
+        data.gender,
+        data.comments,
+      ]);
     } catch (error) {
       throw new Error(String(error));
     }

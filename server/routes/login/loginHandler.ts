@@ -12,10 +12,6 @@ export default class Handler {
     this.dbHandler = new DBHandler();
   }
 
-  getDBHandler() {
-    return this.dbHandler;
-  }
-
   fieldValidation = () => {
     return [
       body("email").isEmail().notEmpty().withMessage("Email must be a string"),
@@ -34,18 +30,18 @@ export default class Handler {
     return { isValid: true };
   };
 
-  loginUser = async (data: LoginData): Promise<UserDetails | null> => {
+  loginUser = async (data: LoginData): Promise<UserDetails | undefined> => {
     const { email, password } = data;
 
     const user = await this.dbHandler.login(email);
 
     if (!user) {
-      return null;
+      return;
     }
 
     const matchingPassword = await compare(password, user.password);
     if (!matchingPassword) {
-      return null;
+      return;
     }
 
     return { id: user.id, name: user.name, role: user.role };

@@ -94,7 +94,7 @@ export default class Handler {
     ];
   };
 
-  parentSignupValidation = async (
+  signupValidation = async (
     email: string,
     password: string
   ): Promise<Validation> => {
@@ -112,33 +112,6 @@ export default class Handler {
       const existingParent = await this.dbHandler.existingParent(email);
 
       if (existingParent) {
-        return { isValid: false, message: "Email is already in use" };
-      }
-    } catch (error) {
-      console.log(error);
-    }
-
-    return { isValid: true };
-  };
-
-  babysitterSignupValidation = async (
-    email: string,
-    password: string
-  ): Promise<Validation> => {
-    const minPasswordLength = 4;
-
-    if (password.length < minPasswordLength) {
-      return { isValid: false, message: "Password is too short" };
-    }
-
-    if (!EmailValidator.validate(email)) {
-      return { isValid: false, message: "Email isn't valid" };
-    }
-
-    try {
-      const existingBabysitter = await this.dbHandler.existingBabysitter(email);
-
-      if (existingBabysitter) {
         return { isValid: false, message: "Email is already in use" };
       }
     } catch (error) {

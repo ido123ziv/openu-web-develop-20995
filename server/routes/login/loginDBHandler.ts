@@ -3,9 +3,23 @@ import { UserLogin } from "./loginTypes";
 
 export default class DBHandler {
   async login(email: string): Promise<UserLogin | null> {
-    const parentQuery = `SELECT parent_id, parent_name, password FROM parents WHERE email = $1 LIMIT 1`;
-    const babysitterQuery = `SELECT babysitter_id, babysitter_name, password FROM babysitters WHERE email = $1 LIMIT 1`;
-    const moderatorQuery = `SELECT moderator_id, moderator_name, password FROM moderators WHERE email = $1 LIMIT 1;`;
+    const parentQuery = `SELECT parent_id, 
+                                parent_name, 
+                                password 
+                        FROM parents 
+                        WHERE email = $1 LIMIT 1`;
+
+    const babysitterQuery = `SELECT babysitter_id, 
+                              babysitter_name, 
+                              password 
+                              FROM babysitters 
+                              WHERE email = $1 LIMIT 1`;
+
+    const moderatorQuery = `SELECT moderator_id, 
+                            moderator_name, 
+                            password 
+                            FROM moderators 
+                            WHERE email = $1 LIMIT 1;`;
 
     const parent = await db.query(parentQuery, [email]);
     if (parent.rowCount) {
