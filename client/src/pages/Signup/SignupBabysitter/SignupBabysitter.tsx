@@ -22,9 +22,9 @@ const options = [
 ];
 
 const experience = [
-  { key: 0, text: "No Experience", value: 0 },
-  { key: 1, text: "1-3", value: 1 },
-  { key: 2, text: "3+", value: 2 },
+  { key: 0, text: "No Experience", value: "no_experience" },
+  { key: 1, text: "1-3", value: "mid" },
+  { key: 2, text: "3+", value: "high" },
 ];
 
 const SignupBabySitter = () => {
@@ -54,6 +54,7 @@ const SignupBabySitter = () => {
   });
 
   const onSubmit = (data: FieldValues) => {
+    console.log(data);
     if (checkedCheckbox === undefined) {
       setCheckedCheckbox(false);
     }
