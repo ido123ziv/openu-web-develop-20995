@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { Form, FormButton, FormField, FormGroup } from "semantic-ui-react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useMutation } from "react-query";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { useState } from "react";
 
 import styles from "./Login.module.css";
@@ -19,19 +19,19 @@ const Login = () => {
     formState: { errors, isSubmitting },
   } = useForm();
   const [wrongCredentials, setWrongCredentials] = useState<boolean>(false);
-  const [user, setUser] = useRecoilState(userState);
+  const setUser = useSetRecoilState(userState);
   const navigate = useNavigate();
 
   const { mutate } = useMutation({
     mutationKey: ["userLogin"],
     mutationFn: userLogin,
-    onSuccess: async (data) => {
+    onSuccess: (data) => {
       if (!data) {
         return;
       }
 
       setUser(data);
-      navigate(`/app/${user.role}`);
+      navigate(`/app/${data.role}`);
     },
     onError: () => {
       reset();
