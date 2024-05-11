@@ -6,8 +6,8 @@ import Handler from "./recommendationsHandler";
 const recommendationsRouter = Router();
 
 const handler = new Handler();
-const babysitterInvalidInputError = "babysitterId must be provided and a number";
-const parentInvalidInputError = "parentId must be provided and a number";
+const BABYSITTER_INVALID_INPUT_ERROR = "babysitterId must be provided and a number";
+const PARENT_INVALID_INPUT_ERROR = "parentId must be provided and a number";
 
 recommendationsRouter.get("/",
     async (req: Request, res: Response) => {
@@ -23,7 +23,7 @@ recommendationsRouter.get("/",
 
 recommendationsRouter.get("/babysitter/:babysitter",
      [ 
-         param('babysitter').notEmpty().isNumeric().withMessage(babysitterInvalidInputError)
+         param('babysitter').notEmpty().isNumeric().withMessage(BABYSITTER_INVALID_INPUT_ERROR)
      ],
     async (req: Request, res: Response) => {
         try {
@@ -46,7 +46,7 @@ recommendationsRouter.get("/babysitter/:babysitter",
 
 recommendationsRouter.get("/parent/:parent",
     [ 
-        param('parent').notEmpty().isNumeric().withMessage(parentInvalidInputError)
+        param('parent').notEmpty().isNumeric().withMessage(PARENT_INVALID_INPUT_ERROR)
     ],
     async (req: Request, res: Response) => {
         try {
@@ -69,8 +69,8 @@ recommendationsRouter.get("/parent/:parent",
 
 recommendationsRouter.get("/parent/:parent/babysitter/:babysitter",
     [ 
-        param('parent').notEmpty().isNumeric().withMessage(parentInvalidInputError),
-        param('babysitter').notEmpty().isNumeric().withMessage(babysitterInvalidInputError)
+        param('parent').notEmpty().isNumeric().withMessage(PARENT_INVALID_INPUT_ERROR),
+        param('babysitter').notEmpty().isNumeric().withMessage(BABYSITTER_INVALID_INPUT_ERROR)
     ],
     async (req: Request, res: Response) => {
         try {
