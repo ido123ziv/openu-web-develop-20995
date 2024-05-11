@@ -11,7 +11,7 @@ const puppeteer = require('puppeteer');
   
   try {
     // Navigate to a website with options for waiting for the page to load
-    await page.goto('http://localhost:5173', {
+    await page.goto('http://localhost:5172', {
       waitUntil: 'load', // Wait until the 'load' event completes
       timeout: 10000 // Set a timeout of 10 seconds for page load
     });
