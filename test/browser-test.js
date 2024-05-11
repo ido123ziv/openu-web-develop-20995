@@ -61,7 +61,7 @@ async function processURLs(urls, outputFile) {
 const urls = [
   'http://localhost:5172/',
   'http://localhost:5172/contact',
-  'http://localhost:5172/about',
+  'http://localhost:5173/about',
   'http://localhost:5172/signup',
   'http://localhost:5172/login'
 ];
