@@ -45,9 +45,9 @@ jobs:
           else
             echo "API test passed! ✅" >> $GITHUB_STEP_SUMMARY
           fi
-          echo "Details: " >> $GITHUB_STEP_SUMMARY
-          ls output.txt || echo "no output"
-          cat output.txt >> $GITHUB_STEP_SUMMARY || echo "no output.txt"          echo "passed=$passed" >> $GITHUB_OUTPUT
+          cat output.txt >> $GITHUB_STEP_SUMMARY || echo "no output.txt"          
+          rm output.txt || echo "no output"
+          echo "passed=$passed" >> $GITHUB_OUTPUT
       - name: ui test
         id: ui_test
         working-directory: ./test
@@ -59,9 +59,8 @@ jobs:
           else
             echo "Browser test passed! ✅" >> $GITHUB_STEP_SUMMARY
           fi
-          echo "Details: " >> $GITHUB_STEP_SUMMARY
-          ls output.txt || echo "no output"
           cat output.txt >> $GITHUB_STEP_SUMMARY || echo "no output.txt"
+          rm output.txt || echo "no output"
           echo "passed=$passed" >> $GITHUB_OUTPUT
       - name: consolidate
         run: |
