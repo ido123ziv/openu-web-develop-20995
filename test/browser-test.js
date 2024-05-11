@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const puppeteer = require('puppeteer');
+const fs = require('fs');
 
 async function getHeadingsFromURL(page, url) {
   try {
@@ -22,7 +23,7 @@ async function getHeadingsFromURL(page, url) {
   }
 }
 
-async function processURLs(urls) {
+async function processURLs(urls, outputFile) {
   let successCount = 0;
   let failureCount = 0;
 
@@ -36,12 +37,12 @@ async function processURLs(urls) {
       if (headings !== null) {
         const output = `Headings from ${url}: ${headings}`;
         console.log(output);
-        process.env.SUMMARY = (process.env.SUMMARY || '') + '\n' + output;
+        fs.appendFileSync(outputFile, output + '\n');
         successCount++;
       } else {
         const output = `Failed to process ${url}`;
         console.log(output);
-        process.env.SUMMARY = (process.env.SUMMARY || '') + '\n' + output;
+        fs.appendFileSync(outputFile, output + '\n');
         failureCount++;
       }
     }
@@ -64,7 +65,8 @@ const urls = [
   'http://localhost:5172/signup',
   'http://localhost:5172/login'
 ];
+const outputFile = 'output.txt';
 
-processURLs(urls);
-console.log(process.env.SUMMARY);
+processURLs(urls, outputFile);
+
 

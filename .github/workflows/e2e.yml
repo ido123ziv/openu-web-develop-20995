@@ -62,7 +62,8 @@ jobs:
             echo "Browser test passed! ✅" >> $GITHUB_STEP_SUMMARY
           fi
           echo "Details: " >> $GITHUB_STEP_SUMMARY
-          echo $SUMMARY >> $GITHUB_STEP_SUMMARY
+          ls output.txt || echo "no output"
+          cat output.txt >> $GITHUB_STEP_SUMMARY || echo "no output.txt"
           echo "passed=$passed" >> $GITHUB_OUTPUT
       - name: consolidate
         run: |

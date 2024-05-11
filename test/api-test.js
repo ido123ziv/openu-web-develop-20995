@@ -36,4 +36,3 @@ async function testUrl(url) {
         await testUrl(url);
     }
 })();
-console.log(process.env.SUMMARY);
