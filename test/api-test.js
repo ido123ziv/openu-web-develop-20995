@@ -11,8 +11,7 @@ const urls = {
     dbHealth: 'http://localhost:3000/db/health',
     dbTables: 'http://localhost:3000/db/tables',
     parents: 'http://localhost:3000/api/parents',
-    recommendations: 'http://localhost:3000/api/recommendations/',
-    babySitterRec: 'http://localhost:3000/api/recommendations/1'
+    recommendations: 'http://localhost:3000/api/recommendations/'
 };
 
 // Function to perform HTTP GET request and check status code
@@ -20,7 +19,7 @@ async function testUrl(url, outputFile) {
     try {
         const response = await fetch(url);
         if (response.status !== 200) {
-            const output = `**Error with: ${url}` +  JSON.stringify(response.json()) + `Error Code: ${response.status}**`
+            const output = `**Error with: ${url} ->` +  JSON.stringify(response.json()) + ` -> Error Code: ${response.status}**`
             fs.appendFileSync(outputFile, output + '\n');
             throw new Error(`Error Code: ${response.status}`);
         } else {
