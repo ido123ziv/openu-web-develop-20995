@@ -5,3 +5,7 @@
   border-radius: 0 !important;
   z-index: 1;
 }
+
+.logo {
+  width: 26px;
+}
