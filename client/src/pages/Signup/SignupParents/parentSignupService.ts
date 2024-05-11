@@ -5,10 +5,10 @@ interface IAxiosResponse {
   message?: string;
 }
 
-export const parentSignup = async (data: FieldValues) => {
+export const parentSignup = async (data: FieldValues): Promise<void> => {
   try {
     const { termsAndConditions, confirmPassword, ...parentDetails } = data;
-    return await axios.post(
+    await axios.post(
       "http://localhost:3000/signup/parents",
       JSON.stringify(parentDetails),
       {

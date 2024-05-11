@@ -54,7 +54,6 @@ const SignupBabySitter = () => {
   });
 
   const onSubmit = (data: FieldValues) => {
-    console.log(data);
     if (checkedCheckbox === undefined) {
       setCheckedCheckbox(false);
     }
