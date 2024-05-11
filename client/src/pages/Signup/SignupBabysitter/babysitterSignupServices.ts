@@ -8,7 +8,7 @@ interface IAxiosResponse {
 export const babysitterSignup = async (data: FieldValues): Promise<void> => {
   try {
     const { termsAndConditions, confirmPassword, ...babysitterDetails } = data;
-    await axios.post(
+    axios.post(
       "http://localhost:3000/signup/babysitters",
       JSON.stringify(babysitterDetails),
       {
