@@ -29,7 +29,6 @@ async function testUrl(url) {
         process.exit(1); // Exit with code 1 if any error occurs
     }
 }
-console.log(process.env.SUMMARY);
 
 // Perform tests for each URL
 (async () => {
@@ -37,3 +36,4 @@ console.log(process.env.SUMMARY);
         await testUrl(url);
     }
 })();
+console.log(process.env.SUMMARY);
