@@ -1,10 +1,13 @@
 import { Router, Request, Response } from "express";
+import { validationResult, query, param } from "express-validator";
 
 import Handler from "./recommendationsHandler";
 
 const recommendationsRouter = Router();
 
 const handler = new Handler();
+const babysitterInvalidInputError = "babysitterId must be provided and a number";
+const parentInvalidInputError = "parentId must be provided and a number";
 
 recommendationsRouter.get("/",
     async (req: Request, res: Response) => {
@@ -19,20 +22,22 @@ recommendationsRouter.get("/",
     })
 
 recommendationsRouter.get("/babysitter/:babysitter",
-    // [ // todo: valdiate
-    //     query('babysitterId').isNumeric().exists().withMessage('babysitterId must be provided and a number')
-    // ],
+     [ 
+         param('babysitter').notEmpty().isNumeric().withMessage(babysitterInvalidInputError)
+     ],
     async (req: Request, res: Response) => {
         try {
-            const { babysitterId } = req.params;
 
-            if (!babysitterId){
-                return res.status(400).send('babysitter_id must be provided and a number');
+            const fieldValidationResult = validationResult(req);
+            if (!fieldValidationResult.isEmpty()) {
+              return res
+                .status(400)
+                .json({ message: fieldValidationResult.array().map((item) => item.msg).join(' ') });
             }
-
+            const { babysitter: babysitterId } = req.params;
             const babysitterRecommendations = await handler.getBabysitter(Number(babysitterId));
-
             return res.status(200).send(babysitterRecommendations);
+
         } catch (e) {
             console.log(`Error message: ${req.body.id}: ${(e as Error).message}\n${(e as Error).stack}`);
             return res.status(500).end();
@@ -40,16 +45,18 @@ recommendationsRouter.get("/babysitter/:babysitter",
     })
 
 recommendationsRouter.get("/parent/:parent",
-    // [ // todo: valdiate
-    //     query('parentId').isNumeric().exists().withMessage('parentId must be provided and a number')
-    // ],
+    [ 
+        param('parent').notEmpty().isNumeric().withMessage(parentInvalidInputError)
+    ],
     async (req: Request, res: Response) => {
         try {
-            const { parentId } = req.params
-
-            if (!parentId){
-                return res.status(400).send('parent_id must be provided and a number');
+            const fieldValidationResult = validationResult(req);
+            if (!fieldValidationResult.isEmpty()) {
+              return res
+                .status(400)
+                .json({ message: fieldValidationResult.array().map((item) => item.msg).join(' ') });
             }
+            const { parent: parentId } = req.params
 
             const parentRecommendations = await handler.getParent(Number(parentId));
 
@@ -61,21 +68,19 @@ recommendationsRouter.get("/parent/:parent",
     })
 
 recommendationsRouter.get("/parent/:parent/babysitter/:babysitter",
-    // [ // todo: valdiate
-    //     query('parentId').isNumeric().exists().withMessage('parentId must be provided and a number'),
-    //     query('babysitterId').isNumeric().exists().withMessage('babysitterId must be provided and a number')
-    // ],
+    [ 
+        param('parent').notEmpty().isNumeric().withMessage(parentInvalidInputError),
+        param('babysitter').notEmpty().isNumeric().withMessage(babysitterInvalidInputError)
+    ],
     async (req: Request, res: Response) => {
         try {
-            const { parentId, babysitterId } = req.params;
-
-            if (!parentId){
-                return res.status(400).send('parent_id must be provided and a number');
+            const fieldValidationResult = validationResult(req);
+            if (!fieldValidationResult.isEmpty()) {
+              return res
+                .status(400)
+                .json({ message: fieldValidationResult.array().map((item) => item.msg).join(' ') });
             }
-
-            if (!babysitterId){
-                return res.status(400).send('babysitter_id must be provided and a number');
-            }
+            const { parent: parentId, babysitter: babysitterId } = req.params;
 
             const babysitterAndParentRecommendations = await handler.getRecommendationByBabysitterAndParent(Number(parentId), Number(babysitterId));
 
