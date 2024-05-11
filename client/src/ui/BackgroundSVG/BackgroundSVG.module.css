@@ -1,0 +1,11 @@
+.background {
+  width: 100vw;
+  height: 100vh;
+  background-image: url("/app-pattern-bg.svg");
+  background-size: cover;
+  overflow: hidden !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
