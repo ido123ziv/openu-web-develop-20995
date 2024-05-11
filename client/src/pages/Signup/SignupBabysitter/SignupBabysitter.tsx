@@ -44,7 +44,7 @@ const SignupBabySitter = () => {
   const { mutate } = useMutation({
     mutationKey: ["babysitterSignup"],
     mutationFn: babysitterSignup,
-    onSuccess: async () => {
+    onSuccess: () => {
       navigate("/login");
     },
     onError: (error) => {
