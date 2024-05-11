@@ -37,6 +37,7 @@ jobs:
         id: api_test
         working-directory: ./test
         run: |
+          export SUMMARY=""
           passed=""
           echo "# Test Results! 🚀" >> $GITHUB_STEP_SUMMARY
           node api-test.js || passed="false"
@@ -45,13 +46,14 @@ jobs:
           else
             echo "API test passed! ✅" >> $GITHUB_STEP_SUMMARY
           fi
-          echo "Details: \n" >> $GITHUB_STEP_SUMMARY
+          echo "Details: " >> $GITHUB_STEP_SUMMARY
           echo $SUMMARY >> $GITHUB_STEP_SUMMARY
           echo "passed=$passed" >> $GITHUB_OUTPUT
       - name: ui test
         id: ui_test
         working-directory: ./test
         run: |
+          export SUMMARY=""
           passed=""
           node browser-test.js || passed="false"
           if [[ -n "$passed" ]]; then
@@ -59,7 +61,7 @@ jobs:
           else
             echo "Browser test passed! ✅" >> $GITHUB_STEP_SUMMARY
           fi
-          echo "Details: \n" >> $GITHUB_STEP_SUMMARY
+          echo "Details: " >> $GITHUB_STEP_SUMMARY
           echo $SUMMARY >> $GITHUB_STEP_SUMMARY
           echo "passed=$passed" >> $GITHUB_OUTPUT
       - name: consolidate

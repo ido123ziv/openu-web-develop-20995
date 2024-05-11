@@ -65,5 +65,6 @@ const urls = [
   'http://localhost:5172/login'
 ];
 
+console.log(process.env.SUMMARY);
 processURLs(urls);
 
