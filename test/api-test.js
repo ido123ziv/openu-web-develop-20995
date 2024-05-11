@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const fetch = require('node-fetch');
+const fs = require('fs');
+
+const outputFile = 'output.txt';
 
 // Define URLs to test
 const urls = {
@@ -12,16 +15,16 @@ const urls = {
 };
 
 // Function to perform HTTP GET request and check status code
-async function testUrl(url) {
+async function testUrl(url, outputFile) {
     try {
         const response = await fetch(url);
         if (response.status !== 200) {
             const output = JSON.stringify(response.json())
-            process.env.SUMMARY = (process.env.SUMMARY || '') + '\n' + output;
+            fs.appendFileSync(outputFile, output + '\n');
             throw new Error(`Error Code: ${response.status}`);
         } else {
             const output = `Loaded: ${url}`
-            process.env.SUMMARY = (process.env.SUMMARY || '') + '\n' + output;
+            fs.appendFileSync(outputFile, output + '\n');
             console.log(output);
         }
     } catch (error) {
@@ -33,6 +36,6 @@ async function testUrl(url) {
 // Perform tests for each URL
 (async () => {
     for (const url of Object.values(urls)) {
-        await testUrl(url);
+        await testUrl(url, outputFile);
     }
 })();
