@@ -1,30 +1,72 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-// Import Puppeteer
 const puppeteer = require('puppeteer');
+const fs = require('fs');
 
-(async () => {
-  // Launch a headless Chrome/Chromium browser
-  const browser = await puppeteer.launch();
-  
-  // Create a new page
-  const page = await browser.newPage();
-  
+async function getHeadingsFromURL(page, url) {
   try {
-    // Navigate to a website with options for waiting for the page to load
-    await page.goto('http://localhost:5172', {
-      waitUntil: 'load', // Wait until the 'load' event completes
-      timeout: 10000 // Set a timeout of 10 seconds for page load
+    await page.goto(url);
+
+    // Get all <h> tags
+    const headings = await page.evaluate(() => {
+      const headings = [];
+      const hTags = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+      hTags.forEach(tag => {
+        headings.push(tag.textContent.trim());
+      });
+      return headings;
     });
 
-    // Take a screenshot and save it to a file
-    await page.screenshot({ path: 'screenshot.png' });
-
-    console.log('Screenshot taken and saved as screenshot.png');
+    return headings;
   } catch (error) {
-    // Handle the error if the page fails to load within the timeout
-    console.error('Failed to load the page within the specified time:', error);
+    console.error(`Error while processing ${url}: ${error}`);
+    return null;
+  }
+}
+
+async function processURLs(urls, outputFile) {
+  let successCount = 0;
+  let failureCount = 0;
+
+  const browser = await puppeteer.launch();
+
+  try {
+    const page = await browser.newPage();
+
+    for (const url of urls) {
+      const headings = await getHeadingsFromURL(page, url);
+      if (headings !== null) {
+        const output = `Headings from ${url}: ${headings}`;
+        console.log(output);
+        fs.appendFileSync(outputFile, output + '\n');
+        successCount++;
+      } else {
+        const output = `__Failed to process ${url}__`;
+        console.log(output);
+        fs.appendFileSync(outputFile, output + '\n');
+        failureCount++;
+      }
+    }
+
+    if (failureCount > 0) {
+      console.log(`Failed to load ${failureCount} out of ${urls.length} URLs.`);
+      process.exitCode = 1; // Set exit code to 1 indicating failure
+    } else {
+      console.log(`All ${urls.length} URLs processed successfully.`);
+    }
   } finally {
-    // Close the browser
     await browser.close();
   }
-})();
+}
+
+const urls = [
+  'http://localhost:5172/',
+  'http://localhost:5172/contact',
+  'http://localhost:5172/about',
+  'http://localhost:5172/signup',
+  'http://localhost:5172/login'
+];
+const outputFile = 'output.txt';
+
+processURLs(urls, outputFile);
+
+
