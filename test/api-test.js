@@ -16,9 +16,13 @@ async function testUrl(url) {
     try {
         const response = await fetch(url);
         if (response.status !== 200) {
+            const output = JSON.stringify(response.json())
+            process.env.SUMMARY = (process.env.SUMMARY || '') + '\n' + output;
             throw new Error(`Error Code: ${response.status}`);
         } else {
-            console.log(`Loaded: ${url}`);
+            const output = `Loaded: ${url}`
+            process.env.SUMMARY = (process.env.SUMMARY || '') + '\n' + output;
+            console.log(output);
         }
     } catch (error) {
         console.error(error);
