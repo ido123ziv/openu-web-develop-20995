@@ -9,6 +9,7 @@ import loginRouter from "./routes/login/loginRoutes";
 import headerSetup from "./middlewares/headerSetup";
 import securitySetup from "./middlewares/security";
 import signupRouter from "./routes/signup/signupRoutes";
+import recommendationsRouter from "./routes/api/recommendations/recommendationsRoutes";
 
 // Creating an Express app
 const app = express();
@@ -28,6 +29,7 @@ headerSetup(app);
 app.use("/signup", signupRouter);
 app.use("/login", loginRouter);
 app.use("/api/parents", parentsRouter);
+app.use("/api/recommendations", recommendationsRouter);
 app.use("/", router);
 
 // Start the server
