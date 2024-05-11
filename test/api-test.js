@@ -20,7 +20,7 @@ async function testUrl(url, outputFile) {
     try {
         const response = await fetch(url);
         if (response.status !== 200) {
-            const output = JSON.stringify(response.json())
+            const output = `**Error with: ${url}` +  JSON.stringify(response.json()) + `Error Code: ${response.status}**`
             fs.appendFileSync(outputFile, output + '\n');
             throw new Error(`Error Code: ${response.status}`);
         } else {

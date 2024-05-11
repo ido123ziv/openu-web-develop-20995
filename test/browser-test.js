@@ -40,7 +40,7 @@ async function processURLs(urls, outputFile) {
         fs.appendFileSync(outputFile, output + '\n');
         successCount++;
       } else {
-        const output = `Failed to process ${url}`;
+        const output = `__Failed to process ${url}__`;
         console.log(output);
         fs.appendFileSync(outputFile, output + '\n');
         failureCount++;
