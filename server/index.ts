@@ -10,6 +10,7 @@ import loginRouter from "./routes/login/loginRoutes";
 import headerSetup from "./middlewares/headerSetup";
 import securitySetup from "./middlewares/security";
 import signupRouter from "./routes/signup/signupRoutes";
+import recommendationsRouter from "./routes/api/recommendations/recommendationsRoutes";
 
 // Creating an Express app
 const app = express();
@@ -26,10 +27,10 @@ securitySetup(app);
 headerSetup(app);
 
 // Define routes
-// TODO: ADD "/api" ROUTING ONCE WE GET THE APPLICATION RUNNING
 app.use("/signup", signupRouter);
 app.use("/login", loginRouter);
 app.use("/api/parents", parentsRouter);
+app.use("/api/recommendations", recommendationsRouter);
 app.use("/api/moderator", moderatorRouter);
 app.use("/", router);
 

@@ -1,22 +1,31 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const fetch = require('node-fetch');
+const fs = require('fs');
+
+const outputFile = 'output.txt';
 
 // Define URLs to test
 const urls = {
     back: 'http://localhost:3000/hello',
     name: 'http://localhost:3000/hello/name',
     dbHealth: 'http://localhost:3000/db/health',
-    dbTables: 'http://localhost:3000/db/tables'
+    dbTables: 'http://localhost:3000/db/tables',
+    parents: 'http://localhost:3000/api/parents',
+    recommendations: 'http://localhost:3000/api/recommendations/'
 };
 
 // Function to perform HTTP GET request and check status code
-async function testUrl(url) {
+async function testUrl(url, outputFile) {
     try {
         const response = await fetch(url);
         if (response.status !== 200) {
+            const output = `**Error with: ${url} ->` +  JSON.stringify(response.json()) + ` -> Error Code: ${response.status}**`
+            fs.appendFileSync(outputFile, output + '\n');
             throw new Error(`Error Code: ${response.status}`);
         } else {
-            console.log(`Loaded: ${url}`);
+            const output = `Loaded: ${url}`
+            fs.appendFileSync(outputFile, output + '\n');
+            console.log(output);
         }
     } catch (error) {
         console.error(error);
@@ -27,6 +36,6 @@ async function testUrl(url) {
 // Perform tests for each URL
 (async () => {
     for (const url of Object.values(urls)) {
-        await testUrl(url);
+        await testUrl(url, outputFile);
     }
 })();

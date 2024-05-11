@@ -1,19 +1,21 @@
 .formContainer {
   position: relative !important;
   top: 5vh;
-  width: 100vw;
+  width: 50vw !important;
+  max-width: 750px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 0 auto;
+  background-color: #ececed;
+  border-radius: 0.5rem;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
 }
 
-.formContainer form {
-  width: 80vw;
-}
-
-.formContainer input {
-  height: 5vh !important;
+.form {
+  width: 90%;
 }
 
 .formContainer button {
@@ -23,49 +25,38 @@
   margin-top: 2.5vh !important;
 }
 
+.formField {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+}
+
+.formField input {
+  margin-bottom: 2.5vh !important;
+}
+
+.error {
+  position: absolute;
+  bottom: 0;
+  padding-left: 1vh;
+}
+
 .dropDown {
   height: 5vh !important;
 }
 
-.firstRow {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
+.submitButton {
+  margin: 0 auto !important;
 }
 
-.secondRow {
-  display: flex !important;
-  justify-content: space-between !important;
-  margin-bottom: 20px !important;
+.checkBoxError {
+  position: absolute;
+  right: 0;
 }
 
-.submitContainer {
-  display: flex;
-  justify-content: center;
-}
-
-.required {
-  color: red;
-}
-
-.childRow {
-  display: flex;
-  align-items: center;
-  margin-bottom: 2vh;
-  margin-right: 1vw !important;
-}
-
-.childRow input {
-  margin-right: 1vw !important;
-}
-
-.childRow button {
-  width: 10vw !important;
-
-  text-align: center;
-}
-
-.childrenFields {
-  display: flex !important;
-  flex-direction: column !important;
+.submitButton button {
+  color: white !important;
+  /* background-color: rgb(77, 90, 234) !important; */
+  background-color: #2185d0 !important;
 }

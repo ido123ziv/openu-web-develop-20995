@@ -1,14 +1,46 @@
 .formContainer {
+  /* background-color: #f3f5f6; */
+  background-color: #d1eefd;
   position: relative !important;
-  top: 5vh;
-  width: 100vw !important;
+  height: 40vh;
+  top: 15vh;
+  width: 20vw !important;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: stretch;
   align-items: center;
+  margin: 0 auto;
+  padding-top: 8vh;
+  max-width: 300px;
+  border-radius: 0.5rem;
 }
 
-.submitContainer {
-  display: flex;
-  justify-content: center;
+.h1 {
+  position: absolute;
+  top: 1.2vh;
+}
+
+.inputField {
+  margin: 0 auto !important;
+}
+
+.form {
+  position: absolute;
+  height: 40vh;
+}
+
+.errorsContainer {
+  width: 20vw !important;
+  padding-top: 0vh !important;
+  margin-top: 0 !important;
+  margin-left: 1vw;
+}
+
+.submitBtn button {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(94, 181, 248) !important;
+  color: white !important;
 }
