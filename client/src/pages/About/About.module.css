@@ -25,6 +25,7 @@
 }
 
 .container .p {
+  background-color: #fafafa;
   color: #777;
   margin-bottom: 20px;
   text-align: left !important;
@@ -38,6 +39,7 @@
 }
 
 .container .ul {
+  background-color: #fafafa;
   list-style: none;
   padding: 0;
   margin-bottom: 2vh;

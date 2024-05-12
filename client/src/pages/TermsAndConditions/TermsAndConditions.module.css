@@ -6,8 +6,9 @@
 }
 
 .termsContainer p {
-  background-color: #ececed;
+  background-color: #fafafa;
   text-align: left;
   padding: 1vh;
   border-radius: 0.5rem;
+  border: 1px solid #000;
 }
