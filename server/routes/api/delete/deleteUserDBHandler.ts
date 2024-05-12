@@ -28,7 +28,7 @@ export default class DBHandler {
                              WHERE parent_id = $2`;
                              
         const newEndTimestamp = new Date().getTime();
-        const parent = await db.query(parentQuery, [newEndTimestamp, parentId]);
+        await db.query(parentQuery, [newEndTimestamp, parentId]);
         return newEndTimestamp;
     }
 
@@ -38,7 +38,7 @@ export default class DBHandler {
                                  WHERE babysitter_id = $2`;
         
         const newEndTimestamp = new Date().getTime();
-        const babysitter = await db.query(babysitterQuery, [newEndTimestamp, babysitterId]);
+        await db.query(babysitterQuery, [newEndTimestamp, babysitterId]);
         return newEndTimestamp;
     }
 }
