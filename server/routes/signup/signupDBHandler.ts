@@ -21,13 +21,13 @@ export default class DBHandler {
         data.comments,
       ]);
     } catch (error) {
-      throw new Error(String(error));
+      throw error;
     }
   }
 
   async signUpBabysitter(data: BabysitterSignup) {
     const query = `INSERT INTO babysitters (babysitter_name, email, password, city, street, experience,age, phone_number,gender, comments)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`;
+                                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`;
 
     try {
       await db.query(query, [
@@ -43,29 +43,35 @@ export default class DBHandler {
         data.comments,
       ]);
     } catch (error) {
-      throw new Error(String(error));
+      throw error;
     }
   }
 
   async existingParent(email: string): Promise<number | null> {
-    const query = `SELECT parent_id FROM parents WHERE email = $1`;
+    const query = `SELECT parent_id 
+                    FROM parents 
+                    WHERE email = $1 AND
+                          end_timestamp = 9999999999`;
 
     try {
       const data = await db.query(query, [email]);
       return data.rows[0];
     } catch (error) {
-      throw new Error(String(error));
+      throw error;
     }
   }
 
   async existingBabysitter(email: string): Promise<number | null> {
-    const query = `SELECT babysitter_id FROM babysitters WHERE email = $1`;
+    const query = `SELECT babysitter_id 
+                    FROM babysitters 
+                    WHERE email = $1 AND
+                          end_timestamp = 9999999999`;
 
     try {
       const data = await db.query(query, [email]);
       return data.rows[0];
     } catch (error) {
-      throw new Error(String(error));
+      throw error;
     }
   }
 }
