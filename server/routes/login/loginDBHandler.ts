@@ -1,4 +1,5 @@
 import db from "../../utils/db/db";
+import { END_TIMESTAMP } from "../../utils/global/globals";
 import { UserLogin } from "./loginTypes";
 
 export default class DBHandler {
@@ -7,7 +8,8 @@ export default class DBHandler {
                                 parent_name, 
                                 password 
                         FROM parents 
-                        WHERE email = $1 AND end_timestamp = 9999999999
+                        WHERE email = $1 AND 
+                              end_timestamp = $2
                         LIMIT 1`;
 
     const babysitterQuery = `SELECT babysitter_id, 
@@ -15,7 +17,7 @@ export default class DBHandler {
                                     password 
                               FROM babysitters 
                               WHERE email = $1 AND
-                                    end_timestamp = 9999999999 
+                                    end_timestamp = $2
                               LIMIT 1`;
 
     const moderatorQuery = `SELECT moderator_id, 
@@ -25,13 +27,13 @@ export default class DBHandler {
                             WHERE email = $1
                             LIMIT 1;`;
 
-    const parent = await db.query(parentQuery, [email]);
+    const parent = await db.query(parentQuery, [email, END_TIMESTAMP]);
     if (parent.rowCount) {
       const { parent_id: id, parent_name: name, password } = parent.rows[0];
       return { id, name, password, role: "parents" };
     }
 
-    const babysitter = await db.query(babysitterQuery, [email]);
+    const babysitter = await db.query(babysitterQuery, [email, END_TIMESTAMP]);
     if (babysitter.rowCount) {
       const {
         babysitter_id: id,
