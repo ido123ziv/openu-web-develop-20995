@@ -1,14 +1,13 @@
 import db from "../../../utils/db/db";
 
-export default class DBHandler {
-    async getAllBabysitters() {
-        const query = 'SELECT * FROM babysitters';
+import { Babysitter } from "./parentsTypes";
 
-        try {
-            const data = await db.query(query);
-            return data.rows;
-        } catch (error) {
-            throw new Error(String(error));
-        }
+export default class DBHandler {
+    async getAllBabysitters(): Promise<Babysitter[]>{
+        const query = `SELECT * 
+                       FROM babysitters`;
+
+        const data = await db.query(query);
+        return data.rows;
     }
 }
