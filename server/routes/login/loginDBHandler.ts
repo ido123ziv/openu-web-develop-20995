@@ -7,19 +7,23 @@ export default class DBHandler {
                                 parent_name, 
                                 password 
                         FROM parents 
-                        WHERE email = $1 LIMIT 1`;
+                        WHERE email = $1 AND end_timestamp = 9999999999
+                        LIMIT 1`;
 
     const babysitterQuery = `SELECT babysitter_id, 
-                              babysitter_name, 
-                              password 
+                                    babysitter_name, 
+                                    password 
                               FROM babysitters 
-                              WHERE email = $1 LIMIT 1`;
+                              WHERE email = $1 AND
+                                    end_timestamp = 9999999999 
+                              LIMIT 1`;
 
     const moderatorQuery = `SELECT moderator_id, 
                             moderator_name, 
                             password 
                             FROM moderators 
-                            WHERE email = $1 LIMIT 1;`;
+                            WHERE email = $1
+                            LIMIT 1;`;
 
     const parent = await db.query(parentQuery, [email]);
     if (parent.rowCount) {
