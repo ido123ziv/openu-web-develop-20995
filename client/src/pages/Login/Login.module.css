@@ -1,10 +1,11 @@
 .formContainer {
   background-color: #d1eefd;
   position: relative !important;
+  top: 15vh;
   height: 40vh;
   min-height: 380px;
-  top: 15vh;
   width: 20vw !important;
+  min-width: 290px;
   display: flex;
   flex-direction: column;
   justify-content: stretch;

@@ -1,9 +1,14 @@
 .formContainer {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
+  position: relative;
+  top: 5vh;
+  background-color: #ececed;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #000;
+  border-radius: 0.375rem;
 }
 
 .centerButton {
-    text-align: center;
+  text-align: center;
 }
