@@ -1,0 +1,13 @@
+.termsContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.termsContainer p {
+  background-color: #ececed;
+  text-align: left;
+  padding: 1vh;
+  border-radius: 0.5rem;
+}

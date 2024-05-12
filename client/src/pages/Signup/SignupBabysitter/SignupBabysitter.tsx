@@ -6,14 +6,15 @@ import {
   FormField,
   FormGroup,
 } from "semantic-ui-react";
+import { FaBabyCarriage } from "react-icons/fa6";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { useMutation } from "react-query";
 
 import styles from "./SignupBabysitter.module.css";
 import BackgroundSVG from "../../../ui/BackgroundSVG/BackgroundSVG";
 import FieldValueError from "../../../ui/FieldValueError/FieldValueError";
 import { babysitterSignup } from "./babysitterSignupServices";
-import { useMutation } from "react-query";
 
 const options = [
   { key: "m", text: "Male", value: "male" },
@@ -70,7 +71,8 @@ const SignupBabySitter = () => {
       <BackgroundSVG />
 
       <div className={styles.formContainer}>
-        <h1 className={styles.h1}>Sign Up</h1>
+        <FaBabyCarriage size="5vh" className={styles.icon} />
+        <h1 className={styles.h1}>Babysitter Sign Up</h1>
         <Form
           size="large"
           onSubmit={handleSubmit(onSubmit)}
@@ -294,6 +296,10 @@ const SignupBabySitter = () => {
               )}
             </div>
           </FormGroup>
+
+          <Link to="/termsandconditions" className={styles.terms}>
+            Click here to see terms and conditions
+          </Link>
 
           <FormGroup>
             <FormButton

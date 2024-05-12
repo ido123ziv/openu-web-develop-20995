@@ -5,15 +5,16 @@ import {
   FormCheckbox,
   FormField,
 } from "semantic-ui-react";
+import { RiParentFill } from "react-icons/ri";
 import { useForm, FieldValues, Controller } from "react-hook-form";
 import { useMutation } from "react-query";
 import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 
 import styles from "./SignupParents.module.css";
 import BackgroundSVG from "../../../ui/BackgroundSVG/BackgroundSVG";
 import FieldValueError from "../../../ui/FieldValueError/FieldValueError";
 import { parentSignup } from "./parentSignupService";
-import { useNavigate } from "react-router-dom";
 
 const options = [
   { key: "m", text: "Male", value: "male" },
@@ -60,7 +61,8 @@ const SignupParents = () => {
       <BackgroundSVG />
 
       <div className={styles.formContainer}>
-        <h1 className={styles.h1}>Sign Up</h1>
+        <RiParentFill size="5vh" className={styles.icon} />
+        <h1 className={styles.h1}>Parent Sign Up</h1>
         <Form
           size="large"
           onSubmit={handleSubmit(onSubmit)}
@@ -298,6 +300,10 @@ const SignupParents = () => {
               )}
             </div>
           </FormGroup>
+
+          <Link to="/termsandconditions" className={styles.terms}>
+            Click here to see terms and conditions
+          </Link>
 
           <FormGroup>
             <FormButton
