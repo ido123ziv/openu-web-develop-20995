@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 
 import router from "./routes/indexRoutes";
 import parentsRouter from "./routes/api/parents/parentsRoutes";
+import moderatorRouter from "./routes/api/moderator/moderatorRoutes";
 import loginRouter from "./routes/login/loginRoutes";
 import headerSetup from "./middlewares/headerSetup";
 import securitySetup from "./middlewares/security";
@@ -33,6 +34,7 @@ app.use('/api', router);
 app.use("/api/parents", parentsRouter);
 app.use("/api/recommendations", recommendationsRouter);
 app.use("/api/delete", deleteRouter);
+app.use("/api/moderator", moderatorRouter);
 app.use("/", router);
 
 

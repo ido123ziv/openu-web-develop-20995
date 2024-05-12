@@ -7,3 +7,5 @@ npm-debug.log
 .coverage.*
 .env
 .aws
+.vscode
+.idea
