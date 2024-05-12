@@ -1,26 +1,62 @@
 .formContainer {
   position: relative !important;
   top: 5vh;
-  width: 100vw;
+  width: 50vw !important;
+  max-width: 750px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 0 auto;
+  background-color: #ececed;
+  border-radius: 0.5rem;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
 }
 
-.formContainer form {
-  width: 80vw;
+.form {
+  width: 90%;
 }
 
-.formContainer input {
+.formField {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+}
+
+.formField input {
+  margin-bottom: 2.5vh !important;
+}
+
+.error {
+  position: absolute;
+  bottom: 0;
+  padding-left: 1vh;
+}
+
+.dropDown {
   height: 5vh !important;
 }
 
-.required {
-  color: red;
+.checkBoxError {
+  position: absolute;
+  right: 0;
 }
 
-.submitContainer {
-  display: flex;
-  justify-content: center;
+.submitButton {
+  margin: 0 auto !important;
+}
+
+.submitButton button {
+  color: white !important;
+  /* background-color: rgb(77, 90, 234) !important; */
+  background-color: #2185d0 !important;
+}
+
+.formContainer button {
+  width: 10vw !important;
+  height: 4vh !important;
+  align-self: flex-end !important;
+  margin-top: 2.5vh !important;
 }

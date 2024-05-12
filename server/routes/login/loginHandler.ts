@@ -1,8 +1,9 @@
-import { NextFunction, Request, Response } from "express";
 import { compare } from "bcrypt";
 import * as EmailValidator from "email-validator";
+import { body } from "express-validator";
 
 import DBHandler from "./loginDBHandler";
+import { LoginData, UserDetails, Validation } from "./loginTypes";
 
 export default class Handler {
   private dbHandler: DBHandler;
@@ -11,39 +12,38 @@ export default class Handler {
     this.dbHandler = new DBHandler();
   }
 
-  getDBHandler() {
-    return this.dbHandler;
-  }
+  fieldValidation = () => {
+    return [
+      body("email").isEmail().notEmpty().withMessage("Email must be a string"),
+      body("password")
+        .isString()
+        .notEmpty()
+        .withMessage("Password must be a string"),
+    ];
+  };
 
-  loginValidation(req: Request, res: Response, next: NextFunction) {
-    const { email, password } = req.body;
-
-    if (!email || !password || !EmailValidator.validate(email)) {
-      res.status(401).json({ message: "Incorrect email or password" });
-    } else {
-      next();
+  loginValidation = (email: string): Validation => {
+    if (!EmailValidator.validate(email)) {
+      return { isValid: false, message: "Email isn't valid" };
     }
-  }
 
-  loginUser = async (req: Request, res: Response) => {
-    const { email, password } = req.body;
+    return { isValid: true };
+  };
 
-    try {
-      const data = await this.dbHandler.login(email);
+  loginUser = async (data: LoginData): Promise<UserDetails | undefined> => {
+    const { email, password } = data;
 
-      if (!data) {
-        return res.status(401).json({ message: "Incorrect email or password" });
-      }
+    const user = await this.dbHandler.login(email);
 
-      const matchingPassword = await compare(password, data.password);
-      if (!matchingPassword) {
-        return res.status(401).json({ message: "Incorrect email or password" });
-      }
-
-      res.status(200).json({ message: "Logged in successfully", data });
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: "Failed Login" });
+    if (!user) {
+      return;
     }
+
+    const matchingPassword = await compare(password, user.password);
+    if (!matchingPassword) {
+      return;
+    }
+
+    return { id: user.id, name: user.name, role: user.role };
   };
 }

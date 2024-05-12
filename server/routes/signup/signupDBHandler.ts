@@ -7,18 +7,41 @@ export default class DBHandler {
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`;
 
     try {
-      await db.query(query, Object.values({ ...data }));
+      await db.query(query, [
+        data.name,
+        data.email,
+        data.password,
+        data.city,
+        data.street,
+        data.phoneNumber,
+        data.gender,
+        data.minKidAge,
+        data.maxKidAge,
+        data.numOfKids,
+        data.comments,
+      ]);
     } catch (error) {
       throw new Error(String(error));
     }
   }
 
   async signUpBabysitter(data: BabysitterSignup) {
-    const query = `INSERT INTO babysitters (babysitter_name, email, password, city, street, experience,age, phone_number,gender,working_hours, comments)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`;
+    const query = `INSERT INTO babysitters (babysitter_name, email, password, city, street, experience,age, phone_number,gender, comments)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`;
 
     try {
-      await db.query(query, Object.values({ ...data }));
+      await db.query(query, [
+        data.name,
+        data.email,
+        data.password,
+        data.city,
+        data.street,
+        data.experience,
+        data.age,
+        data.phoneNumber,
+        data.gender,
+        data.comments,
+      ]);
     } catch (error) {
       throw new Error(String(error));
     }
