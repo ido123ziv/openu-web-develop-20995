@@ -1,10 +1,12 @@
 export interface CardsData {
-  data: {
-    image: string;
-    header: string;
-    meta: string;
-    description: string;
-  };
+  id: number;
+  name: string;
+  gender: string;
+  email: string;
+  phoneNumber?: string; //TODO: ADD TO THE REQUEST
+  role: string;
+  image?: string;
+  comment?: string;
 }
 
 export interface CardsProps {

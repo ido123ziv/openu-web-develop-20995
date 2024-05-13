@@ -1,6 +1,7 @@
 import {
   Button,
   Header,
+  Icon,
   Image,
   Modal,
   ModalActions,
@@ -10,7 +11,7 @@ import {
 } from "semantic-ui-react";
 import { ModalViewProps } from "./ModalViewInterface";
 
-const ModalView = ({ isOpen, setIsOpen, id }: ModalViewProps) => {
+const ModalView = ({ isOpen, setIsOpen, card }: ModalViewProps) => {
   return (
     <Modal
       closeIcon
@@ -22,24 +23,36 @@ const ModalView = ({ isOpen, setIsOpen, id }: ModalViewProps) => {
       <ModalContent image>
         <Image
           size="medium"
-          src="https://react.semantic-ui.com/images/avatar/large/rachel.png"
+          src={
+            card?.image || card?.role === "parent"
+              ? "/baby.svg"
+              : "/babysitter.svg"
+          }
           wrapped
         />
         <ModalDescription>
-          <Header>Default Profile Image</Header>
+          <Header>{card?.name}</Header>
           <p>
-            We've found the following gravatar image associated with your e-mail
-            address.
+            <Icon name="mail outline" />
+            {card?.email}
           </p>
-          <p>Is it okay to use this photo?</p>
+          <p>
+            <Icon name={card?.gender === "F" ? "female" : "male"} />
+            {card?.gender}
+          </p>
+          <p>
+            <Icon name="phone" />
+            {card?.phoneNumber}
+          </p>
+          <p>{card?.comment}</p>
         </ModalDescription>
       </ModalContent>
       <ModalActions>
         <Button color="black" onClick={() => setIsOpen(false)}>
-          Nope
+          Add a review
         </Button>
         <Button
-          content="Yep, that's me"
+          content="Worked with"
           labelPosition="right"
           icon="checkmark"
           onClick={() => setIsOpen(false)}
