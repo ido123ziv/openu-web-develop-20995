@@ -1,14 +1,16 @@
 import db from "../../../utils/db/db";
 
-export default class DBHandler {
-    async getAllBabysitters() {
-        const query = 'SELECT * FROM babysitters';
+import { Babysitter } from "./parentsTypes";
 
-        try {
-            const data = await db.query(query);
-            return data.rows;
-        } catch (error) {
-            throw new Error(String(error));
-        }
+const ACTIVE_END_TIMESTAMP = '9999999999';
+
+export default class DBHandler {
+    async getAllBabysitters(): Promise<Babysitter[]>{
+        const query = `SELECT * 
+                       FROM babysitters
+                       WHERE end_timestamp = $1`;
+
+        const data = await db.query(query, [ACTIVE_END_TIMESTAMP]);
+        return data.rows;
     }
 }
