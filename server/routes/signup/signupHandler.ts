@@ -110,6 +110,11 @@ export default class Handler {
       if (existingParent) {
         return { isValid: false, message: "Email is already in use" };
       }
+
+      const existingBabysitter = await this.dbHandler.existingBabysitter(email);
+      if (existingBabysitter) {
+        return { isValid: false, message: "Email is already in use" };
+      }
     } catch (error) {
       console.log(error);
     }
