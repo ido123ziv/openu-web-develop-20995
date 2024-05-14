@@ -7,8 +7,7 @@ export default class DBHandler {
     async getAllBabysitters(): Promise<Babysitter[]>{
         const query = `SELECT * 
                        FROM babysitters
-                       WHERE end_timestamp = $1
-                       ORDER BY end_timestamp DESC`;
+                       WHERE end_timestamp = $1`;
 
         const data = await db.query(query, [ACTIVE_END_TIMESTAMP]);
         return data.rows;
