@@ -1,14 +1,14 @@
 import db from "../../../utils/db/db";
 
 import { Babysitter } from "./parentsTypes";
-
 const ACTIVE_END_TIMESTAMP = '9999999999';
 
 export default class DBHandler {
     async getAllBabysitters(): Promise<Babysitter[]>{
         const query = `SELECT * 
                        FROM babysitters
-                       WHERE end_timestamp = $1`;
+                       WHERE end_timestamp = $1
+                       ORDER BY end_timestamp DESC`;
 
         const data = await db.query(query, [ACTIVE_END_TIMESTAMP]);
         return data.rows;
