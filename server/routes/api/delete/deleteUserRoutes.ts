@@ -2,13 +2,13 @@ import { Router, Request, Response } from "express";
 import { validationResult, param } from "express-validator";
 
 import Handler from "./deleteUserHandler";
+import { END_TIMESTAMP, 
+         BABYSITTER_INVALID_INPUT_ERROR, 
+         PARENT_INVALID_INPUT_ERROR } from "../../../utils/global/globals"
 
 const deleteRouter = Router();
 
 const handler = new Handler();
-const BABYSITTER_INVALID_INPUT_ERROR = "babysitterId must be provided and a number";
-const PARENT_INVALID_INPUT_ERROR = "parentId must be provided and a number";
-const ACTIVE_END_TIMESTAMP = '9999999999';
 
 deleteRouter.put("/parent/:parent", 
     [ 
@@ -26,7 +26,7 @@ deleteRouter.put("/parent/:parent",
             const data = await handler.getParent(Number(parentId));
             const userEndTimestamp = data[0]['end_timestamp']
 
-            if (userEndTimestamp != ACTIVE_END_TIMESTAMP) {
+            if (userEndTimestamp != String(END_TIMESTAMP)) {
                 return res
                 .status(400)
                 .json({ message: 'This user is not active' });
@@ -57,7 +57,7 @@ deleteRouter.put("/babysitter/:babysitter",
             const data = await handler.getBabysitter(Number(babysitterId));
             const userEndTimestamp = data[0]['end_timestamp']
 
-            if (userEndTimestamp != ACTIVE_END_TIMESTAMP) {
+            if (userEndTimestamp != String(END_TIMESTAMP)) {
                 return res
                 .status(400)
                 .json({ message: 'This user is not active' });
