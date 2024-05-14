@@ -32,8 +32,8 @@ deleteRouter.put("/parent/:parent",
                 .json({ message: 'This user is not active' });
             }
             
-            const newEndTimestamp = await handler.deleteParent(Number(parentId));
-            return res.status(200).json({ message: `User Deleted. end_timestamp updated to: ${newEndTimestamp}`});
+            await handler.deleteParent(Number(parentId));
+            return res.status(200).json({ message: `User Deleted.`});
         } catch (e) {
             console.log(`Error message: ${req.body.id}: ${(e as Error).message}\n${(e as Error).stack}`);
             return res.status(500).end();
@@ -63,8 +63,8 @@ deleteRouter.put("/babysitter/:babysitter",
                 .json({ message: 'This user is not active' });
             }
 
-            const newEndTimestamp = await handler.deleteBabysitter(Number(babysitterId));
-            return res.status(200).json({ message: `User Deleted. end_timestamp updated to: ${newEndTimestamp}`});
+            await handler.deleteBabysitter(Number(babysitterId));
+            return res.status(200).json({ message: `User Deleted.`});
         } catch (e) {
             console.log(`Error message: ${req.body.id}: ${(e as Error).message}\n${(e as Error).stack}`);
             return res.status(500).end();
