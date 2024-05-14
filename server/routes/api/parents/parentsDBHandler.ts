@@ -1,7 +1,6 @@
 import db from "../../../utils/db/db";
-
 import { Babysitter } from "./parentsTypes";
-const ACTIVE_END_TIMESTAMP = '9999999999';
+import { END_TIMESTAMP } from "../../../utils/global/globals"
 
 export default class DBHandler {
     async getAllBabysitters(): Promise<Babysitter[]>{
@@ -9,7 +8,7 @@ export default class DBHandler {
                        FROM babysitters
                        WHERE end_timestamp = $1`;
 
-        const data = await db.query(query, [ACTIVE_END_TIMESTAMP]);
+        const data = await db.query(query, [END_TIMESTAMP]);
         return data.rows;
     }
 }
