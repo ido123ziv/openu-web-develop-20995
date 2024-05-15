@@ -1,6 +1,6 @@
 .background {
   width: 100vw;
-  height: 100vh;
+  height: 125vh;
   background-image: url("/app-pattern-bg.svg");
   background-size: cover;
   overflow: hidden !important;

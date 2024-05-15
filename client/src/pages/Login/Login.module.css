@@ -42,15 +42,14 @@
   bottom: 0;
   left: 50%;
   transform: translate(-50%, -50%);
-
   background-color: rgb(68, 170, 249) !important;
   color: white !important;
 }
 
 .signupBtn {
-  background-color: #f4fafd;
-
+  font-size: 1.1rem;
+  line-height: 1.5rem;
+  color: rgb(34, 31, 120);
   padding: 1vh;
   margin-bottom: 2vh;
-  border-radius: 0.5rem;
 }
