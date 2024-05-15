@@ -3,6 +3,13 @@
   margin: 0 auto;
   padding: 20px;
   text-align: center;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  z-index: 1;
+  margin-top: 25px;
 }
 
 .icon {
@@ -30,7 +37,6 @@
   margin-bottom: 20px;
   text-align: left !important;
   padding-top: 1vh;
-  margin-bottom: 2vh;
   padding-left: 1vw;
   padding-right: 1vw;
   padding-bottom: 1vw;
