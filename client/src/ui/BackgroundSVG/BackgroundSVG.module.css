@@ -1,7 +1,8 @@
 .background {
   width: 100vw;
-  height: 125vh;
+  height: 100vh;
   background-image: url("/app-pattern-bg.svg");
+  background-repeat: repeat;
   background-size: cover;
   overflow: hidden !important;
   position: absolute;
