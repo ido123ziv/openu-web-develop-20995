@@ -1,0 +1,1 @@
+export const END_TIMESTAMP = 9999999999;
