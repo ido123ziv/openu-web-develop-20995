@@ -5,13 +5,15 @@ export type User = {
   gender: string;
   phoneNumber: string;
   comments: string;
+  imageString?: string;
   role: "babysitter" | "parent";
 
-  imageString?: string;
+  // Parent unique properties
   minKidAge?: number;
   maxKidAge?: number;
   numOfKids?: number;
 
+  // Babysitter unique properties
   age?: number;
   experience?: string;
 };
