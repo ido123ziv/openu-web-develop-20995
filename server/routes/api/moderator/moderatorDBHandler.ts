@@ -21,6 +21,8 @@ export default class DBHandler {
                                   babysitter_name AS name, 
                                   email, 
                                   gender, 
+                                  city,
+                                  street,
                                   age, 
                                   phone_number AS "phoneNumber",
                                   experience,
