@@ -1,10 +1,11 @@
 .formContainer {
-  /* background-color: #f3f5f6; */
   background-color: #d1eefd;
   position: relative !important;
-  height: 40vh;
   top: 15vh;
+  height: 40vh;
+  min-height: 380px;
   width: 20vw !important;
+  min-width: 290px;
   display: flex;
   flex-direction: column;
   justify-content: stretch;
@@ -32,7 +33,7 @@
 .errorsContainer {
   width: 20vw !important;
   padding-top: 0vh !important;
-  margin-top: 0 !important;
+  margin-top: -10px !important;
   margin-left: 1vw;
 }
 
@@ -41,6 +42,14 @@
   bottom: 0;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: rgb(94, 181, 248) !important;
+  background-color: rgb(68, 170, 249) !important;
   color: white !important;
+}
+
+.signupBtn {
+  font-size: 1.1rem;
+  line-height: 1.5rem;
+  color: rgb(34, 31, 120);
+  padding: 1vh;
+  margin-bottom: 2vh;
 }

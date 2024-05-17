@@ -18,6 +18,10 @@
   width: 90%;
 }
 
+.icon {
+  margin-bottom: -2vh;
+}
+
 .formField {
   position: relative;
   display: flex;
@@ -44,13 +48,17 @@
   right: 0;
 }
 
+.terms {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
 .submitButton {
   margin: 0 auto !important;
 }
 
 .submitButton button {
   color: white !important;
-  /* background-color: rgb(77, 90, 234) !important; */
   background-color: #2185d0 !important;
 }
 
