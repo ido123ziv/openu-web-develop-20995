@@ -41,9 +41,9 @@ jobs:
           echo "# Test Results! 🚀" >> $GITHUB_STEP_SUMMARY
           node api-test.js || passed="false"
           if [[ -n "$passed" ]]; then
-            echo "API test failed! ❌" >> $GITHUB_STEP_SUMMARY
+            echo "__API test failed!__ ❌" >> $GITHUB_STEP_SUMMARY
           else
-            echo "API test passed! ✅" >> $GITHUB_STEP_SUMMARY
+            echo "__API test passed!__ ✅" >> $GITHUB_STEP_SUMMARY
           fi
           cat output.txt >> $GITHUB_STEP_SUMMARY || echo "no output.txt"          
           rm output.txt || echo "no output"
@@ -55,9 +55,9 @@ jobs:
           passed=""
           node browser-test.js || passed="false"
           if [[ -n "$passed" ]]; then
-            echo "Browser test failed! ❌" >> $GITHUB_STEP_SUMMARY
+            echo "__Browser test failed!__ ❌" >> $GITHUB_STEP_SUMMARY
           else
-            echo "Browser test passed! ✅" >> $GITHUB_STEP_SUMMARY
+            echo "__Browser test passed!__ ✅" >> $GITHUB_STEP_SUMMARY
           fi
           cat output.txt >> $GITHUB_STEP_SUMMARY || echo "no output.txt"
           rm output.txt || echo "no output"
@@ -69,9 +69,9 @@ jobs:
           passed=""
           node login-test.js || passed="false"
           if [[ -n "$passed" ]]; then
-            echo "Parent signup & Login test failed! ❌" >> $GITHUB_STEP_SUMMARY
+            echo "__Parent signup & Login test failed!__ ❌" >> $GITHUB_STEP_SUMMARY
           else
-            echo "Parent signup & Login test passed! ✅" >> $GITHUB_STEP_SUMMARY
+            echo "__Parent signup & Login test passed!__ ✅" >> $GITHUB_STEP_SUMMARY
           fi
           cat output.txt >> $GITHUB_STEP_SUMMARY || echo "no output.txt"
           rm output.txt || echo "no output"

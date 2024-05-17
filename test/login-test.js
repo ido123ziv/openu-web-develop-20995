@@ -10,7 +10,8 @@ const oldestChild="8";
 const kidsNumber="6";
 const comments="testing this test and making it amazing test, test test test test!!!!"
 async function signUpToPage(url, email, password) {
-    const browser = await puppeteer.launch({ headless: false }); // headless: false to see the browser in action
+    // const browser = await puppeteer.launch({ headless: false }); // headless: false to see the browser in action
+    const browser = await puppeteer.launch(); // headless: false to see the browser in action
     const page = await browser.newPage();
   
     try {
@@ -67,7 +68,8 @@ async function signUpToPage(url, email, password) {
 
 
 async function loginToPage(url, email, password) {
-  const browser = await puppeteer.launch({ headless: false }); // headless: false to see the browser in action
+  // const browser = await puppeteer.launch({ headless: false }); // headless: false to see the browser in action
+  const browser = await puppeteer.launch(); // headless: false to see the browser in action
   const page = await browser.newPage();
 
   try {
