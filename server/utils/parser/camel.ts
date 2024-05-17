@@ -1,4 +1,4 @@
-type AnyObject = { [key: string]: any };
+type AnyObject = { [key: string]: unknown };
 
 function toCamelCase(snakeCaseStr: string): string {
     return snakeCaseStr.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
@@ -7,7 +7,7 @@ function toCamelCase(snakeCaseStr: string): string {
 function convertKeysToCamelCase<T>(obj: AnyObject): T {
     const newObj: AnyObject = {};
     for (const key in obj) {
-        if (obj.hasOwnProperty(key)) {
+        if({}.propertyIsEnumerable.call(obj, key)) {
             const newKey = toCamelCase(key);
             newObj[newKey] = obj[key];
         }
