@@ -5,16 +5,15 @@ import { ParentProfile,BabysitterProfile } from "./profileTypes";
 
 export default class DBHandler {
     async getBabySitterProfile(babysitterId: number): Promise<BabysitterProfile[]> {
-        const babysitterQuery = `SELECT name,
+        const babysitterQuery = `SELECT babysitter_name AS "name",
                                  email,
-                                 password,
                                  city,
                                  street,
                                  gender,
                                  experience,
                                  age,
                                  phone_number AS "phoneNumber",
-                                 comments,
+                                 comments
                                  FROM babysitters
                                  WHERE babysitter_id = ($1)
                                  AND end_timestamp = ($2)`;
@@ -23,9 +22,8 @@ export default class DBHandler {
     }
 
     async getParentProfile(parentId: number): Promise<ParentProfile[]> {
-        const parentQuery = `SELECT name,
+        const parentQuery = `SELECT parent_name AS "name",
                              email,
-                             password,
                              city,
                              street,
                              gender,
@@ -33,7 +31,7 @@ export default class DBHandler {
                              min_kid_age AS "minKidAge",
                              max_kid_age AS "maxKidAge",
                              num_of_kids AS "numOfKids",
-                             comments, 
+                             comments
                              FROM parents 
                              WHERE parent_id = ($1)
                              AND end_timestamp = ($2)`;
