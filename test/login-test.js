@@ -129,14 +129,14 @@ async function test(){
         }
     });
     // Example usage:
-    // await loginToPage('http://localhost:5172/login', `${time}+test@test.com`, '1234')
-    // .then(success => {
-    //     if (success) {
-    //         console.log('Login successful!');
-    //     } else {
-    //         console.log('Login failed.');
-    //     }
-    // });
+    await loginToPage('http://localhost:5172/login', `${time}+test@test.com`, '1234')
+    .then(success => {
+        if (success) {
+            console.log('Login successful!');
+        } else {
+            console.log('Login failed.');
+        }
+    });
     return true;
 
 }
