@@ -9,7 +9,7 @@ const youngestChild="1";
 const oldestChild="8";
 const kidsNumber="6";
 const comments="testing this test and making it amazing test, test test test test!!!!"
-async function signUpToPage(url, email, password, optionText) {
+async function signUpToPage(url, email, password) {
     const browser = await puppeteer.launch({ headless: false }); // headless: false to see the browser in action
     const page = await browser.newPage();
   
@@ -39,14 +39,9 @@ async function signUpToPage(url, email, password, optionText) {
       await page.waitForSelector('.ui.selection.dropdown');
       await page.screenshot({ path: 'selection.png' });
 
-    //   // Click on the dropdown to open it
+     // Click on the dropdown to open it
       await page.click('.ui.selection.dropdown');
   
-    //   // Wait for the dropdown menu options to appear
-    //   await page.waitForSelector('.menu.transition');
-  
-      // Click on the option with the given text
-      // await page.click(`.menu.transition .item:has(span.text:contains("Male"))`);
       await page.screenshot({ path: 'dropdown.png' });
       await page.waitForSelector('.ui.checkbox');
       // // Click on the checkbox
@@ -119,7 +114,7 @@ async function loginToPage(url, email, password) {
 }
 
 async function test(){
-    await signUpToPage('http://localhost:5172/signup/parents', `${time}+test@test.com`, '1234', "Male")
+    await signUpToPage('http://localhost:5172/signup/parents', `${time}+test@test.com`, '1234')
     .then(success => {
         if (success) {
             console.log('signup successful!');
