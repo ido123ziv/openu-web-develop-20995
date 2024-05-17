@@ -12,6 +12,7 @@ import {
 import { ModalViewProps } from "./ModalViewInterface";
 
 const ModalView = ({ isOpen, setIsOpen, card }: ModalViewProps) => {
+  console.log(card);
   return (
     <Modal
       closeIcon
@@ -24,7 +25,7 @@ const ModalView = ({ isOpen, setIsOpen, card }: ModalViewProps) => {
         <Image
           size="medium"
           src={
-            card?.image || card?.role === "parent"
+            card?.imageString || card?.role === "parent"
               ? "/baby.svg"
               : "/babysitter.svg"
           }
@@ -36,15 +37,35 @@ const ModalView = ({ isOpen, setIsOpen, card }: ModalViewProps) => {
             <Icon name="mail outline" />
             {card?.email}
           </p>
-          <p>
-            <Icon name={card?.gender === "F" ? "female" : "male"} />
-            {card?.gender}
-          </p>
+
           <p>
             <Icon name="phone" />
             {card?.phoneNumber}
           </p>
-          <p>{card?.comment}</p>
+
+          <p>
+            <Icon name={card?.gender === "F" ? "female" : "male"} />
+            {card?.gender === "F" ? "Female" : "Male"}
+          </p>
+
+          <p>
+            <Icon name="phone" />
+            {card?.phoneNumber}
+          </p>
+
+          <p>Age: {card?.age}</p>
+
+          {card?.minKidAge && (
+            <>
+              <p>Youngest Child Age: {card.minKidAge}</p>
+
+              <p>Eldest Child Age: {card.maxKidAge}</p>
+
+              <p>Total Number of Kids: {card.numOfKids}</p>
+            </>
+          )}
+
+          <p>{card?.comments}</p>
         </ModalDescription>
       </ModalContent>
       <ModalActions>

@@ -1,14 +1,23 @@
 export interface CardsData {
   id: number;
   name: string;
-  gender: string;
   email: string;
-  phoneNumber?: string; //TODO: ADD TO THE REQUEST
-  role: string;
-  image?: string;
-  comment?: string;
+  gender: string;
+  phoneNumber: string;
+  comments: string;
+  imageString?: string;
+  role: "babysitter" | "parent";
+
+  // Parent unique properties
+  minKidAge?: number;
+  maxKidAge?: number;
+  numOfKids?: number;
+
+  // Babysitter unique properties
+  age?: number;
+  experience?: string;
 }
 
-export interface CardsProps {
-  data: CardsData[];
+export interface CardsDataArr {
+  data: CardsData[] | undefined;
 }

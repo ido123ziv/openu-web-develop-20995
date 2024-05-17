@@ -3,9 +3,9 @@ import { Card } from "semantic-ui-react";
 import styles from "./CardsView.module.css";
 import { useState } from "react";
 import ModalView from "../ModalView/ModalView";
-import { CardsData, CardsProps } from "./CardViewProps";
+import { CardsData, CardsDataArr } from "./CardViewProps";
 
-const CardsView = ({ data }: CardsProps) => {
+const CardsView = ({ data }: CardsDataArr) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [card, setCard] = useState<CardsData | undefined>(undefined);
 
@@ -14,22 +14,21 @@ const CardsView = ({ data }: CardsProps) => {
     setIsOpen(() => !isOpen);
   };
 
-  console.log(card);
   return (
     <>
       <div className={styles.cardContainer}>
-        {data?.map((element) => (
+        {data?.map((element: CardsData) => (
           <Card
             key={element.email}
             className={styles.card}
             image={
-              element.image || element.role === "parent"
+              element.imageString || element.role === "parent"
                 ? "/baby.svg"
                 : "/babysitter.svg"
             }
             header={element.name}
             meta={element.role}
-            description={element.comment}
+            description={element.comments}
             onClick={(_e) => handleClick(element)}
           />
         ))}

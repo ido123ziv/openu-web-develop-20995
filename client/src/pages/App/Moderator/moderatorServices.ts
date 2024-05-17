@@ -1,5 +1,7 @@
 import axios from "axios";
 
-export const getAllUsers = async () => {
+import { CardsData } from "../../../ui/CardsView/CardViewProps";
+
+export const getAllUsers = async (): Promise<CardsData[]> => {
   return (await axios.get("http://localhost:3000/api/moderator/allUsers")).data;
 };
