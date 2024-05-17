@@ -40,7 +40,7 @@ export default class DBHandler {
   }
 
   async existingParent(email: string): Promise<number | null> {
-    const query = `SELECT parent_id 
+    const query = `SELECT parent_id AS id
                     FROM parents 
                     WHERE email = $1 AND
                           end_timestamp = 9999999999`;
@@ -50,7 +50,7 @@ export default class DBHandler {
   }
 
   async existingBabysitter(email: string): Promise<number | null> {
-    const query = `SELECT babysitter_id 
+    const query = `SELECT babysitter_id AS id
                     FROM babysitters 
                     WHERE email = $1 AND
                           end_timestamp = 9999999999`;
