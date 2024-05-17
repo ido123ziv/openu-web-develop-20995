@@ -1,9 +1,10 @@
 const puppeteer = require('puppeteer');
 
-const name = "testing user";
+const time = new Date().getTime()
+const name = `testuser${time}`
 const city = "Holon";
 const street = "main";
-const phoneNumber = "+972501234567";
+const phoneNumber = `+${time}`;
 const youngestChild="1";
 const oldestChild="8";
 const kidsNumber="6";
@@ -35,10 +36,11 @@ async function signUpToPage(url, email, password, optionText) {
       await page.screenshot({ path: 'pre-comment.png' });
       await page.type('textarea[name="comments"]', comments);
       await page.screenshot({ path: 'details.png' });
-    //   await page.waitForSelector('.ui.selection.dropdown');
+      await page.waitForSelector('.ui.selection.dropdown');
+      await page.screenshot({ path: 'selection.png' });
 
     //   // Click on the dropdown to open it
-    //   await page.click('.ui.selection.dropdown');
+      await page.click('.ui.selection.dropdown');
   
     //   // Wait for the dropdown menu options to appear
     //   await page.waitForSelector('.menu.transition');
@@ -117,7 +119,7 @@ async function loginToPage(url, email, password) {
 }
 
 async function test(){
-    await signUpToPage('http://localhost:5172/signup/parents', 'test@test.com', '1234', "Male")
+    await signUpToPage('http://localhost:5172/signup/parents', `${time}+test@test.com`, '1234', "Male")
     .then(success => {
         if (success) {
             console.log('signup successful!');
@@ -127,7 +129,7 @@ async function test(){
         }
     });
     // Example usage:
-    // await loginToPage('http://localhost:5172/login', 'test@test.com', '1234')
+    // await loginToPage('http://localhost:5172/login', `${time}+test@test.com`, '1234')
     // .then(success => {
     //     if (success) {
     //         console.log('Login successful!');
@@ -135,6 +137,8 @@ async function test(){
     //         console.log('Login failed.');
     //     }
     // });
+    return true;
+
 }
 
 test().then(success => {
