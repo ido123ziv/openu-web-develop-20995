@@ -44,10 +44,10 @@ async function signUpToPage(url, email, password, optionText) {
     //   await page.waitForSelector('.menu.transition');
   
       // Click on the option with the given text
-    //   await page.click(`.menu.transition .item:has(span.text:contains("${optionText}"))`);
-      await page.waitForSelector('.ui.checkbox');
+      // await page.click(`.menu.transition .item:has(span.text:contains("Male"))`);
       await page.screenshot({ path: 'dropdown.png' });
-      // Click on the checkbox
+      await page.waitForSelector('.ui.checkbox');
+      // // Click on the checkbox
       await page.click('.ui.checkbox input[type="checkbox"]');
       await page.screenshot({ path: 'checkbox.png' });
       // Click the signup button
@@ -127,14 +127,14 @@ async function test(){
         }
     });
     // Example usage:
-    await loginToPage('http://localhost:5172/login', 'test@test.com', '1234')
-    .then(success => {
-        if (success) {
-            console.log('Login successful!');
-        } else {
-            console.log('Login failed.');
-        }
-    });
+    // await loginToPage('http://localhost:5172/login', 'test@test.com', '1234')
+    // .then(success => {
+    //     if (success) {
+    //         console.log('Login successful!');
+    //     } else {
+    //         console.log('Login failed.');
+    //     }
+    // });
 }
 
 test().then(success => {
