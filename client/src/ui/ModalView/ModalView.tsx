@@ -9,10 +9,16 @@ import {
   ModalDescription,
   ModalHeader,
 } from "semantic-ui-react";
+import { LiaBirthdayCakeSolid, LiaCommentsSolid } from "react-icons/lia";
+import { FaChild } from "react-icons/fa";
+import { MdOutlineChildCare } from "react-icons/md";
+import { FaChildren } from "react-icons/fa6";
+import { GiRank1, GiRank2, GiRank3 } from "react-icons/gi";
+
+import styles from "./ModalView.module.css";
 import { ModalViewProps } from "./ModalViewInterface";
 
 const ModalView = ({ isOpen, setIsOpen, card }: ModalViewProps) => {
-  console.log(card);
   return (
     <Modal
       closeIcon
@@ -30,42 +36,88 @@ const ModalView = ({ isOpen, setIsOpen, card }: ModalViewProps) => {
               : "/babysitter.svg"
           }
           wrapped
+          className={styles.image}
         />
         <ModalDescription>
           <Header>{card?.name}</Header>
-          <p>
-            <Icon name="mail outline" />
-            {card?.email}
-          </p>
 
-          <p>
-            <Icon name="phone" />
-            {card?.phoneNumber}
-          </p>
+          <div className={styles.content}>
+            <div className={styles.infoContainer}>
+              <div className={styles.infoColumn}>
+                <p>
+                  <Icon
+                    name={card?.gender === "F" ? "female" : "male"}
+                    className={styles.icon}
+                  />
+                  {card?.gender === "F" ? "Female" : "Male"}
+                </p>
 
-          <p>
-            <Icon name={card?.gender === "F" ? "female" : "male"} />
-            {card?.gender === "F" ? "Female" : "Male"}
-          </p>
+                <p>
+                  <Icon name="mail outline" className={styles.icon} />
+                  {card?.email}
+                </p>
 
-          <p>
-            <Icon name="phone" />
-            {card?.phoneNumber}
-          </p>
+                <p>
+                  <Icon name="phone" className={styles.icon} />
+                  {card?.phoneNumber}
+                </p>
+              </div>
 
-          <p>Age: {card?.age}</p>
+              <div className={styles.infoColumn}>
+                {card?.role === "parent" ? (
+                  <>
+                    <p>
+                      <MdOutlineChildCare className={styles.icon} />
+                      Youngest Child Age: {card.minKidAge}
+                    </p>
 
-          {card?.minKidAge && (
-            <>
-              <p>Youngest Child Age: {card.minKidAge}</p>
+                    <p>
+                      <FaChild className={styles.icon} />
+                      Eldest Child Age: {card.maxKidAge}
+                    </p>
 
-              <p>Eldest Child Age: {card.maxKidAge}</p>
+                    <p>
+                      <FaChildren className={styles.icon} />
+                      Total Number of Kids: {card.numOfKids}
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <p>
+                      <LiaBirthdayCakeSolid className={styles.icon} />
+                      Age: {card?.age}
+                    </p>
 
-              <p>Total Number of Kids: {card.numOfKids}</p>
-            </>
-          )}
+                    {card?.experience === "no_experience" && (
+                      <p>
+                        <GiRank1 className={styles.icon} />
+                        Experience: No Experience
+                      </p>
+                    )}
 
-          <p>{card?.comments}</p>
+                    {card?.experience === "mid" && (
+                      <p>
+                        <GiRank2 className={styles.icon} />
+                        Experience: 1-3 Years
+                      </p>
+                    )}
+
+                    {card?.experience === "high" && (
+                      <p>
+                        <GiRank3 className={styles.icon} />
+                        Experience: 3+ years
+                      </p>
+                    )}
+                  </>
+                )}
+              </div>
+            </div>
+
+            <p>
+              <LiaCommentsSolid className={styles.icon} />
+              {card?.comments}
+            </p>
+          </div>
         </ModalDescription>
       </ModalContent>
       <ModalActions>
