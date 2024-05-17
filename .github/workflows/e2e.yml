@@ -62,12 +62,27 @@ jobs:
           cat output.txt >> $GITHUB_STEP_SUMMARY || echo "no output.txt"
           rm output.txt || echo "no output"
           echo "passed=$passed" >> $GITHUB_OUTPUT
+      - name: parent e2e
+        id: parent_signup_login
+        working-directory: ./test
+        run: |
+          passed=""
+          node login-test.js || passed="false"
+          if [[ -n "$passed" ]]; then
+            echo "Parent signup & Login test failed! ❌" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "Parent signup & Login test passed! ✅" >> $GITHUB_STEP_SUMMARY
+          fi
+          cat output.txt >> $GITHUB_STEP_SUMMARY || echo "no output.txt"
+          rm output.txt || echo "no output"
+          echo "passed=$passed" >> $GITHUB_OUTPUT
       - name: consolidate
         run: |
           docker compose down
           api=${{ steps.api_test.outputs.passed }}
           ui=${{ steps.ui_test.outputs.passed }}
-          if [[ -n "$api" ]] || [[ -n "$ui" ]]; then
+          login=${{ steps.parent_signup_login.outputs.passed }}
+          if [[ -n "$api" ]] || [[ -n "$ui" ]] || [[ -n "$parent_signup_login" ]]; then
             echo "not all test passed, failing the workflow"
             exit 1
           else
