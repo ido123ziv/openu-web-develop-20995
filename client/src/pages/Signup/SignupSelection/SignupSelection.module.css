@@ -1,10 +1,38 @@
-.segmentParent {
-  background-image: url("/babysitter.svg") !important;
+.container {
+  position: relative;
+  z-index: 1;
+  width: 90%;
+  max-width: 800px; /* Increased max-width for better readability */
+  margin: auto;
+  margin-top: 25px;
+}
+
+.borderedSegment {
+  border: 2px solid #ccc; /* Border for the entire content */
+  padding: 2em;
+  border-radius: 10px;
+  background-color: #fff; /* Optional background color inside the border */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.headerText {
+  color: #333; /* Adjust this color as needed */
+  margin-bottom: 1em;
+}
+
+.explanationText {
+  color: #666; /* Adjust this color as needed */
+  font-size: 1.2em;
+  text-align: center;
+  line-height: 1.5;
+  margin-bottom: 2em;
+}
+
+.segmentParent, .segmentBabySitter {
   background-repeat: no-repeat !important;
   background-size: contain !important;
   background-position: center !important;
   background-color: rgb(240, 239, 248) !important;
-  margin-top: 5vh !important;
   height: 50vh;
   font-size: 1.5em;
   display: flex;
@@ -13,17 +41,13 @@
   font-size: 5rem !important;
   line-height: 1 !important;
   color: rgb(174, 168, 194);
+  margin: 10px; /* Add margin for better spacing */
+}
+
+.segmentParent {
+  background-image: url("/babysitter.svg") !important;
 }
 
 .segmentBabySitter {
   background-image: url("/baby.svg") !important;
-  background-color: rgb(240, 239, 248) !important;
-  margin-top: 5vh !important;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 50vh;
-  font-size: 5rem !important;
-  line-height: 1 !important;
-  color: rgb(174, 168, 194);
 }
