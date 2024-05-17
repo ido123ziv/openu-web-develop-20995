@@ -4,6 +4,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { useSetRecoilState } from "recoil";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 import styles from "./Login.module.css";
 import { userLogin } from "./loginService";
@@ -95,6 +96,7 @@ const Login = () => {
           </ul>
 
           <FormButton
+            size="large"
             type="submit"
             disabled={isSubmitting}
             className={styles.submitBtn}
@@ -102,6 +104,9 @@ const Login = () => {
             Submit
           </FormButton>
         </Form>
+        <Link to="/signup" className={styles.signupBtn}>
+          Sign up now
+        </Link>
       </div>
     </>
   );
