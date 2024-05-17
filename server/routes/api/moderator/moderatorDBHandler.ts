@@ -8,10 +8,10 @@ export default class DBHandler {
                                 parent_name AS name, 
                                 email, 
                                 gender, 
-                                phone_number AS phoneNumber, 
-                                min_kid_age AS minKidAge,
-                                max_kid_age AS maxKidAge, 
-                                num_of_kids AS numOfKids, 
+                                phone_number AS "phoneNumber", 
+                                min_kid_age AS "minKidAge",
+                                max_kid_age AS "maxKidAge", 
+                                num_of_kids AS "numOfKids", 
                                 comments, 
                                 'parent' AS role
                         FROM parents
@@ -22,9 +22,9 @@ export default class DBHandler {
                                   email, 
                                   gender, 
                                   age, 
-                                  phone_number AS phoneNumber,
+                                  phone_number AS "phoneNumber",
                                   experience,
-                                  image_string AS imageString,
+                                  image_string AS "imageString",
                                   comments,
                                   'babysitter' AS role
                           FROM babysitters
