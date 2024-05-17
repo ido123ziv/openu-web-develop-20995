@@ -1,16 +1,25 @@
 import db from "../../../utils/db/db";
+import { END_TIMESTAMP } from "../../../utils/global/globals";
 
 import { Babysitter } from "./parentsTypes";
 
-const ACTIVE_END_TIMESTAMP = '9999999999';
-
 export default class DBHandler {
-    async getAllBabysitters(): Promise<Babysitter[]>{
-        const query = `SELECT * 
+  async getAllBabysitters(): Promise<Babysitter[]> {
+    const query = `SELECT babysitter_id AS id,
+                              babysitter_name AS name,
+                              email,
+                              city,
+                              street,
+                              experience,
+                              age,
+                              phone_number AS "phoneNumber",
+                              gender,
+                              image_string AS "imageString",
+                              comments
                        FROM babysitters
                        WHERE end_timestamp = $1`;
 
-        const data = await db.query(query, [ACTIVE_END_TIMESTAMP]);
-        return data.rows;
-    }
+    const data = await db.query(query, [END_TIMESTAMP]);
+    return data.rows;
+  }
 }
