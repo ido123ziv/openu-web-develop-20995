@@ -1,0 +1,11 @@
+.termsContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 5px;
+  text-align: center;
+}
+
+.termsContainer p {
+  margin: 10px auto;
+  overflow: auto;
+}
