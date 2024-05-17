@@ -16,6 +16,8 @@ export interface CardsData {
   // Babysitter unique properties
   age?: number;
   experience?: string;
+  city?: string;
+  street?: string;
 }
 
 export interface CardsDataArr {

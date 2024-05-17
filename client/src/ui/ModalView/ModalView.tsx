@@ -10,7 +10,7 @@ import {
   ModalHeader,
 } from "semantic-ui-react";
 import { LiaBirthdayCakeSolid, LiaCommentsSolid } from "react-icons/lia";
-import { FaChild } from "react-icons/fa";
+import { FaChild, FaMapMarkerAlt } from "react-icons/fa";
 import { MdOutlineChildCare } from "react-icons/md";
 import { FaChildren } from "react-icons/fa6";
 import { GiRank1, GiRank2, GiRank3 } from "react-icons/gi";
@@ -86,6 +86,11 @@ const ModalView = ({ isOpen, setIsOpen, card }: ModalViewProps) => {
                     <p>
                       <LiaBirthdayCakeSolid className={styles.icon} />
                       Age: {card?.age}
+                    </p>
+
+                    <p>
+                      <FaMapMarkerAlt className={styles.icon} />
+                      {card?.street}, {card?.city}
                     </p>
 
                     {card?.experience === "no_experience" && (
