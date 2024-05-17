@@ -1,5 +1,6 @@
 import db from "../../../utils/db/db";
 import { END_TIMESTAMP } from "../../../utils/global/globals";
+import convertArrayKeysToCamelCase from "../../../utils/parser/camel";
 import { User } from "./moderatorTypes";
 
 export default class DBHandler {
@@ -14,6 +15,6 @@ export default class DBHandler {
                         `;
 
     const allUsers = await db.query(usersQuery, [END_TIMESTAMP]);
-    return allUsers.rows;
+    return convertArrayKeysToCamelCase<User>(allUsers.rows);
   }
 }

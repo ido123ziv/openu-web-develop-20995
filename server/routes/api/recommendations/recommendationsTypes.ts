@@ -1,7 +1,7 @@
 export type Recommendation = {
-    parent_id: number;
-    babysitter_id: number;
+    parentId: number;
+    babysitterId: number;
     rating: number;
-    recommendation_text: string;
+    recommendationText: string;
   };
   

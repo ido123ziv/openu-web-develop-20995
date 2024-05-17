@@ -1,4 +1,5 @@
 import db from "../../../utils/db/db";
+import convertArrayKeysToCamelCase from "../../../utils/parser/camel";
 
 import { Babysitter } from "./parentsTypes";
 
@@ -11,6 +12,6 @@ export default class DBHandler {
                        WHERE end_timestamp = $1`;
 
         const data = await db.query(query, [ACTIVE_END_TIMESTAMP]);
-        return data.rows;
+        return convertArrayKeysToCamelCase<Babysitter>(data.rows);
     }
 }

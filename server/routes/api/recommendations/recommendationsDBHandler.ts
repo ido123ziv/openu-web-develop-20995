@@ -1,5 +1,6 @@
 import db from "../../../utils/db/db";
 import { Recommendation } from "./recommendationsTypes";
+import convertArrayKeysToCamelCase from "../../../utils/parser/camel";
 
 export default class DBHandler {
     async getRecommendationPreview(): Promise<Recommendation[]> {
@@ -8,7 +9,7 @@ export default class DBHandler {
                               LIMIT 10;`
 
         const recommendations = await db.query(previewQuery);
-        return recommendations.rows;
+        return convertArrayKeysToCamelCase<Recommendation>(recommendations.rows);
     }
 
     async getBabySitterRecommendation(babysitterId: number): Promise<Recommendation[]> {
@@ -16,7 +17,7 @@ export default class DBHandler {
                                  FROM recommendations
                                  WHERE babysitter_id = ($1)`;
         const recommendations = await db.query(babysitterQuery, [babysitterId]);
-        return recommendations.rows;
+        return convertArrayKeysToCamelCase<Recommendation>(recommendations.rows);
     }
 
     async getParentRecommendation(parentId: number): Promise<Recommendation[]> {
@@ -25,7 +26,7 @@ export default class DBHandler {
                              WHERE parent_id = ($1)`;
 
         const recommendations = await db.query(parentQuery, [parentId]);
-        return recommendations.rows;
+        return convertArrayKeysToCamelCase<Recommendation>(recommendations.rows);
     }
 
     async getParentBabysitterRecommendation(parentId: number, babysitterId: number): Promise<Recommendation[]> {
@@ -35,6 +36,6 @@ export default class DBHandler {
                                              AND parent_id = ($2)`;
 
         const recommendations = await db.query(parentBabysitterQuery, [babysitterId, parentId]);
-        return recommendations.rows;
+        return convertArrayKeysToCamelCase<Recommendation>(recommendations.rows);
     }
 }
