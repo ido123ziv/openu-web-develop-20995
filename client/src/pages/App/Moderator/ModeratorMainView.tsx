@@ -26,7 +26,7 @@ const ModeratorMainView = () => {
         <p>Here you can see the accounts waiting on action</p>
       </div>
       <h1 className={styles.h1}>Hello, {user?.name}</h1>
-      {!data ? <p>NODATA</p> : <CardsView data={data} />}
+      {!data ? <p>NO DATA</p> : <CardsView data={data} />}
     </>
   );
 };
