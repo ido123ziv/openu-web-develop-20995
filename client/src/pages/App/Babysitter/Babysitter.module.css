@@ -3,6 +3,13 @@
   flex-direction: column;
   justify-content: center !important;
   align-items: center;
+  width: fit-content;
+  height: fit-content;
+  background-color: white;
+  border: 1px solid #000;
+  border-radius: 0.375rem;
+  margin: 0 auto;
+  margin-top: 0.5vh;
 }
 
 .iconContainer .icon {
@@ -12,16 +19,20 @@
 .iconContainer p {
   font-size: 1.125rem;
   line-height: 1.75rem;
+  padding-top: 0.5vh;
+  padding-right: 0.5vw;
+  padding-left: 0.5vw;
+  padding-bottom: 0.5vh;
 }
 
 .container {
   display: flex !important;
   flex-direction: column !important;
-  margin-top: 5vh;
-  margin-left: 5vw;
-  margin-right: 5vw;
+  margin-top: 2vh;
+  margin-left: 1vw;
+  margin-right: 1vw;
   margin-bottom: 5vh;
-  padding-top: 5vh;
+  padding-top: 2vh;
   padding-bottom: 5vh;
   background-color: rgb(233, 233, 233);
   border-radius: 0.5rem;
@@ -29,6 +40,15 @@
 
 .h1 {
   margin-left: 20px;
+  width: fit-content;
+  background-color: white;
+  margin-left: 20px;
+  border: 1px solid #000;
+  border-radius: 0.375rem;
+  padding-top: 0.5vh;
+  padding-right: 0.5vw;
+  padding-left: 0.5vw;
+  padding-bottom: 0.5vh;
 }
 
 .main {
@@ -50,8 +70,10 @@
   margin-left: 3vw;
 }
 
-.imageContainer {
+.CardsContainer {
   display: flex !important;
+  flex-direction: row !important;
   justify-content: center !important;
   margin-top: 5vh !important;
+  margin-left: 1vh;
 }
