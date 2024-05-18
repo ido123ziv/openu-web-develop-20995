@@ -3,7 +3,7 @@ import { UserDelete } from "./deleteUserTypes";
 
 export default class DBHandler {
     async getParent(parentId: number): Promise<UserDelete[]> {
-        const parentQuery = `SELECT end_timestamp
+        const parentQuery = `SELECT end_timestamp AS "endTimestamp"
                              FROM parents
                              WHERE parent_id = $1`;
 
@@ -12,7 +12,7 @@ export default class DBHandler {
     }
 
     async getBabysitter(babysitterId: number): Promise<UserDelete[]> {
-        const babysitterQuery = `SELECT end_timestamp
+        const babysitterQuery = `SELECT end_timestamp AS "endTimestamp"
                                  FROM babysitters
                                  WHERE babysitter_id = $1`;
 
