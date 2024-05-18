@@ -1,0 +1,33 @@
+.image img {
+  max-width: 300px;
+  max-height: 300px;
+}
+
+.content {
+  position: relative;
+}
+
+.infoContainer {
+  position: relative;
+  width: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+}
+
+.infoColumn {
+  display: flex;
+  flex-direction: column;
+  margin-right: 5vw;
+  padding-bottom: 1vh;
+}
+
+.icon {
+  width: 20px !important;
+  height: 20px !important;
+  margin-right: 1vw !important;
+}
+
+.infoColumn p {
+  display: flex;
+}
