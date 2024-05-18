@@ -16,11 +16,11 @@ export default class Handler {
         return this.dbHandler.getParentProfile(parentId);
     }
 
-    updateBabysitterProfile = async (babysitterId: number, fields: string[]) => {
-        this.dbHandler.updateBabySitterProfile(babysitterId, fields);
+    updateBabysitterProfile = async (babysitterId: number, fields: string[], params: any[]) => {
+        this.dbHandler.updateBabySitterProfile(babysitterId, fields, params);
     }
 
-    updateParentProfile = async (parentId: number, fields: string[]) => {
-        this.dbHandler.updateParentProfile(parentId, fields);
+    updateParentProfile = async (parentId: number, fields: string[], params: any[]) => {
+        this.dbHandler.updateParentProfile(parentId, fields, params);
     }
 }

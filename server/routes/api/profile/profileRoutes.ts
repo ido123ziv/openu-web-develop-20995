@@ -56,19 +56,19 @@ profileRouter.get("/parent/:id",
         }
     })
 
-profileRouter.get("/babysitter/update/:id",
+profileRouter.put("/babysitter/update/:id",
     [ 
         param('id').notEmpty().isNumeric().withMessage(BABYSITTER_INVALID_INPUT_ERROR)
     ],
     async (req: Request, res: Response) => {
         const { 
-            name, 
+            babysitter_name, 
             email, 
             city, 
             street, 
             experience, 
             age, 
-            phoneNumber, 
+            phone_number, 
             gender, 
             comments 
         } = req.body;
@@ -77,49 +77,50 @@ profileRouter.get("/babysitter/update/:id",
             // Build the SQL query dynamically based on provided fields
             const updates: string[] = [];
             const params: any[] = [];
+            let paramIndex = 1;
 
-            if (name !== undefined) {
-                updates.push('name = ?');
-                params.push(name);
+            if (babysitter_name !== undefined) {
+                updates.push(`babysitter_name = $${paramIndex++}`);
+                params.push(babysitter_name);
             }
 
             if (email !== undefined) {
-                updates.push('email = ?');
+                updates.push(`email = $${paramIndex++}`);
                 params.push(email);
             }
 
             if (city !== undefined) {
-                updates.push('city = ?');
+                updates.push(`city = $${paramIndex++}`);
                 params.push(city);
             }
 
             if (street !== undefined) {
-                updates.push('street = ?');
+                updates.push(`street = $${paramIndex++}`);
                 params.push(street);
             }
 
             if (experience !== undefined) {
-                updates.push('experience = ?');
+                updates.push(`experience = $${paramIndex++}`);
                 params.push(experience);
             }
             
             if (age !== undefined) {
-                updates.push('age = ?');
+                updates.push(`age = $${paramIndex++}`);
                 params.push(age);
             }
             
-            if (phoneNumber !== undefined) {
-                updates.push('phoneNumber = ?');
-                params.push(phoneNumber);
+            if (phone_number !== undefined) {
+                updates.push(`phone_number = $${paramIndex++}`);
+                params.push(phone_number);
             }
             
             if (gender !== undefined) {
-                updates.push('gender = ?');
+                updates.push(`gender = $${paramIndex++}`);
                 params.push(gender);
             }
 
             if (comments !== undefined) {
-                updates.push('comments = ?');
+                updates.push(`comments = $${paramIndex++}`);
                 params.push(comments);
             }
 
@@ -127,25 +128,26 @@ profileRouter.get("/babysitter/update/:id",
                 return res.status(400).json({ error: 'No fields to update' });
             }
             const { id: babysitterId } = req.params
-            await handler.updateBabysitterProfile(Number(babysitterId), updates)
+            await handler.updateBabysitterProfile(Number(babysitterId), updates, params)
+            return res.status(200).json({ message: `Profile updated successfully.`});
         } catch (e) {
             console.log(`Error message: ${req.body.id}: ${(e as Error).message}\n${(e as Error).stack}`);
             return res.status(500).end();
         }
     })
 
-profileRouter.get("/parent/update/:id",
+profileRouter.put("/parent/update/:id",
     [ 
         param('id').notEmpty().isNumeric().withMessage(PARENT_INVALID_INPUT_ERROR)
     ],
     async (req: Request, res: Response) => {
         const { 
-            name, 
+            parent_name, 
             email, 
             city, 
             street, 
             gender, 
-            phoneNumber, 
+            phone_number, 
             minKidAge, 
             maxKidAge, 
             numOfKids, 
@@ -156,54 +158,55 @@ profileRouter.get("/parent/update/:id",
             // Build the SQL query dynamically based on provided fields
             const updates: string[] = [];
             const params: any[] = [];
+            let paramIndex = 1;
 
-            if (name !== undefined) {
-                updates.push('name = ?');
-                params.push(name);
+            if (parent_name !== undefined) {
+                updates.push(`parent_name = $${paramIndex++}`);
+                params.push(parent_name);
             }
 
             if (email !== undefined) {
-                updates.push('email = ?');
+                updates.push(`email = $${paramIndex++}`);
                 params.push(email);
             }
 
             if (city !== undefined) {
-                updates.push('city = ?');
+                updates.push(`city = $${paramIndex++}`);
                 params.push(city);
             }
 
             if (street !== undefined) {
-                updates.push('street = ?');
+                updates.push(`street = $${paramIndex++}`);
                 params.push(street);
             }
 
             if (gender !== undefined) {
-                updates.push('gender = ?');
+                updates.push(`gender = $${paramIndex++}`);
                 params.push(gender);
             }
 
-            if (phoneNumber !== undefined) {
-                updates.push('phoneNumber = ?');
-                params.push(phoneNumber);
+            if (phone_number !== undefined) {
+                updates.push(`phone_number = $${paramIndex++}`);
+                params.push(phone_number);
             }
 
             if (minKidAge !== undefined) {
-                updates.push('minKidAge = ?');
+                updates.push(`minKidAge = $${paramIndex++}`);
                 params.push(minKidAge);
             }
 
             if (maxKidAge !== undefined) {
-                updates.push('maxKidAge = ?');
+                updates.push(`maxKidAge = $${paramIndex++}`);
                 params.push(maxKidAge);
             }
 
             if (numOfKids !== undefined) {
-                updates.push('numOfKids = ?');
+                updates.push(`numOfKids = $${paramIndex++}`);
                 params.push(numOfKids);
             }
 
             if (comments !== undefined) {
-                updates.push('comments = ?');
+                updates.push(`comments = $${paramIndex++}`);
                 params.push(comments);
             }
 
@@ -211,7 +214,8 @@ profileRouter.get("/parent/update/:id",
                 return res.status(400).json({ error: 'No fields to update' });
             }
             const { id: parentId } = req.params
-            await handler.updateParentProfile(Number(parentId), updates)
+            await handler.updateParentProfile(Number(parentId), updates, params)
+            return res.status(200).json({ message: `Profile updated successfully.`});
         } catch (e) {
             console.log(`Error message: ${req.body.id}: ${(e as Error).message}\n${(e as Error).stack}`);
             return res.status(500).end();

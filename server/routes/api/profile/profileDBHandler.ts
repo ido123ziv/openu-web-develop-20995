@@ -23,17 +23,19 @@ export default class DBHandler {
         return profile.rows;
     }
 
-    async updateBabySitterProfile(babysitterId: number, fields: string[]) {
+    async updateBabySitterProfile(babysitterId: number, fields: string[], params: any[]) {
+        params.push(babysitterId)
         const babysitterQuery = `UPDATE babysitters
-                                 SET ($1)
-                                 WHERE babysitter_id = ($2)`;
-        await db.query(babysitterQuery, [fields.join(', '), babysitterId]);
+                                 SET ${fields.join(', ')}
+                                 WHERE babysitter_id = $${params.length}`;
+        await db.query(babysitterQuery, params);
     }
 
-    async updateParentProfile(parentId: number, fields: string[]) {
+    async updateParentProfile(parentId: number, fields: string[], params: any[]) {
+        params.push(parentId)
         const parentQuery = `UPDATE parents
-                                 SET ($1)
-                                 WHERE parentId = ($2)`;
-        await db.query(parentQuery, [fields.join(', '), parentId]);
+                             SET ${fields.join(', ')}
+                             WHERE parent_id = $${params.length}`;
+        await db.query(parentQuery, params);
     }
 }
