@@ -1,35 +1,42 @@
 import { Card } from "semantic-ui-react";
 
 import styles from "./CardsView.module.css";
+import { useState } from "react";
+import ModalView from "../ModalView/ModalView";
+import { CardsData, CardsDataArr } from "./CardViewProps";
 
-interface ICardsData {
-  data: {
-    image: string;
-    header: string;
-    meta: string;
-    description: string;
+const CardsView = ({ data }: CardsDataArr) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [card, setCard] = useState<CardsData | undefined>(undefined);
+
+  const handleClick = (element: CardsData) => {
+    setCard(element);
+    setIsOpen(() => !isOpen);
   };
-}
 
-interface ICardsProps {
-  data: ICardsData[];
-}
-
-const CardsView = ({ data }: ICardsProps) => {
   return (
     <>
       <div className={styles.cardContainer}>
-        {data.map((_card: unknown, index: number) => (
+        {data?.map((element: CardsData) => (
           <Card
-            key={index}
+            key={element.email}
             className={styles.card}
-            image="/baby.svg"
-            header="Elliot Baker"
-            meta="Friend"
-            description="Elliot is a sound engineer living in Nashville who enjoys playing guitar and hanging with his cat."
+            image={
+              element.imageString || element.role === "parent"
+                ? "/baby.svg"
+                : "/babysitter.svg"
+            }
+            header={element.name}
+            meta={element.role}
+            description={element.comments}
+            onClick={(_e) => handleClick(element)}
           />
         ))}
       </div>
+
+      {isOpen && (
+        <ModalView isOpen={isOpen} setIsOpen={setIsOpen} card={card} />
+      )}
     </>
   );
 };
