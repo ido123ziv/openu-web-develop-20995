@@ -15,4 +15,12 @@ export default class Handler {
     getParentProfile = async (parentId: number): Promise<ParentProfile[]> => {
         return this.dbHandler.getParentProfile(parentId);
     }
+
+    updateBabysitterProfile = async (babysitterId: number, fields: string[]) => {
+        this.dbHandler.updateBabySitterProfile(babysitterId, fields);
+    }
+
+    updateParentProfile = async (parentId: number, fields: string[]) => {
+        this.dbHandler.updateParentProfile(parentId, fields);
+    }
 }
