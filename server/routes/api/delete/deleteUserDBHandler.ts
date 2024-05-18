@@ -5,8 +5,7 @@ export default class DBHandler {
     async getParent(parentId: number): Promise<UserDelete[]> {
         const parentQuery = `SELECT end_timestamp
                              FROM parents
-                             WHERE parent_id = $1 
-                             LIMIT 1`;
+                             WHERE parent_id = $1`;
 
         const parent = await db.query(parentQuery, [parentId]);
         return parent.rows;
@@ -15,8 +14,7 @@ export default class DBHandler {
     async getBabysitter(babysitterId: number): Promise<UserDelete[]> {
         const babysitterQuery = `SELECT end_timestamp
                                  FROM babysitters
-                                 WHERE babysitter_id = $1 
-                                 LIMIT 1`;
+                                 WHERE babysitter_id = $1`;
 
         const babysitter = await db.query(babysitterQuery, [babysitterId]);
         return babysitter.rows;

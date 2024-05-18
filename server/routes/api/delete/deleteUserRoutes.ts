@@ -4,7 +4,7 @@ import { validationResult, param } from "express-validator";
 import Handler from "./deleteUserHandler";
 import { END_TIMESTAMP, 
          BABYSITTER_INVALID_INPUT_ERROR, 
-         PARENT_INVALID_INPUT_ERROR } from "../../../utils/global/globals"
+         PARENT_INVALID_INPUT_ERROR, reqUserValidation } from "../../../utils/global/globals"
 
 const deleteRouter = Router();
 
@@ -16,20 +16,11 @@ deleteRouter.put("/parent/:parent",
     ],
     async (req: Request, res: Response) => {
         try {
-            const fieldValidationResult = validationResult(req);
-            if (!fieldValidationResult.isEmpty()) {
-              return res
-                .status(400)
-                .json({ message: fieldValidationResult.array().map((item) => item.msg).join(' ') });
-            }
             const { parent: parentId } = req.params
             const data = await handler.getParent(Number(parentId));
-            const userEndTimestamp = data[0]['end_timestamp']
-
-            if (userEndTimestamp != String(END_TIMESTAMP)) {
-                return res
-                .status(400)
-                .json({ message: 'This user is not active' });
+            const validation = reqUserValidation(req, data)
+            if (!validation.isValid) {
+                return res.status(400).send({ error: validation.message })
             }
             
             await handler.deleteParent(Number(parentId));
@@ -47,20 +38,11 @@ deleteRouter.put("/babysitter/:babysitter",
     ],
     async (req: Request, res: Response) => {
         try {
-            const fieldValidationResult = validationResult(req);
-            if (!fieldValidationResult.isEmpty()) {
-              return res
-                .status(400)
-                .json({ message: fieldValidationResult.array().map((item) => item.msg).join(' ') });
-            }
             const { babysitter: babysitterId } = req.params
             const data = await handler.getBabysitter(Number(babysitterId));
-            const userEndTimestamp = data[0]['end_timestamp']
-
-            if (userEndTimestamp != String(END_TIMESTAMP)) {
-                return res
-                .status(400)
-                .json({ message: 'This user is not active' });
+            const validation = reqUserValidation(req, data)
+            if (!validation.isValid) {
+                return res.status(400).send({ error: validation.message })
             }
 
             await handler.deleteBabysitter(Number(babysitterId));
