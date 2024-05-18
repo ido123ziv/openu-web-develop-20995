@@ -1,26 +1,32 @@
 import DBHandler from "./recommendationsDBHandler";
-import {Recommendation} from "./recommendationsTypes";
+import { Recommendation } from "./recommendationsTypes";
 
 export default class Handler {
-    private dbHandler: DBHandler;
+  private dbHandler: DBHandler;
 
-    constructor() {
-        this.dbHandler = new DBHandler();
-      }
+  constructor() {
+    this.dbHandler = new DBHandler();
+  }
 
-    getPreview = async (): Promise<Recommendation[]> => {
-        return this.dbHandler.getRecommendationPreview();
-    }
+  getPreview = async (): Promise<Recommendation[]> => {
+    return this.dbHandler.getRecommendationPreview();
+  };
 
-    getBabysitter = async (babysitterId: number): Promise<Recommendation[]> => {
-        return this.dbHandler.getBabySitterRecommendation(babysitterId);
-    }
+  getBabysitter = async (babysitterId: number): Promise<Recommendation[]> => {
+    return this.dbHandler.getBabySitterRecommendation(babysitterId);
+  };
 
-    getParent = async (parentId: number): Promise<Recommendation[]> => {
-        return this.dbHandler.getParentRecommendation(parentId);
-    }
+  getParent = async (parentId: number): Promise<Recommendation[]> => {
+    return this.dbHandler.getParentRecommendation(parentId);
+  };
 
-    getRecommendationByBabysitterAndParent = async (parentId: number, babysitter: number): Promise<Recommendation[]> => {
-        return this.dbHandler.getParentBabysitterRecommendation(parentId, babysitter);
-    }
+  getRecommendationByBabysitterAndParent = async (
+    parentId: number,
+    babysitter: number
+  ): Promise<Recommendation[]> => {
+    return this.dbHandler.getParentBabysitterRecommendation(
+      parentId,
+      babysitter
+    );
+  };
 }
