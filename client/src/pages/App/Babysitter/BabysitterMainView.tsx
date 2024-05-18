@@ -6,7 +6,7 @@ import styles from "./Babysitter.module.css";
 import { userState } from "../../../state/atoms/userAtom";
 import BackgroundSVG from "../../../ui/BackgroundSVG/BackgroundSVG";
 import RecommendationCards from "./RecommendationCards/RecommendationCards";
-import { getRecommendations } from "./babysitterServices";
+import { getNumOfViews, getRecommendations } from "./babysitterServices";
 import { useState } from "react";
 
 const BabysitterMainView = () => {
@@ -27,6 +27,12 @@ const BabysitterMainView = () => {
     onError: (error) => console.log(error),
   });
 
+  const { data: numOfViews } = useQuery({
+    queryKey: ["getRNumOfViews"],
+    queryFn: () => getNumOfViews(user.id),
+    onError: (error) => console.log(error),
+  });
+
   return (
     <>
       <BackgroundSVG />
@@ -40,7 +46,7 @@ const BabysitterMainView = () => {
         <div className={styles.main}>
           <div className={styles.analytics}>
             <h2>Analytics</h2>
-            <p>X People viewed your profile</p>
+            <p>{numOfViews || "0"} People viewed your profile</p>
             <p>You have {recommendations?.length || "0"} recommendations</p>
             <p>{avgRating} AVG Rating</p>
           </div>
