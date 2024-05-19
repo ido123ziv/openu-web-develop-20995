@@ -3,7 +3,10 @@ import { Recommendation } from "./recommendationsTypes";
 
 export default class DBHandler {
   async getRecommendationPreview(): Promise<Recommendation[]> {
-    const previewQuery = `SELECT * 
+    const previewQuery = `SELECT  parent_id AS "parentId",
+                              babysitter_id AS "babysitterId",
+                              rating,
+                              recommendation_text AS "recommendationText"
                               FROM recommendations
                               LIMIT 10;`;
 
@@ -25,7 +28,10 @@ export default class DBHandler {
   }
 
   async getParentRecommendation(parentId: number): Promise<Recommendation[]> {
-    const parentQuery = `SELECT * 
+    const parentQuery = `SELECT  parent_id AS "parentId",
+                             babysitter_id AS "babysitterId",
+                             rating,
+                             recommendation_text AS "recommendationText"
                              FROM recommendations 
                              WHERE parent_id = ($1)`;
 
@@ -37,7 +43,10 @@ export default class DBHandler {
     parentId: number,
     babysitterId: number
   ): Promise<Recommendation[]> {
-    const parentBabysitterQuery = `SELECT * 
+    const parentBabysitterQuery = `SELECT  parent_id AS "parentId",
+                                       babysitter_id AS "babysitterId",
+                                       rating,
+                                       recommendation_text AS "recommendationText"
                                        FROM recommendations 
                                        WHERE babysitter_id = ($1) 
                                              AND parent_id = ($2)`;

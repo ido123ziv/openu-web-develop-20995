@@ -11,7 +11,10 @@ const urls = {
     dbHealth: 'http://localhost:3000/db/health',
     dbTables: 'http://localhost:3000/db/tables',
     parents: 'http://localhost:3000/api/parents',
-    recommendations: 'http://localhost:3000/api/recommendations/'
+    allUsers: 'http://localhost:3000/api/moderator/allUsers',
+    recommendations: 'http://localhost:3000/api/recommendations/',
+    profileBaby: 'http://localhost:3000/api/profile/babysitter/1',
+    profileParent: 'http://localhost:3000/api/profile/parent/1'
 };
 
 // Function to perform HTTP GET request and check status code

@@ -11,6 +11,7 @@ import headerSetup from "./middlewares/headerSetup";
 import securitySetup from "./middlewares/security";
 import signupRouter from "./routes/signup/signupRoutes";
 import recommendationsRouter from "./routes/api/recommendations/recommendationsRoutes";
+import profileRouter from "./routes/api/profile/profileRoutes";
 import babysitterRouter from "./routes/api/babysitter/babysitterRoutes";
 
 // Creating an Express app
@@ -33,6 +34,7 @@ app.use("/login", loginRouter);
 app.use("/api/parents", parentsRouter);
 app.use("/api/recommendations", recommendationsRouter);
 app.use("/api/moderator", moderatorRouter);
+app.use("/api/profile", profileRouter);
 app.use("/api/babysitter", babysitterRouter);
 app.use("/", router);
 
