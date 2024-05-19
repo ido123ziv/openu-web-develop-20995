@@ -1,4 +1,4 @@
-export type User = {
+export interface CardsData {
   id: number;
   name: string;
   email: string;
@@ -16,4 +16,10 @@ export type User = {
   // Babysitter unique properties
   age?: number;
   experience?: string;
-};
+  city?: string;
+  street?: string;
+}
+
+export interface CardsDataArr {
+  data: CardsData[] | undefined;
+}

@@ -12,6 +12,7 @@ import securitySetup from "./middlewares/security";
 import signupRouter from "./routes/signup/signupRoutes";
 import recommendationsRouter from "./routes/api/recommendations/recommendationsRoutes";
 import deleteRouter from "./routes/api/delete/deleteUserRoutes";
+import profileRouter from "./routes/api/profile/profileRoutes";
 
 // Creating an Express app
 const app = express();
@@ -35,6 +36,7 @@ app.use("/api/parents", parentsRouter);
 app.use("/api/recommendations", recommendationsRouter);
 app.use("/api/delete", deleteRouter);
 app.use("/api/moderator", moderatorRouter);
+app.use("/api/profile", profileRouter);
 app.use("/", router);
 
 

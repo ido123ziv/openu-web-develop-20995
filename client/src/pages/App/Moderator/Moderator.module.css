@@ -1,8 +1,15 @@
 .iconContainer {
+  width: fit-content;
+  height: fit-content;
   display: flex !important;
   flex-direction: column;
   justify-content: center !important;
   align-items: center;
+  background-color: white;
+  border: 1px solid #000;
+  border-radius: 0.375rem;
+  margin: 0 auto;
+  margin-top: 0.5vh;
 }
 
 .iconContainer .icon {
@@ -12,10 +19,22 @@
 .iconContainer p {
   font-size: 1.125rem;
   line-height: 1.75rem;
+  padding-top: 0.5vh;
+  padding-right: 0.5vw;
+  padding-left: 0.5vw;
+  padding-bottom: 0.5vh;
 }
 
 .h1 {
+  width: fit-content;
+  background-color: white;
   margin-left: 20px;
+  border: 1px solid #000;
+  border-radius: 0.375rem;
+  padding-top: 0.5vh;
+  padding-right: 0.5vw;
+  padding-left: 0.5vw;
+  padding-bottom: 0.5vh;
 }
 
 .iconContainer .h1 {
