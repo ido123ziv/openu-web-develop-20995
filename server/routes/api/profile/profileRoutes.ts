@@ -58,19 +58,12 @@ profileRouter.put("/babysitter/update/:id",
     ],
     async (req: Request, res: Response) => {
         try {
-            const fieldValidationResult = validationResult(req);
-            if (!fieldValidationResult.isEmpty()) {
+            const { id: babysitterId } = req.params;
+            const isValid =  await handler.babysitterValidation(req, Number(babysitterId));
+            if (!isValid.valid) {
                 return res
                 .status(400)
-                .json({ message: fieldValidationResult.array().map((item) => item.msg).join(' ') });
-            }
-
-            const { id: babysitterId } = req.params
-            const babysitterProfile = await handler.getBabysitterProfile(Number(babysitterId));
-            
-            const validation = reqUserValidation(req, babysitterProfile)
-            if (!validation.isValid) {
-                return res.status(400).json({ error: validation.message })
+                .json({ message:  isValid.message});
             }
 
             const { 
@@ -153,19 +146,12 @@ profileRouter.put("/parent/update/:id",
     ],
     async (req: Request, res: Response) => {
         try {
-            const fieldValidationResult = validationResult(req);
-            if (!fieldValidationResult.isEmpty()) {
+            const { id: parentId } = req.params
+            const isValid =  await handler.parentValidation(req, Number(parentId));
+            if (!isValid.valid) {
                 return res
                 .status(400)
-                .json({ message: fieldValidationResult.array().map((item) => item.msg).join(' ') });
-            }
-
-            const { id: parentId } = req.params
-            const parentProfile = await handler.getParentProfile(Number(parentId));
-            
-            const validation = reqUserValidation(req, parentProfile)
-            if (!validation.isValid) {
-                return res.status(400).json({ error: validation.message })
+                .json({ message:  isValid.message});
             }
 
             const { 
