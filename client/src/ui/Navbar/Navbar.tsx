@@ -28,9 +28,13 @@ function NavigationBar() {
           Contact
         </MenuItem>
 
-        {!loggedIn && (
+        {!loggedIn ? (
           <MenuItem as={Link} to="/signup" name="signup">
             <Button primary>Sign up</Button>
+          </MenuItem>
+        ) : (
+          <MenuItem as={Link} to={`/app/${user.role}`} name="signup">
+            <Button primary>To App</Button>
           </MenuItem>
         )}
       </MenuMenu>

@@ -1,7 +1,10 @@
 export type ParentProfile = {
   name: string;
   email: string;
+<<<<<<< HEAD
   password: string;
+=======
+>>>>>>> main
   city: string;
   street: string;
   gender: string;
@@ -15,7 +18,10 @@ export type ParentProfile = {
 export type BabysitterProfile = {
   name: string;
   email: string;
+<<<<<<< HEAD
   password: string;
+=======
+>>>>>>> main
   city: string;
   street: string;
   experience: string;
