@@ -10,17 +10,24 @@ const deleteRouter = Router();
 
 const handler = new Handler();
 
-deleteRouter.put("/parent/:parent", 
+deleteRouter.put("/parent/:id", 
     [ 
-        param('parent').notEmpty().isNumeric().withMessage(PARENT_INVALID_INPUT_ERROR)
+        param('id').notEmpty().isNumeric().withMessage(PARENT_INVALID_INPUT_ERROR)
     ],
     async (req: Request, res: Response) => {
         try {
-            const { parent: parentId } = req.params
-            const data = await handler.getParent(Number(parentId));
-            const validation = reqUserValidation(req, data)
+            const fieldValidationResult = validationResult(req);
+            if (!fieldValidationResult.isEmpty()) {
+                return res
+                .status(400)
+                .json({ message: fieldValidationResult.array().map((item) => item.msg).join(' ') });
+            } 
+
+            const { id: parentId } = req.params
+            const parentProfile = await handler.getParent(Number(parentId));
+            const validation = reqUserValidation(req, parentProfile)
             if (!validation.isValid) {
-                return res.status(400).send({ error: validation.message })
+                return res.status(400).json({ error: validation.message })
             }
             
             await handler.deleteParent(Number(parentId));
@@ -32,17 +39,24 @@ deleteRouter.put("/parent/:parent",
     }
 )
 
-deleteRouter.put("/babysitter/:babysitter", 
+deleteRouter.put("/babysitter/:id", 
     [ 
-        param('babysitter').notEmpty().isNumeric().withMessage(BABYSITTER_INVALID_INPUT_ERROR)
+        param('id').notEmpty().isNumeric().withMessage(BABYSITTER_INVALID_INPUT_ERROR)
     ],
     async (req: Request, res: Response) => {
         try {
-            const { babysitter: babysitterId } = req.params
-            const data = await handler.getBabysitter(Number(babysitterId));
-            const validation = reqUserValidation(req, data)
+            const fieldValidationResult = validationResult(req);
+            if (!fieldValidationResult.isEmpty()) {
+                return res
+                .status(400)
+                .json({ message: fieldValidationResult.array().map((item) => item.msg).join(' ') });
+            } 
+
+            const { id: babysitterId } = req.params
+            const babysitterProfile = await handler.getBabysitter(Number(babysitterId));
+            const validation = reqUserValidation(req, babysitterProfile)
             if (!validation.isValid) {
-                return res.status(400).send({ error: validation.message })
+                return res.status(400).json({ error: validation.message })
             }
 
             await handler.deleteBabysitter(Number(babysitterId));
