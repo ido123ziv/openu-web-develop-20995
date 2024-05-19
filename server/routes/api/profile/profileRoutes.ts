@@ -16,22 +16,15 @@ profileRouter.get("/babysitter/:id",
     ],
     async (req: Request, res: Response) => {
         try {
-            const fieldValidationResult = validationResult(req);
-            if (!fieldValidationResult.isEmpty()) {
+            const { id: babysitterId } = req.params;
+            const isValid =  await handler.babysitterValidation(req, Number(babysitterId));
+            if (!isValid.valid) {
                 return res
                 .status(400)
-                .json({ message: fieldValidationResult.array().map((item) => item.msg).join(' ') });
-            } 
-
-            const { id: babysitterId } = req.params;
-            const babysitterProfile = await handler.getBabysitterProfile(Number(babysitterId));
-            
-            const validation = reqUserValidation(req, babysitterProfile)
-            if (!validation.isValid) {
-                return res.status(400).json({ error: validation.message })
+                .json({ message:  isValid.message});
             }
 
-            return res.status(200).send(babysitterProfile);
+            return res.status(200).send(isValid.profile);
         } catch (e) {
             console.log(`Error message: ${req.body.id}: ${(e as Error).message}\n${(e as Error).stack}`);
             return res.status(500).end();
@@ -44,22 +37,15 @@ profileRouter.get("/parent/:id",
     ],
     async (req: Request, res: Response) => {
         try {
-            const fieldValidationResult = validationResult(req);
-            if (!fieldValidationResult.isEmpty()) {
+            const { id: parentId } = req.params
+            const isValid =  await handler.parentValidation(req, Number(parentId));
+            if (!isValid.valid) {
                 return res
                 .status(400)
-                .json({ message: fieldValidationResult.array().map((item) => item.msg).join(' ') });
+                .json({ message:  isValid.message});
             }
 
-            const { id: parentId } = req.params
-            const parentProfile = await handler.getParentProfile(Number(parentId));
-            
-            const validation = reqUserValidation(req, parentProfile)
-            if (!validation.isValid) {
-                return res.status(400).json({ error: validation.message })
-            }
-
-            return res.status(200).send(parentProfile);
+            return res.status(200).send(isValid.profile);
         } catch (e) {
             console.log(`Error message: ${req.body.id}: ${(e as Error).message}\n${(e as Error).stack}`);
             return res.status(500).end();
