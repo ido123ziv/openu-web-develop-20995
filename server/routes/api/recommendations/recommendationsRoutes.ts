@@ -1,14 +1,12 @@
 import { Router, Request, Response } from "express";
-import { validationResult, query, param } from "express-validator";
-
+import { validationResult, param } from "express-validator";
+import { BABYSITTER_INVALID_INPUT_ERROR, 
+    PARENT_INVALID_INPUT_ERROR } from "../../../utils/global/globals"
 import Handler from "./recommendationsHandler";
 
 const recommendationsRouter = Router();
 
 const handler = new Handler();
-const BABYSITTER_INVALID_INPUT_ERROR = "babysitterId must be provided and a number";
-const PARENT_INVALID_INPUT_ERROR = "parentId must be provided and a number";
-
 recommendationsRouter.get("/",
     async (req: Request, res: Response) => {
         try {
