@@ -61,19 +61,25 @@ profileRouter.put("/babysitter/update/:id",
         param('id').notEmpty().isNumeric().withMessage(BABYSITTER_INVALID_INPUT_ERROR)
     ],
     async (req: Request, res: Response) => {
-        const { 
-            babysitter_name, 
-            email, 
-            city, 
-            street, 
-            experience, 
-            age, 
-            phone_number, 
-            gender, 
-            comments 
-        } = req.body;
-
         try {
+            const { id: babysitterId } = req.params
+            const babysitterProfile = await handler.getBabysitterProfile(Number(babysitterId));
+            if (babysitterProfile.length === 0) {
+                return res.status(400).json({ message: "Incorrect id" });
+            }
+
+            const { 
+                babysitter_name, 
+                email, 
+                city, 
+                street, 
+                experience, 
+                age, 
+                phone_number, 
+                gender, 
+                comments 
+            } = req.body;
+
             // Build the SQL query dynamically based on provided fields
             const updates: string[] = [];
             const params: any[] = [];
@@ -127,7 +133,7 @@ profileRouter.put("/babysitter/update/:id",
             if (updates.length === 0) {
                 return res.status(400).json({ error: 'No fields to update' });
             }
-            const { id: babysitterId } = req.params
+            
             await handler.updateBabysitterProfile(Number(babysitterId), updates, params)
             return res.status(200).json({ message: `Profile updated successfully.`});
         } catch (e) {
@@ -141,20 +147,26 @@ profileRouter.put("/parent/update/:id",
         param('id').notEmpty().isNumeric().withMessage(PARENT_INVALID_INPUT_ERROR)
     ],
     async (req: Request, res: Response) => {
-        const { 
-            parent_name, 
-            email, 
-            city, 
-            street, 
-            gender, 
-            phone_number, 
-            minKidAge, 
-            maxKidAge, 
-            numOfKids, 
-            comments 
-        } = req.body;
-
         try {
+            const { id: parentId } = req.params
+            const parentProfile = await handler.getParentProfile(Number(parentId));
+            if (parentProfile.length === 0) {
+                return res.status(400).json({ message: "Incorrect id" });
+            }
+
+            const { 
+                parent_name, 
+                email, 
+                city, 
+                street, 
+                gender, 
+                phone_number, 
+                min_kid_age, 
+                max_kid_age, 
+                num_of_kids,
+                comments 
+            } = req.body;
+
             // Build the SQL query dynamically based on provided fields
             const updates: string[] = [];
             const params: any[] = [];
@@ -190,19 +202,19 @@ profileRouter.put("/parent/update/:id",
                 params.push(phone_number);
             }
 
-            if (minKidAge !== undefined) {
-                updates.push(`minKidAge = $${paramIndex++}`);
-                params.push(minKidAge);
+            if (min_kid_age !== undefined) {
+                updates.push(`min_kid_age = $${paramIndex++}`);
+                params.push(min_kid_age);
             }
 
-            if (maxKidAge !== undefined) {
-                updates.push(`maxKidAge = $${paramIndex++}`);
-                params.push(maxKidAge);
+            if (max_kid_age !== undefined) {
+                updates.push(`max_kid_age = $${paramIndex++}`);
+                params.push(max_kid_age);
             }
 
-            if (numOfKids !== undefined) {
-                updates.push(`numOfKids = $${paramIndex++}`);
-                params.push(numOfKids);
+            if (num_of_kids !== undefined) {
+                updates.push(`num_of_kids = $${paramIndex++}`);
+                params.push(num_of_kids);
             }
 
             if (comments !== undefined) {
@@ -213,7 +225,7 @@ profileRouter.put("/parent/update/:id",
             if (updates.length === 0) {
                 return res.status(400).json({ error: 'No fields to update' });
             }
-            const { id: parentId } = req.params
+
             await handler.updateParentProfile(Number(parentId), updates, params)
             return res.status(200).json({ message: `Profile updated successfully.`});
         } catch (e) {
