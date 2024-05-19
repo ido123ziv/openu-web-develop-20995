@@ -1,8 +1,5 @@
-import { Request } from "express";
-import { validationResult } from "express-validator";
-
 import DBHandler from "./profileDBHandler";
-import { ParentProfile, BabysitterProfile } from "./profileTypes"; 
+import {ParentProfile, BabysitterProfile, Validation, BabysitterUpdate, ParentUpdate} from "./profileTypes";
 
 
 export default class Handler {
@@ -12,47 +9,69 @@ export default class Handler {
         this.dbHandler = new DBHandler();
     }
 
-    parentValidation = async(req: Request, parentId: number) => {
-        const fieldValidationResult = validationResult(req);
-        if (!fieldValidationResult.isEmpty()) {
-          return { valid: false, message: fieldValidationResult.array().map((item) => item.msg).join(' ') }
-        } 
-    
+    parentValidation = async(parentId: number): Validation => {
         const parentProfile = await this.dbHandler.getParentProfile(parentId);
+
         if (parentProfile.length === 0) {
-          return { valid: false, message: 'Incorrect id' }
+          return { isValid: false, message: 'Incorrect id' }
         }
 
-        return { valid: true, profile: parentProfile }
+        return { isValid: true }
+    }
+
+    parentUpdateValidation = async(parentId: number, parentData: ParentUpdate): Validation => {
+        const validateParentId = await this.parentValidation(parentId);
+        if (!validateParentId.isValid){
+            return validateParentId;
+        }
+
+        const allUndefined = Object.values(parentData).every((value) => value === undefined);
+        if (allUndefined){
+            return { isValid: false, message: 'All fields are undefined' };
+        }
+
+        return { isValid: true };
     }
     
-    babysitterValidation = async(req: Request, babysitterId: number) => {
-        const fieldValidationResult = validationResult(req);
-        if (!fieldValidationResult.isEmpty()) {
-          return { valid: false, message: fieldValidationResult.array().map((item) => item.msg).join(' ') }
-        } 
-    
+    babysitterValidation = async(babysitterId: number): Validation => {
         const babysitterProfile = await this.dbHandler.getBabySitterProfile(babysitterId);
         if (babysitterProfile.length === 0) {
-          return { valid: false, message: 'Incorrect id' }
+          return { isValid: false, message: 'Incorrect id' }
         }
 
-        return { valid: true, profile: babysitterProfile }
+        return { isValid: true }
     }
 
-    getBabysitterProfile = async (babysitterId: number): Promise<BabysitterProfile[]> => {
-        return this.dbHandler.getBabySitterProfile(babysitterId);
+    babysitterUpdateValidation = async (babysitterId: number, babysitterData: BabysitterUpdate): Validation => {
+
+        const validateBabysitterId = await this.babysitterValidation(babysitterId);
+        if (!validateBabysitterId.isValid){
+            return validateBabysitterId;
+        }
+
+        const allUndefined = Object.values(babysitterData).every((value) => value === undefined);
+        if (allUndefined){
+            return { isValid: false, message: 'All fields are undefined' };
+        }
+
+        return { isValid: true };
     }
 
-    getParentProfile = async (parentId: number): Promise<ParentProfile[]> => {
-        return this.dbHandler.getParentProfile(parentId);
+    getBabysitterProfile = async (babysitterId: number): Promise<BabysitterProfile> => {
+        const profile = await this.dbHandler.getBabySitterProfile(babysitterId);
+        return profile[0];
     }
 
-    updateBabysitterProfile = async (babysitterId: number, fields: string[], params: any[]) => {
-        this.dbHandler.updateBabySitterProfile(babysitterId, fields, params);
+    getParentProfile = async (parentId: number): Promise<ParentProfile> => {
+        const profile = this.dbHandler.getParentProfile(parentId);
+        return profile[0];
     }
 
-    updateParentProfile = async (parentId: number, fields: string[], params: any[]) => {
-        this.dbHandler.updateParentProfile(parentId, fields, params);
+    updateBabysitterProfile = async (babysitterId: number, babysitterData: BabysitterUpdate): Promise<void> => {
+        return this.dbHandler.updateBabySitterProfile(babysitterId, babysitterData);
+    }
+
+    updateParentProfile = async (parentId: number, parentData: ParentUpdate): Promise<void> => {
+        return this.dbHandler.updateParentProfile(parentId, parentData);
     }
 }
