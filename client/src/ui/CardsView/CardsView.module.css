@@ -9,7 +9,7 @@
   border-radius: 0.5rem;
 }
 
-/* .card {
+.card {
   width: calc(20% - 20px) !important;
   margin-top: 10px !important;
   margin-left: 10px !important;
@@ -18,7 +18,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-} */
+}
 
 .card img {
   width: 270px !important;
@@ -34,33 +34,4 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.card .truncate {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 150px; /* Adjust this width to make the line cut shorter */
-  position: relative;
-  cursor: pointer; /* To indicate that there's more information */
-}
-
-.card .truncate::after {
-  content: attr(data-tooltip);
-  position: absolute;
-  left: 0;
-  bottom: 100%;
-  background: rgba(0, 0, 0, 0.75);
-  color: white;
-  padding: 5px;
-  border-radius: 5px;
-  white-space: normal;
-  width: max-content;
-  max-width: 200px;
-  display: none;
-  z-index: 10;
-}
-
-.card .truncate:hover::after {
-  display: block;
 }
