@@ -22,7 +22,7 @@ const BabysitterMainView = () => {
       }
 
       const totalRating = data.reduce((acc, obj) => acc + obj.rating, 0);
-      setAvgRating(totalRating / data.length);
+      setAvgRating(Number((totalRating / data.length).toFixed(1)));
     },
     onError: (error) => console.log(error),
   });
