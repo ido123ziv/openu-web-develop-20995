@@ -1,7 +1,8 @@
 export type Recommendation = {
-    parentId: number;
-    babysitterid: number;
-    rating: number;
-    recommendationText: string;
-  };
-  
+  parentId: number;
+  babysitterId: number;
+  rating: number;
+  recommendationText: string;
+};
+
+export type Validation = { isValid: boolean; message?: string };
