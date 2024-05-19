@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import { validationResult, param } from "express-validator";
 import { BABYSITTER_INVALID_INPUT_ERROR, 
-    PARENT_INVALID_INPUT_ERROR } from "../../../utils/global/globals"
+    PARENT_INVALID_INPUT_ERROR, reqUserValidation } from "../../../utils/global/globals"
 
 import Handler from "./profileHandler";
 
@@ -11,22 +11,27 @@ const handler = new Handler();
 
 
 profileRouter.get("/babysitter/:id",
-     [ 
-         param('id').notEmpty().isNumeric().withMessage(BABYSITTER_INVALID_INPUT_ERROR)
-     ],
+    [ 
+        param('id').notEmpty().isNumeric().withMessage(BABYSITTER_INVALID_INPUT_ERROR)
+    ],
     async (req: Request, res: Response) => {
         try {
-
             const fieldValidationResult = validationResult(req);
             if (!fieldValidationResult.isEmpty()) {
-              return res
+                return res
                 .status(400)
                 .json({ message: fieldValidationResult.array().map((item) => item.msg).join(' ') });
-            }
+            } 
+
             const { id: babysitterId } = req.params;
             const babysitterProfile = await handler.getBabysitterProfile(Number(babysitterId));
-            return res.status(200).send(babysitterProfile);
+            
+            const validation = reqUserValidation(req, babysitterProfile)
+            if (!validation.isValid) {
+                return res.status(400).json({ error: validation.message })
+            }
 
+            return res.status(200).send(babysitterProfile);
         } catch (e) {
             console.log(`Error message: ${req.body.id}: ${(e as Error).message}\n${(e as Error).stack}`);
             return res.status(500).end();
@@ -41,13 +46,18 @@ profileRouter.get("/parent/:id",
         try {
             const fieldValidationResult = validationResult(req);
             if (!fieldValidationResult.isEmpty()) {
-              return res
+                return res
                 .status(400)
                 .json({ message: fieldValidationResult.array().map((item) => item.msg).join(' ') });
             }
-            const { id: parentId } = req.params
 
+            const { id: parentId } = req.params
             const parentProfile = await handler.getParentProfile(Number(parentId));
+            
+            const validation = reqUserValidation(req, parentProfile)
+            if (!validation.isValid) {
+                return res.status(400).json({ error: validation.message })
+            }
 
             return res.status(200).send(parentProfile);
         } catch (e) {
@@ -62,10 +72,19 @@ profileRouter.put("/babysitter/update/:id",
     ],
     async (req: Request, res: Response) => {
         try {
+            const fieldValidationResult = validationResult(req);
+            if (!fieldValidationResult.isEmpty()) {
+                return res
+                .status(400)
+                .json({ message: fieldValidationResult.array().map((item) => item.msg).join(' ') });
+            }
+
             const { id: babysitterId } = req.params
             const babysitterProfile = await handler.getBabysitterProfile(Number(babysitterId));
-            if (babysitterProfile.length === 0) {
-                return res.status(400).json({ message: "Incorrect id" });
+            
+            const validation = reqUserValidation(req, babysitterProfile)
+            if (!validation.isValid) {
+                return res.status(400).json({ error: validation.message })
             }
 
             const { 
@@ -148,10 +167,19 @@ profileRouter.put("/parent/update/:id",
     ],
     async (req: Request, res: Response) => {
         try {
+            const fieldValidationResult = validationResult(req);
+            if (!fieldValidationResult.isEmpty()) {
+                return res
+                .status(400)
+                .json({ message: fieldValidationResult.array().map((item) => item.msg).join(' ') });
+            }
+
             const { id: parentId } = req.params
             const parentProfile = await handler.getParentProfile(Number(parentId));
-            if (parentProfile.length === 0) {
-                return res.status(400).json({ message: "Incorrect id" });
+            
+            const validation = reqUserValidation(req, parentProfile)
+            if (!validation.isValid) {
+                return res.status(400).json({ error: validation.message })
             }
 
             const { 
