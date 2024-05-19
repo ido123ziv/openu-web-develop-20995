@@ -11,10 +11,5 @@ export function reqUserValidation(req: Request, data: any[]) {
         return { isValid: false, message: 'Incorrect id' }
     }
 
-    const userEndTimestamp = data[0]['end_timestamp']
-    if (userEndTimestamp != String(END_TIMESTAMP)) {
-        return { isValid: false, message: 'This user is not active' }
-    }
-
     return { isValid: true, message: 'Request data is valid' }
 }
