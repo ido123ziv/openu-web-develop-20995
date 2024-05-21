@@ -9,7 +9,7 @@ export default class Handler {
         this.dbHandler = new DBHandler();
     }
 
-    parentValidation = async(parentId: number): Validation => {
+    parentValidation = async(parentId: number): Promise<Validation> => {
         const parentProfile = await this.dbHandler.getParentProfile(parentId);
 
         if (parentProfile.length === 0) {
@@ -19,7 +19,7 @@ export default class Handler {
         return { isValid: true }
     }
 
-    parentUpdateValidation = async(parentId: number, parentData: ParentUpdate): Validation => {
+    parentUpdateValidation = async(parentId: number, parentData: ParentUpdate): Promise<Validation> => {
         const validateParentId = await this.parentValidation(parentId);
         if (!validateParentId.isValid){
             return validateParentId;
@@ -33,7 +33,7 @@ export default class Handler {
         return { isValid: true };
     }
     
-    babysitterValidation = async(babysitterId: number): Validation => {
+    babysitterValidation = async(babysitterId: number): Promise<Validation> => {
         const babysitterProfile = await this.dbHandler.getBabySitterProfile(babysitterId);
         if (babysitterProfile.length === 0) {
           return { isValid: false, message: 'Incorrect id' }
@@ -42,7 +42,7 @@ export default class Handler {
         return { isValid: true }
     }
 
-    babysitterUpdateValidation = async (babysitterId: number, babysitterData: BabysitterUpdate): Validation => {
+    babysitterUpdateValidation = async (babysitterId: number, babysitterData: BabysitterUpdate): Promise<Validation> => {
 
         const validateBabysitterId = await this.babysitterValidation(babysitterId);
         if (!validateBabysitterId.isValid){
@@ -63,7 +63,7 @@ export default class Handler {
     }
 
     getParentProfile = async (parentId: number): Promise<ParentProfile> => {
-        const profile = this.dbHandler.getParentProfile(parentId);
+        const profile = await this.dbHandler.getParentProfile(parentId);
         return profile[0];
     }
 

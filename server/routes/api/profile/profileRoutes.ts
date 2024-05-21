@@ -25,11 +25,11 @@ profileRouter.get("/babysitter/:id",
 
             const { id: babysitterId } = req.params;
 
-            const isValid = await handler.babysitterValidation(Number(babysitterId));
-            if (!isValid.valid) {
+            const babysitterValidation = await handler.babysitterValidation(Number(babysitterId));
+            if (!babysitterValidation.isValid) {
                 return res
                 .status(400)
-                .json({ message:  isValid.message});
+                .json({ message:  babysitterValidation.message});
             }
 
             const babysitterProfile = await handler.getBabysitterProfile(Number(babysitterId));
@@ -56,11 +56,11 @@ profileRouter.get("/parent/:id",
 
             const { id: parentId } = req.params
 
-            const isValid =  await handler.parentValidation(Number(parentId));
-            if (!isValid.valid) {
+            const parentValidation =  await handler.parentValidation(Number(parentId));
+            if (!parentValidation.isValid) {
                 return res
                 .status(400)
-                .json({ message:  isValid.message});
+                .json({ message:  parentValidation.message});
             }
 
             const parentProfile = await handler.getParentProfile(Number(parentId));
@@ -117,7 +117,7 @@ profileRouter.put("/babysitter/update/:id",
             if (!babysitterValidation.isValid) {
                 return res
                 .status(400)
-                .json({ message:  isValid.message});
+                .json({ message:  babysitterValidation.message});
             }
 
             await handler.updateBabysitterProfile(Number(babysitterId), {
@@ -167,7 +167,7 @@ profileRouter.put("/parent/update/:id",
                 comments
             } = req.body;
 
-            const isValid = await handler.parentUpdateValidation(Number(parentId),
+            const parentValidation = await handler.parentUpdateValidation(Number(parentId),
                 {
                     parentName,
                     email,
@@ -181,10 +181,10 @@ profileRouter.put("/parent/update/:id",
                     comments
                 });
 
-            if (!isValid.valid) {
+            if (!parentValidation.isValid) {
                 return res
                 .status(400)
-                .json({ message:  isValid.message});
+                .json({ message:  parentValidation.message});
             }
 
             await handler.updateParentProfile(Number(parentId), {
