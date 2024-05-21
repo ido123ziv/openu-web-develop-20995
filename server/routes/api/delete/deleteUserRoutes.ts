@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { param } from "express-validator";
+import { validationResult, param } from "express-validator";
 
 import Handler from "./deleteUserHandler";
 import { BABYSITTER_INVALID_INPUT_ERROR, 
@@ -16,12 +16,20 @@ deleteRouter.put("/parent/:id",
     ],
     async (req: Request, res: Response) => {
         try {
+            const fieldValidationResult = validationResult(req);
+            if (!fieldValidationResult.isEmpty()) {
+                return res
+                    .status(400)
+                    .json({ message: fieldValidationResult.array()[0].msg });
+            }
+
             const { id: parentId } = req.params
-            const isValid =  await handler.parentValidation(req, Number(parentId));
-            if (!isValid.valid) {
+            
+            const parentValidation =  await handler.parentValidation(Number(parentId));
+            if (!parentValidation.isValid) {
                 return res
                 .status(400)
-                .json({ message:  isValid.message});
+                .json({ message:  parentValidation.message});
             }
             
             await handler.deleteParent(Number(parentId));
@@ -39,12 +47,20 @@ deleteRouter.put("/babysitter/:id",
     ],
     async (req: Request, res: Response) => {
         try {
+            const fieldValidationResult = validationResult(req);
+            if (!fieldValidationResult.isEmpty()) {
+                return res
+                    .status(400)
+                    .json({ message: fieldValidationResult.array()[0].msg });
+            }
+
             const { id: babysitterId } = req.params
-            const isValid =  await handler.babysitterValidation(req, Number(babysitterId));
-            if (!isValid.valid) {
+
+            const babysitterValidation =  await handler.babysitterValidation(Number(babysitterId));
+            if (!babysitterValidation.isValid) {
                 return res
                 .status(400)
-                .json({ message:  isValid.message});
+                .json({ message:  babysitterValidation.message});
             }
 
             await handler.deleteBabysitter(Number(babysitterId));

@@ -1,8 +1,5 @@
-import { validationResult } from "express-validator";
-import { Request } from "express";
-
 import DBHandler from "./deleteUserDBHandler";
-import { UserDelete } from "./deleteUserTypes";
+import { UserDelete, Validation } from "./deleteUserTypes";
 import { END_TIMESTAMP } from "../../../utils/global/globals";
 
 export default class Handler {
@@ -12,40 +9,30 @@ export default class Handler {
     this.dbHandler = new DBHandler();
   }
 
-  parentValidation = async(req: Request, parentId: number) => {
-    const fieldValidationResult = validationResult(req);
-    if (!fieldValidationResult.isEmpty()) {
-      return { valid: false, message: fieldValidationResult.array().map((item) => item.msg).join(' ') }
-    } 
-
+  parentValidation = async(parentId: number): Promise<Validation> => {
     const parentProfile = await this.dbHandler.getParent(parentId);
     if (parentProfile.length === 0) {
-      return { valid: false, message: 'Incorrect id' }
+      return { isValid: false, message: 'Incorrect id' }
     }
 
     if (parentProfile[0].endTimestamp !== String(END_TIMESTAMP)) {
-      return { valid: false, message: 'This user is not active' }
+      return { isValid: false, message: 'This user is not active' }
     }
 
-    return { valid: true }
+    return { isValid: true }
   }
 
-  babysitterValidation = async(req: Request, babysitterId: number) => {
-    const fieldValidationResult = validationResult(req);
-    if (!fieldValidationResult.isEmpty()) {
-      return { valid: false, message: fieldValidationResult.array().map((item) => item.msg).join(' ') }
-    } 
-
-    const babysitterProfile = await this.dbHandler.getBabysitter(babysitterId);
+  babysitterValidation = async(babysitterId: number): Promise<Validation> => {
+     const babysitterProfile = await this.dbHandler.getBabysitter(babysitterId);
     if (babysitterProfile.length === 0) {
-      return { valid: false, message: 'Incorrect id' }
+      return { isValid: false, message: 'Incorrect id' }
     }
 
     if (babysitterProfile[0].endTimestamp !== String(END_TIMESTAMP)) {
-      return { valid: false, message: 'This user is not active' }
+      return { isValid: false, message: 'This user is not active' }
     }
 
-    return { valid: true }
+    return { isValid: true }
   }
 
   getDBHandler() {
