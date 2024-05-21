@@ -31,7 +31,6 @@ headerSetup(app);
 // Define routes
 app.use("/signup", signupRouter);
 app.use("/login", loginRouter);
-app.use('/api', router);
 app.use("/api/parents", parentsRouter);
 app.use("/api/recommendations", recommendationsRouter);
 app.use("/api/delete", deleteRouter);
