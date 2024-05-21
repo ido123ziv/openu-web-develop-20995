@@ -41,7 +41,7 @@ export default class DBHandler {
 
     async updateBabySitterProfile(babysitterId: number, babysitterData: BabysitterUpdate): Promise<void> {
         const fields: string[] = [];
-        const params: any[] = [];
+        const params = [];
         let paramIndex = 1;
 
         if (babysitterData.babysitterName) {
@@ -100,7 +100,7 @@ export default class DBHandler {
 
     async updateParentProfile(parentId: number, parentData: ParentUpdate): Promise<void> {
         const fields: string[] = [];
-        const params: any[] = [];
+        const params = [];
         let paramIndex = 1;
 
         if (parentData.parentName) {
