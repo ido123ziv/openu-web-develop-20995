@@ -26,6 +26,7 @@ export default class Handler {
       parentId,
       babysitterId
     );
+
     if (recommendation) {
       return {
         isValid: false,

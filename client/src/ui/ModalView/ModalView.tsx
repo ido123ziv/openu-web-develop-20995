@@ -14,11 +14,22 @@ import { FaChild, FaMapMarkerAlt } from "react-icons/fa";
 import { MdOutlineChildCare } from "react-icons/md";
 import { FaChildren } from "react-icons/fa6";
 import { GiRank1, GiRank2, GiRank3 } from "react-icons/gi";
+import { useRecoilValue } from "recoil";
+import { useState } from "react";
 
 import styles from "./ModalView.module.css";
 import { ModalViewProps } from "./ModalViewInterface";
+import { userState } from "../../state/atoms/userAtom";
+import AddRecommendationModal from "../../pages/App/Parents/AddRecommendationModal/AddRecommendationModal";
 
 const ModalView = ({ isOpen, setIsOpen, card }: ModalViewProps) => {
+  const [isOpenReviewModal, setIsOpenReviewModal] = useState<boolean>(false);
+  const user = useRecoilValue(userState);
+
+  const handleAddReview = () => {
+    setIsOpenReviewModal(true);
+  };
+
   return (
     <Modal
       closeIcon
@@ -26,7 +37,7 @@ const ModalView = ({ isOpen, setIsOpen, card }: ModalViewProps) => {
       onOpen={() => setIsOpen(true)}
       open={isOpen}
     >
-      <ModalHeader>Select a Photo</ModalHeader>
+      <ModalHeader>{card?.name}</ModalHeader>
       <ModalContent image>
         <Image
           size="medium"
@@ -126,17 +137,31 @@ const ModalView = ({ isOpen, setIsOpen, card }: ModalViewProps) => {
         </ModalDescription>
       </ModalContent>
       <ModalActions>
-        <Button color="black" onClick={() => setIsOpen(false)}>
-          Add a review
-        </Button>
-        <Button
-          content="Worked with"
-          labelPosition="right"
-          icon="checkmark"
-          onClick={() => setIsOpen(false)}
-          positive
-        />
+        {user.role === "parents" && (
+          <>
+            <Button color="black" onClick={handleAddReview}>
+              Add a review
+            </Button>
+            <Button
+              content="Worked with"
+              labelPosition="right"
+              icon="checkmark"
+              onClick={() => setIsOpen(false)}
+              positive
+            />
+          </>
+        )}
       </ModalActions>
+
+      {isOpenReviewModal && (
+        <AddRecommendationModal
+          isOpen={isOpenReviewModal}
+          setIsOpen={setIsOpenReviewModal}
+          parentId={user.id}
+          babysitterId={card?.id}
+          babysitterName={card?.name}
+        />
+      )}
     </Modal>
   );
 };
