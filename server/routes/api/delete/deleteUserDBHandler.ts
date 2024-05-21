@@ -20,23 +20,21 @@ export default class DBHandler {
         return babysitter.rows;
     }
 
-    async deleteParent(parentId: number): Promise<number> {
+    async deleteParent(parentId: number): Promise<void> {
         const parentQuery = `UPDATE parents
                              SET end_timestamp = $1
                              WHERE parent_id = $2`;
                              
         const newEndTimestamp = new Date().getTime();
         await db.query(parentQuery, [newEndTimestamp, parentId]);
-        return newEndTimestamp;
     }
 
-    async deleteBabysitter(babysitterId: number): Promise<number> {
+    async deleteBabysitter(babysitterId: number): Promise<void> {
         const babysitterQuery = `UPDATE babysitters
                                  SET end_timestamp = $1
                                  WHERE babysitter_id = $2`;
         
         const newEndTimestamp = new Date().getTime();
         await db.query(babysitterQuery, [newEndTimestamp, babysitterId]);
-        return newEndTimestamp;
     }
 }

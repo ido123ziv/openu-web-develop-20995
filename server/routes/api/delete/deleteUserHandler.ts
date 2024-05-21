@@ -47,11 +47,11 @@ export default class Handler {
     return this.dbHandler.getBabysitter(babysitterId);
   }
 
-  deleteParent = async (parentId: number): Promise<number> => {
+  deleteParent = async (parentId: number): Promise<void> => {
     return this.dbHandler.deleteParent(parentId);
   }
 
-  deleteBabysitter = async (babysitterId: number): Promise<number> => {
+  deleteBabysitter = async (babysitterId: number): Promise<void> => {
     return this.dbHandler.deleteBabysitter(babysitterId);
   }
 }
