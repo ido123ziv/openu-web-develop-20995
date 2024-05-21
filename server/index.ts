@@ -13,6 +13,7 @@ import signupRouter from "./routes/signup/signupRoutes";
 import recommendationsRouter from "./routes/api/recommendations/recommendationsRoutes";
 import deleteRouter from "./routes/api/delete/deleteUserRoutes";
 import profileRouter from "./routes/api/profile/profileRoutes";
+import babysitterRouter from "./routes/api/babysitter/babysitterRoutes";
 
 // Creating an Express app
 const app = express();
@@ -36,6 +37,7 @@ app.use("/api/recommendations", recommendationsRouter);
 app.use("/api/delete", deleteRouter);
 app.use("/api/moderator", moderatorRouter);
 app.use("/api/profile", profileRouter);
+app.use("/api/babysitter", babysitterRouter);
 app.use("/", router);
 
 
