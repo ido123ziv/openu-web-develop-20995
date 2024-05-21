@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import { validationResult, param } from "express-validator";
-import { BABYSITTER_INVALID_INPUT_ERROR, 
-    PARENT_INVALID_INPUT_ERROR } from "../../../utils/global/globals"
+
+import { BABYSITTER_INVALID_INPUT_ERROR, PARENT_INVALID_INPUT_ERROR } from "../../../utils/global/globals"
 
 import Handler from "./profileHandler";
 
@@ -11,22 +11,30 @@ const handler = new Handler();
 
 
 profileRouter.get("/babysitter/:id",
-     [ 
-         param('id').notEmpty().isNumeric().withMessage(BABYSITTER_INVALID_INPUT_ERROR)
-     ],
+    [ 
+        param('id').notEmpty().isNumeric().withMessage(BABYSITTER_INVALID_INPUT_ERROR)
+    ],
     async (req: Request, res: Response) => {
         try {
-
             const fieldValidationResult = validationResult(req);
             if (!fieldValidationResult.isEmpty()) {
-              return res
-                .status(400)
-                .json({ message: fieldValidationResult.array().map((item) => item.msg).join(' ') });
+                return res
+                    .status(400)
+                    .json({ message: fieldValidationResult.array()[0].msg });
             }
-            const { id: babysitterId } = req.params;
-            const babysitterProfile = await handler.getBabysitterProfile(Number(babysitterId));
-            return res.status(200).send(babysitterProfile);
 
+            const { id: babysitterId } = req.params;
+
+            const babysitterValidation = await handler.babysitterValidation(Number(babysitterId));
+            if (!babysitterValidation.isValid) {
+                return res
+                .status(400)
+                .json({ message:  babysitterValidation.message});
+            }
+
+            const babysitterProfile = await handler.getBabysitterProfile(Number(babysitterId));
+
+            return res.status(200).send(babysitterProfile);
         } catch (e) {
             console.log(`Error message: ${req.body.id}: ${(e as Error).message}\n${(e as Error).stack}`);
             return res.status(500).end();
@@ -41,15 +49,158 @@ profileRouter.get("/parent/:id",
         try {
             const fieldValidationResult = validationResult(req);
             if (!fieldValidationResult.isEmpty()) {
-              return res
-                .status(400)
-                .json({ message: fieldValidationResult.array().map((item) => item.msg).join(' ') });
+                return res
+                    .status(400)
+                    .json({ message: fieldValidationResult.array()[0].msg });
             }
+
             const { id: parentId } = req.params
+
+            const parentValidation =  await handler.parentValidation(Number(parentId));
+            if (!parentValidation.isValid) {
+                return res
+                .status(400)
+                .json({ message:  parentValidation.message});
+            }
 
             const parentProfile = await handler.getParentProfile(Number(parentId));
 
             return res.status(200).send(parentProfile);
+        } catch (e) {
+            console.log(`Error message: ${req.body.id}: ${(e as Error).message}\n${(e as Error).stack}`);
+            return res.status(500).end();
+        }
+    })
+
+profileRouter.put("/babysitter/update/:id",
+    [ 
+        param('id').notEmpty().isNumeric().withMessage(BABYSITTER_INVALID_INPUT_ERROR)
+    ],
+    async (req: Request, res: Response) => {
+        try {
+            const fieldValidationResult = validationResult(req);
+            if (!fieldValidationResult.isEmpty()) {
+                return res
+                    .status(400)
+                    .json({ message: fieldValidationResult.array()[0].msg });
+            }
+
+            const { id: babysitterId } = req.params;
+
+            const {
+                babysitter_name: babysitterName,
+                email,
+                city,
+                street,
+                experience,
+                age,
+                phone_number: phoneNumber,
+                gender,
+                comments
+            } = req.body;
+
+            const babysitterValidation = await handler.babysitterUpdateValidation(
+                Number(babysitterId),
+                {
+                    babysitterName,
+                    email,
+                    city,
+                    street,
+                    experience,
+                    age,
+                    phoneNumber,
+                    gender,
+                    comments
+                }
+            );
+
+            if (!babysitterValidation.isValid) {
+                return res
+                .status(400)
+                .json({ message:  babysitterValidation.message});
+            }
+
+            await handler.updateBabysitterProfile(Number(babysitterId), {
+                    babysitterName,
+                    email,
+                    city,
+                    street,
+                    experience,
+                    age,
+                    phoneNumber,
+                    gender,
+                    comments
+                }
+            );
+
+            return res.status(200).json({ message: `Profile updated successfully.`});
+        } catch (e) {
+            console.log(`Error message: ${req.body.id}: ${(e as Error).message}\n${(e as Error).stack}`);
+            return res.status(500).end();
+        }
+    })
+
+profileRouter.put("/parent/update/:id",
+    [ 
+        param('id').notEmpty().isNumeric().withMessage(PARENT_INVALID_INPUT_ERROR)
+    ],
+    async (req: Request, res: Response) => {
+        try {
+            const fieldValidationResult = validationResult(req);
+            if (!fieldValidationResult.isEmpty()) {
+                return res
+                    .status(400)
+                    .json({ message: fieldValidationResult.array()[0].msg });
+            }
+
+            const { id: parentId } = req.params;
+            const {
+                parent_name: parentName,
+                email,
+                city,
+                street,
+                gender,
+                phone_number: phoneNumber,
+                min_kid_age: minKidAge,
+                max_kid_age: maxKidAge,
+                num_of_kids: numOfKids,
+                comments
+            } = req.body;
+
+            const parentValidation = await handler.parentUpdateValidation(Number(parentId),
+                {
+                    parentName,
+                    email,
+                    city,
+                    street,
+                    gender,
+                    phoneNumber,
+                    minKidAge,
+                    maxKidAge,
+                    numOfKids,
+                    comments
+                });
+
+            if (!parentValidation.isValid) {
+                return res
+                .status(400)
+                .json({ message:  parentValidation.message});
+            }
+
+            await handler.updateParentProfile(Number(parentId), {
+                parentName,
+                email,
+                city,
+                street,
+                gender,
+                phoneNumber,
+                minKidAge,
+                maxKidAge,
+                numOfKids,
+                comments
+            })
+
+            return res.status(200).json({ message: `Profile updated successfully.`});
         } catch (e) {
             console.log(`Error message: ${req.body.id}: ${(e as Error).message}\n${(e as Error).stack}`);
             return res.status(500).end();
