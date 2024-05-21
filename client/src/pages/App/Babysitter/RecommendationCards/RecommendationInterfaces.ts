@@ -2,7 +2,7 @@ export interface RecommendationCard {
   id: number;
   parentName: string;
   rating: number;
-  recommendation: string;
+  recommendationText: string;
 }
 
 export interface RecommendationCardArr {

@@ -17,6 +17,7 @@ const BabysitterMainView = () => {
     queryKey: ["getRecommendations"],
     queryFn: () => getRecommendations(user.id),
     onSuccess: (data) => {
+      console.log(data);
       if (!data.length) {
         return;
       }

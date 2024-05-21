@@ -11,7 +11,7 @@ const RecommendationCards = ({ data }: RecommendationCardArr) => {
           key={el.id}
           header={el.parentName}
           meta={`Rating: ${el.rating} ⭐`}
-          description={el.recommendation}
+          description={el.recommendationText}
           className={styles.card}
         />
       ))}
