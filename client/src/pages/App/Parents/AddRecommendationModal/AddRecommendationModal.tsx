@@ -2,14 +2,16 @@ import {
   Button,
   Form,
   FormField,
-  Header,
   Modal,
   ModalContent,
   ModalDescription,
   ModalHeader,
+  Rating,
 } from "semantic-ui-react";
 import { useMutation } from "react-query";
 import { FieldValues, useForm } from "react-hook-form";
+import { useState } from "react";
+import Swal from "sweetalert2";
 
 import { ModalAddReviewProps } from "./RecommendationModalInterfaces";
 import { addRecommendation } from "./recommendationServices";
@@ -21,6 +23,7 @@ const AddRecommendationModal = ({
   babysitterId,
   babysitterName,
 }: ModalAddReviewProps) => {
+  const [rating, setRating] = useState<number>(-1);
   const {
     register,
     handleSubmit,
@@ -31,14 +34,23 @@ const AddRecommendationModal = ({
   const { mutate } = useMutation({
     mutationKey: ["addRecommendation"],
     mutationFn: addRecommendation,
+    onSuccess: () => {
+      Swal.fire({
+        title: "Your review has been submitted",
+        icon: "success",
+      });
+    },
     onError: (error: unknown) => {
       reset();
       console.log(error);
     },
   });
 
-  const onSubmit = async (data: FieldValues) => {
-    mutate({ data, babysitterId, parentId });
+  const onSubmit = async (data: FieldValues): Promise<void> => {
+    if (rating < 0) {
+      return;
+    }
+    mutate({ data, babysitterId, parentId, rating });
   };
 
   return (
@@ -51,7 +63,6 @@ const AddRecommendationModal = ({
       <ModalHeader>{`Post a review about ${babysitterName}`}</ModalHeader>
       <ModalContent>
         <ModalDescription>
-          <Header>{`Post a review about ${babysitterName}`}</Header>
           <Form onSubmit={handleSubmit(onSubmit)}>
             <FormField>
               <textarea
@@ -64,14 +75,14 @@ const AddRecommendationModal = ({
 
             <FormField>
               <label>Rating</label>
-              <input
-                placeholder="on a scale of 1 to 5 (5 being the most awesome babysitter ever)"
-                type="number"
-                {...register("rating", {
-                  required: "please provide a rating",
-                  min: { value: 1, message: "Rating must be at least 1" },
-                  max: { value: 5, message: "Rating cannot be more than 5" },
-                })}
+              <Rating
+                size="massive"
+                icon="star"
+                defaultRating={0}
+                maxRating={5}
+                onRate={(_event, data) => {
+                  setRating(Number(data.rating));
+                }}
               />
             </FormField>
 

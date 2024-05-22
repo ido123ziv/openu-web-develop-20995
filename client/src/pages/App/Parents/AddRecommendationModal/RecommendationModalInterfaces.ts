@@ -16,4 +16,5 @@ export interface FormData {
   data: FieldValues;
   babysitterId: number | undefined;
   parentId: number;
+  rating: number;
 }

@@ -6,10 +6,9 @@ export const addRecommendation = async (formData: FormData): Promise<void> => {
   try {
     const data = {
       parentId: formData.parentId,
-      rating: Number(formData.data.rating),
+      rating: formData.rating,
       recommendationText: formData.data.recommendationText,
     };
-    console.log(data, formData.babysitterId);
     await axios.post(
       `http://localhost:3000/api/recommendations/${formData.babysitterId}`,
       JSON.stringify(data),
