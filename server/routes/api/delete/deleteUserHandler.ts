@@ -11,11 +11,11 @@ export default class Handler {
 
   parentValidation = async(parentId: number): Promise<Validation> => {
     const parentProfile = await this.dbHandler.getParent(parentId);
-    if (parentProfile.length === 0) {
+    if (!parentProfile.length) {
       return { isValid: false, message: 'Incorrect id' }
     }
 
-    if (parentProfile[0].endTimestamp !== String(END_TIMESTAMP)) {
+    if (parentProfile[0].endTimestamp !== END_TIMESTAMP) {
       return { isValid: false, message: 'This user is not active' }
     }
 
@@ -24,11 +24,11 @@ export default class Handler {
 
   babysitterValidation = async(babysitterId: number): Promise<Validation> => {
      const babysitterProfile = await this.dbHandler.getBabysitter(babysitterId);
-    if (babysitterProfile.length === 0) {
+    if (!babysitterProfile.length) {
       return { isValid: false, message: 'Incorrect id' }
     }
 
-    if (babysitterProfile[0].endTimestamp !== String(END_TIMESTAMP)) {
+    if (babysitterProfile[0].endTimestamp !== END_TIMESTAMP) {
       return { isValid: false, message: 'This user is not active' }
     }
 

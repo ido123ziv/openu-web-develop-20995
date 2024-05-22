@@ -4,5 +4,5 @@ export type Validation = {
 };
 
 export type UserDelete = {
-  endTimestamp: string;
+  endTimestamp: number;
 };
