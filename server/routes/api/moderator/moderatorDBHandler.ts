@@ -39,18 +39,14 @@ export default class DBHandler {
   }
 
   async getContactRequests(): Promise<ContactRequest[]> {
-    // const query = `SELECT request_status AS "requestStatus",
-    //                       user_name AS name,
-    //                       user_email AS email,
-    //                       message_title AS title,
-    //                       user_message AS message
-    //                FROM contact_requests`;
-
-    const query = `SELECT *
-                  FROM contact_requests`;
+    const query = `SELECT request_status AS "requestStatus",
+                          user_name AS name,
+                          user_email AS email,
+                          message_title AS title,
+                          user_message AS message
+                   FROM contact_requests`;
 
     const contactRequests = await db.query(query);
-    console.log(contactRequests.rows)
 
     return contactRequests.rows;
   }
