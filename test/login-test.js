@@ -36,8 +36,8 @@ async function getTextFromURL(page, url) {
 
 
 async function signUpToPage(url, email, password) {
-    const browser = await puppeteer.launch({ headless: false }); // headless: false to see the browser in action
-    // const browser = await puppeteer.launch(); // headless: false to see the browser in action
+    // const browser = await puppeteer.launch({ headless: false }); // headless: false to see the browser in action
+    const browser = await puppeteer.launch(); // headless: false to see the browser in action
     const page = await browser.newPage();
   
     try {
@@ -127,8 +127,8 @@ async function signUpToPage(url, email, password) {
 
 
 async function loginToPage(url, email, password) {
-  const browser = await puppeteer.launch({ headless: false }); // headless: false to see the browser in action
-  // const browser = await puppeteer.launch(); // headless: false to see the browser in action
+  // const browser = await puppeteer.launch({ headless: false }); // headless: false to see the browser in action
+  const browser = await puppeteer.launch(); // headless: false to see the browser in action
   const page = await browser.newPage();
 
   try {
@@ -190,7 +190,7 @@ async function loginToPage(url, email, password) {
 }
 
 async function test(outputFile) {
-  const types = ["babysitter", "parent"];
+  const types = ["babysitter", "parents"];
   for (const element of types) {
       const signUpSuccess = await signUpToPage(`http://localhost:5172/signup/${element}`, `${time}+${element}@test.com`, '1234');
       if (signUpSuccess) {
