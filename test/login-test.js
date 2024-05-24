@@ -216,7 +216,7 @@ const outputFile = 'output.txt';
 
 async function runTest(outputFile) {
   try {
-      const result = await test();
+      const result = await test(outputFile);
       console.log('Test completed successfully:', result);
   } catch (error) {
       console.error('Test encountered an error:', error);
