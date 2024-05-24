@@ -57,6 +57,15 @@ export default class DBHandler {
     const recommendations = await db.query(babysitterQuery, [babysitterId]);
     return recommendations.rows;
   }
+  async getBabySitterRating(
+    babysitterId: number
+  ): Promise<number[]> {
+    const babysitterQuery = `SELECT rating,
+                                 FROM recommendations
+                                 WHERE babysitter_id = ($1)`;
+    const recommendations = await db.query(babysitterQuery, [babysitterId]);
+    return recommendations.rows;
+  }
 
   async getParentRecommendation(parentId: number): Promise<Recommendation[]> {
     const parentQuery = `SELECT  parent_id AS "parentId",

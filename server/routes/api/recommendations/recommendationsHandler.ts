@@ -44,6 +44,12 @@ export default class Handler {
   getBabysitter = async (babysitterId: number): Promise<Recommendation[]> => {
     return this.dbHandler.getBabySitterRecommendation(babysitterId);
   };
+  getBabysitterRating = async (babysitterId: number): Promise<number> => {
+     const ratings = await this.dbHandler.getBabySitterRating(babysitterId);
+     const average = ratings.reduce((a, b) => a + b, 0) / ratings.length;
+     console.log(average);
+     return average;
+  };
 
   getParent = async (parentId: number): Promise<Recommendation[]> => {
     return this.dbHandler.getParentRecommendation(parentId);
