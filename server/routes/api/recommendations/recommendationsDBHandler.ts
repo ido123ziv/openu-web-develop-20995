@@ -1,5 +1,5 @@
 import db from "../../../utils/db/db";
-import { Recommendation } from "./recommendationsTypes";
+import { RatingObject, Recommendation } from "./recommendationsTypes";
 
 export default class DBHandler {
   async getParent(parentId: number): Promise<number> {
@@ -59,8 +59,8 @@ export default class DBHandler {
   }
   async getBabySitterRating(
     babysitterId: number
-  ): Promise<number[]> {
-    const babysitterQuery = `SELECT rating,
+  ): Promise<RatingObject[]> {
+    const babysitterQuery = `SELECT rating
                                  FROM recommendations
                                  WHERE babysitter_id = ($1)`;
     const recommendations = await db.query(babysitterQuery, [babysitterId]);
