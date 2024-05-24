@@ -148,7 +148,7 @@ async function loginToPage(url, email, password, outputFile) {
     await page.waitForNavigation();
     await page.screenshot({ path: 'post-login.png' });
     // Optional: You can add code here to verify if login was successful
-    if (url.includes("parent")){
+    if (email.includes("parent")){
       await page.waitForSelector('.ui.card');
 
       // Get all the card elements
