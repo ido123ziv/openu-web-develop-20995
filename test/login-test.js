@@ -98,12 +98,10 @@ async function loginToPage(url, email, password) {
     for (const cardElement of cardElements) {
       // Extract header, meta, and description text from each card
       const headerText = await cardElement.$eval('.header', header => header.textContent.trim());
-      const metaText = await cardElement.$eval('.meta', meta => meta.textContent.trim());
       const descriptionText = await cardElement.$eval('.description', description => description.textContent.trim());
 
       // Print the extracted information to the console
       console.log('Header:', headerText);
-      console.log('Meta:', metaText);
       console.log('Description:', descriptionText);
     }
     return true; // Return true if login was successful
@@ -122,7 +120,7 @@ async function test(){
             console.log('signup successful!');
         } else {
             console.log('signup failed.');
-            process.exitCode = 1;
+            throw new Error("Signup Failed.")
         }
     });
     // Example usage:
@@ -132,6 +130,7 @@ async function test(){
             console.log('Login successful!');
         } else {
             console.log('Login failed.');
+            throw new Error("Login Failed.")
         }
     });
     return true;
