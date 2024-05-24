@@ -1,0 +1,10 @@
+.menu {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile {
+  background-color: rgb(30, 126, 210) !important;
+  color: white !important;
+  margin-bottom: 1vh !important;
+}

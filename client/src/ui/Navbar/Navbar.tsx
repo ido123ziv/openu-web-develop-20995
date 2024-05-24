@@ -4,52 +4,54 @@ import { useRecoilValue } from "recoil";
 
 import styles from "./NavigationBar.module.css";
 import { userState } from "../../state/atoms/userAtom";
+import UserMenu from "./UserMenu/UserMenu";
 
 function NavigationBar() {
   const user = useRecoilValue(userState);
   const loggedIn = user.id ?? false;
 
   return (
-    <Menu inverted className={styles.navbar}>
-      <MenuItem>
-        <Image src="taf-03.svg" className={styles.logo} />
-      </MenuItem>
-
-      <MenuMenu>
-        <MenuItem as={Link} to="/" name="home">
-          Home
+    <>
+      <Menu inverted className={styles.navbar}>
+        <MenuItem>
+          <Image src="taf-03.svg" className={styles.logo} />
         </MenuItem>
 
-        <MenuItem as={Link} to="/about" name="about">
-          About
-        </MenuItem>
+        <MenuMenu>
+          <MenuItem as={Link} to="/" name="home">
+            Home
+          </MenuItem>
 
-        <MenuItem as={Link} to="/contact" name="contact">
-          Contact
-        </MenuItem>
+          <MenuItem as={Link} to="/about" name="about">
+            About
+          </MenuItem>
+
+          <MenuItem as={Link} to="/contact" name="contact">
+            Contact
+          </MenuItem>
+
+          {!loggedIn ? (
+            <MenuItem as={Link} to="/signup" name="signup">
+              <Button primary>Sign up</Button>
+            </MenuItem>
+          ) : (
+            <MenuItem as={Link} to={`/app/${user.role}`} name="signup">
+              <Button primary>To App</Button>
+            </MenuItem>
+          )}
+        </MenuMenu>
 
         {!loggedIn ? (
-          <MenuItem as={Link} to="/signup" name="signup">
-            <Button primary>Sign up</Button>
+          <MenuItem as={Link} to="/login" position="right">
+            <Button>Login</Button>
           </MenuItem>
         ) : (
-          <MenuItem as={Link} to={`/app/${user.role}`} name="signup">
-            <Button primary>To App</Button>
+          <MenuItem position="right">
+            <UserMenu name={user.name} />
           </MenuItem>
         )}
-      </MenuMenu>
-
-      {!loggedIn ? (
-        <MenuItem as={Link} to="/login" position="right">
-          <Button>Login</Button>
-        </MenuItem>
-      ) : (
-        <MenuItem position="right">
-          {/* //TODO: once get profile is ready */}
-          <Button primary>{`Hello ${user.name}`}</Button>
-        </MenuItem>
-      )}
-    </Menu>
+      </Menu>
+    </>
   );
 }
 
