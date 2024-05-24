@@ -126,7 +126,7 @@ async function signUpToPage(url, email, password) {
   }
 
 
-async function loginToPage(url, email, password) {
+async function loginToPage(url, email, password, outputFile) {
   // const browser = await puppeteer.launch({ headless: false }); // headless: false to see the browser in action
   const browser = await puppeteer.launch(); // headless: false to see the browser in action
   const page = await browser.newPage();
