@@ -12,8 +12,11 @@ This repo is for openu course [20995](https://www.openu.ac.il/courses/20995.htm)
 
 * [local-dev](#project)
 
+* [automated-tests](#testing)
+
 and some important tools we are working with [linter](#linter) & [pre-commit](#pre-commit)
 
+---
 
 # How To Run
 ```bash
