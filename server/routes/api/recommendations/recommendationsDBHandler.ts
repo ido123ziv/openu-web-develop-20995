@@ -60,7 +60,7 @@ export default class DBHandler {
   async getBabySitterRating(
     babysitterId: number
   ): Promise<RatingObject[]> {
-    const babysitterQuery = `SELECT TRUNC(AVG(rating)) AS "babysitterRating"
+    const babysitterQuery = `SELECT TRUNC(AVG(rating),2) AS "babysitterRating"
                                  FROM recommendations
                                  WHERE babysitter_id = ($1)`;
     const recommendations = await db.query(babysitterQuery, [babysitterId]);
