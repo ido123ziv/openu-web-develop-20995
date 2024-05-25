@@ -17,7 +17,6 @@ export default class DBHandler {
                                  street,
                                  gender,
                                  experience,
-                                 age,
                                  phone_number AS "phoneNumber",
                                  comments
                                  FROM babysitters

@@ -19,7 +19,6 @@ export type BabysitterProfile = {
   city: string;
   street: string;
   experience: string;
-  age: number;
   phoneNumber: string;
   gender: string;
   comments?: string;
