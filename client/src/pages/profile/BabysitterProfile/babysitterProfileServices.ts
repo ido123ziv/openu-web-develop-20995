@@ -24,3 +24,12 @@ export const updateProfile = (
     }
   );
 };
+
+export const deleteProfile = async (babysitterId: number): Promise<void> => {
+  return await axios.put(
+    `http://localhost:3000/api/delete/babysitter/${babysitterId}`,
+    {
+      headers: { "Content-Type": "application/json" },
+    }
+  );
+};

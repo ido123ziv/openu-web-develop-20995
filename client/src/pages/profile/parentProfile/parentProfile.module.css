@@ -67,3 +67,13 @@
   margin-left: 25vw !important;
   margin-right: 0 auto !important;
 }
+
+.delete {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+}
+
+.deleteBtn {
+  width: 10vw;
+}

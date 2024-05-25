@@ -7,14 +7,20 @@ import {
   Icon,
   Image,
 } from "semantic-ui-react";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useResetRecoilState } from "recoil";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Controller, FieldValues, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 import styles from "./BabysitterProfile.module.css";
 import BackgroundSVG from "../../../ui/BackgroundSVG/BackgroundSVG";
 import { userState } from "../../../state/atoms/userAtom";
-import { getProfile, updateProfile } from "./babysitterProfileServices";
+import {
+  deleteProfile,
+  getProfile,
+  updateProfile,
+} from "./babysitterProfileServices";
 import { updatedValues } from "../helpers/helpers";
 import { BabysitterData } from "./BabysitterProfileInterfaces";
 
@@ -32,7 +38,18 @@ const BabysitterProfile = () => {
     formState: { isSubmitting },
   } = useForm();
   const user = useRecoilValue(userState);
+  const resetUser = useResetRecoilState(userState);
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  const onSubmit = async (data: FieldValues) => {
+    const updatedProfile = updatedValues(data);
+    if (!updatedProfile) {
+      return;
+    }
+
+    mutate(updatedProfile as BabysitterData);
+  };
 
   const { data: userData } = useQuery({
     queryKey: ["getProfile"],
@@ -47,8 +64,31 @@ const BabysitterProfile = () => {
     onError: (error) => console.log(error),
   });
 
-  const onSubmit = async (data: FieldValues) => {
-    mutate(updatedValues(data));
+  const { mutate: deleteUser } = useMutation({
+    mutationKey: ["deleteProfile"],
+    mutationFn: async () => {
+      const result = await Swal.fire({
+        title: "Are you sure you want to delete your profile?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes",
+      });
+
+      if (result.isDismissed) {
+        return;
+      }
+
+      resetUser();
+      deleteProfile(user.id);
+      navigate("/");
+    },
+    onError: (error) => console.log(error),
+  });
+
+  const handleDelete = () => {
+    deleteUser();
   };
 
   return (
@@ -145,15 +185,28 @@ const BabysitterProfile = () => {
               </FormField>
             </div>
 
-            <FormButton
-              primary
-              type="submit"
-              disabled={isSubmitting}
-              className={styles.saveBtn}
-            >
-              Save Changes
-            </FormButton>
+            <div className={styles.submitContainer}>
+              <FormButton
+                primary
+                type="submit"
+                disabled={isSubmitting}
+                className={styles.saveBtn}
+                size="large"
+              >
+                Save Changes
+              </FormButton>
+            </div>
           </Form>
+        </div>
+
+        <div className={styles.delete}>
+          <Button
+            color="red"
+            className={styles.deleteBtn}
+            onClick={handleDelete}
+          >
+            Delete Profile
+          </Button>
         </div>
       </div>
     </>

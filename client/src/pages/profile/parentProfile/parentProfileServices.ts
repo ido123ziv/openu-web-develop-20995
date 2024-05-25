@@ -20,3 +20,12 @@ export const updateProfile = (
     }
   );
 };
+
+export const deleteProfile = async (parentId: number): Promise<void> => {
+  return await axios.put(
+    `http://localhost:3000/api/delete/parent/${parentId}`,
+    {
+      headers: { "Content-Type": "application/json" },
+    }
+  );
+};

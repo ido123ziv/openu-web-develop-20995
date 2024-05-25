@@ -7,16 +7,22 @@ import {
   Icon,
   Image,
 } from "semantic-ui-react";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useResetRecoilState } from "recoil";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { FieldValues, useForm } from "react-hook-form";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 import { userState } from "../../../state/atoms/userAtom";
 import BackgroundSVG from "../../../ui/BackgroundSVG/BackgroundSVG";
 import styles from "./parentProfile.module.css";
 import { ParentData } from "./parentProfileInterfaces";
 import { updatedValues } from "../helpers/helpers";
-import { getProfile, updateProfile } from "./parentProfileServices";
+import {
+  deleteProfile,
+  getProfile,
+  updateProfile,
+} from "./parentProfileServices";
 
 const ParentProfile = () => {
   const {
@@ -25,7 +31,18 @@ const ParentProfile = () => {
     formState: { isSubmitting },
   } = useForm();
   const user = useRecoilValue(userState);
+  const resetUser = useResetRecoilState(userState);
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  const onSubmit = async (data: FieldValues) => {
+    const updatedProfile = updatedValues(data);
+    if (!updatedProfile) {
+      return;
+    }
+
+    mutate(updatedProfile as ParentData);
+  };
 
   const { data: userData } = useQuery({
     queryKey: ["getProfile"],
@@ -40,9 +57,31 @@ const ParentProfile = () => {
     onError: (error) => console.log(error),
   });
 
-  const onSubmit = async (data: FieldValues) => {
-    console.log(data);
-    mutate(updatedValues(data));
+  const { mutate: deleteUser } = useMutation({
+    mutationKey: ["deleteProfile"],
+    mutationFn: async () => {
+      const result = await Swal.fire({
+        title: "Are you sure you want to delete your profile?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes",
+      });
+
+      if (result.isDismissed) {
+        return;
+      }
+
+      resetUser();
+      deleteProfile(user.id);
+      navigate("/");
+    },
+    onError: (error) => console.log(error),
+  });
+
+  const handleDelete = () => {
+    deleteUser();
   };
 
   return (
@@ -151,6 +190,15 @@ const ParentProfile = () => {
               Save Changes
             </FormButton>
           </Form>
+          <div className={styles.delete}>
+            <Button
+              color="red"
+              className={styles.deleteBtn}
+              onClick={handleDelete}
+            >
+              Delete Profile
+            </Button>
+          </div>
         </div>
       </div>
     </>
