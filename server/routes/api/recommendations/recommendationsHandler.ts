@@ -49,8 +49,10 @@ export default class Handler {
   };
   getBabysitterRating = async (babysitterId: number): Promise<RatingObject> => {
     const getBabysitterAverageRating =  await this.dbHandler.getBabySitterRating(babysitterId);
-    if (getBabysitterAverageRating.length > 0)
-      return getBabysitterAverageRating[0];
+    if (getBabysitterAverageRating.length > 0){
+      if(getBabysitterAverageRating[0].babysitterRating)
+        return getBabysitterAverageRating[0];
+    }
     return { "babysitterRating": -1 };
   };
 
