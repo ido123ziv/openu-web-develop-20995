@@ -32,8 +32,8 @@ async function fillFormFields(page, fields) {
 }
 
 async function signUpToPage(url, email, password) {
-  const browser = await puppeteer.launch({ headless: false }); // headless: false to see the browser in action
-  // const browser = await puppeteer.launch();
+  // const browser = await puppeteer.launch({ headless: false }); // headless: false to see the browser in action
+  const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
   try {
@@ -82,8 +82,8 @@ async function signUpToPage(url, email, password) {
 }
 
 async function loginToPage(url, email, password, outputFile) {
-  const browser = await puppeteer.launch({ headless: false }); // headless: false to see the browser in action
-  // const browser = await puppeteer.launch();
+  // const browser = await puppeteer.launch({ headless: false }); // headless: false to see the browser in action
+  const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
   try {
