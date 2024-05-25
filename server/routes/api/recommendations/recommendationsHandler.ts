@@ -44,6 +44,9 @@ export default class Handler {
   getBabysitter = async (babysitterId: number): Promise<Recommendation[]> => {
     return this.dbHandler.getBabySitterRecommendation(babysitterId);
   };
+  validateBabysitter = async (babysitterId: number): Promise<boolean> => {
+    return this.dbHandler.validateBabysitterExists(babysitterId);
+  };
   getBabysitterRating = async (babysitterId: number): Promise<RatingObject> => {
     const getBabysitterAverageRating =  await this.dbHandler.getBabySitterRating(babysitterId);
     if (getBabysitterAverageRating.length > 0)

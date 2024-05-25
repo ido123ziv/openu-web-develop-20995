@@ -109,4 +109,11 @@ export default class DBHandler {
       data.recommendationText,
     ]);
   }
+  async validateBabysitterExists(babysitterId: number): Promise<boolean> {
+    const query = `SELECT babysitter_name as "babysitterName"
+                    FROM babysitters
+                    WHERE babysitter_id = ($1);`;
+    const babysitter = await db.query(query, [babysitterId]);
+    return babysitter.rows.length > 0;
+  }
 }
