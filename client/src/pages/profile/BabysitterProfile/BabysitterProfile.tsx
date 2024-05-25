@@ -8,14 +8,14 @@ import {
   Image,
 } from "semantic-ui-react";
 import { useRecoilValue } from "recoil";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Controller, FieldValues, useForm } from "react-hook-form";
 
 import styles from "./BabysitterProfile.module.css";
 import BackgroundSVG from "../../../ui/BackgroundSVG/BackgroundSVG";
 import { userState } from "../../../state/atoms/userAtom";
 import { getProfile, updateProfile } from "./babysitterProfileServices";
-import { updatedValues } from "./helpers";
+import { updatedValues } from "../helpers/helpers";
 import { BabysitterData } from "./BabysitterProfileInterfaces";
 
 const experience = [
@@ -32,17 +32,18 @@ const BabysitterProfile = () => {
     formState: { isSubmitting },
   } = useForm();
   const user = useRecoilValue(userState);
+  const queryClient = useQueryClient();
 
   const { data: userData } = useQuery({
     queryKey: ["getProfile"],
     queryFn: () => getProfile(user.id),
-    onSuccess: (data) => console.log(data),
     onError: (error) => console.log(error),
   });
 
   const { mutate } = useMutation({
     mutationKey: ["updateProfile"],
     mutationFn: (data: BabysitterData) => updateProfile(user.id, data),
+    onSuccess: () => queryClient.invalidateQueries(["getProfile"]),
     onError: (error) => console.log(error),
   });
 
