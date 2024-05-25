@@ -175,15 +175,15 @@ profileRouter.put(
 
       const { id: parentId } = req.params;
       const {
-        parent_name: parentName,
+        name: parentName,
         email,
         city,
         street,
         gender,
-        phone_number: phoneNumber,
-        min_kid_age: minKidAge,
-        max_kid_age: maxKidAge,
-        num_of_kids: numOfKids,
+        phoneNumber,
+        minKidAge,
+        maxKidAge,
+        numOfKids,
         comments,
       } = req.body;
 
