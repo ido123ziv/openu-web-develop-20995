@@ -47,7 +47,7 @@ function NavigationBar() {
           </MenuItem>
         ) : (
           <MenuItem position="right">
-            <UserMenu user={user} />
+            <UserMenu />
           </MenuItem>
         )}
       </Menu>

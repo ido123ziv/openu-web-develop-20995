@@ -1,17 +1,15 @@
 import { Popup, Button } from "semantic-ui-react";
-import { useResetRecoilState } from "recoil";
+import { useRecoilValue, useResetRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
+import { GrLogout } from "react-icons/gr";
+import { FaRegUserCircle } from "react-icons/fa";
 import Swal from "sweetalert2";
 
 import styles from "./UserMenu.module.css";
 import { userState } from "../../../state/atoms/userAtom";
-import { User } from "../../../pages/Login/LoginInterfaces";
 
-interface UserMenuProps {
-  user: User;
-}
-
-const UserMenu = ({ user }: UserMenuProps) => {
+const UserMenu = () => {
+  const user = useRecoilValue(userState);
   const resetUser = useResetRecoilState(userState);
   const navigate = useNavigate();
 
@@ -38,10 +36,17 @@ const UserMenu = ({ user }: UserMenuProps) => {
   return (
     <Popup trigger={<Button>{`Hello ${user.name}`}</Button>} flowing hoverable>
       <div className={styles.menu}>
-        <Button className={styles.profile} onClick={handleProfile}>
-          Profile
+        {user.role !== "moderator" && (
+          <Button className={styles.profile} onClick={handleProfile}>
+            <FaRegUserCircle className={styles.icon} />
+            Profile
+          </Button>
+        )}
+
+        <Button onClick={handleLogout} className={styles.logout}>
+          <GrLogout className={styles.icon} />
+          Logout
         </Button>
-        <Button onClick={handleLogout}>Logout</Button>
       </div>
     </Popup>
   );
