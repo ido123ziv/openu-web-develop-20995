@@ -39,6 +39,8 @@ services:
   db:
     image: ghcr.io/ido123ziv/openu-web-develop-20995/db:latest
     build: ./db
+    depends_on:
+      - populate
     ports:
       - target: 5432
         published: ${DB_PORT:-5432}
@@ -51,6 +53,44 @@ services:
       - db:/var/lib/postgresql/data
     networks:
       - my_network
+  s3:
+    container_name: s3-local
+    image: localstack/localstack:s3-latest
+    ports:
+      - "127.0.0.1:4566:4566"            # LocalStack Gateway
+      - "127.0.0.1:4510-4559:4510-4559"  # external services port range
+    environment:
+      # LocalStack configuration: https://docs.localstack.cloud/references/configuration/
+      - DEBUG=${AWS_DEBUG:-0}
+      - SERVICES=s3:4566
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-test}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-testsecret}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-us-east-1}
+    volumes:
+      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+  populate:
+    depends_on: 
+      - s3
+    image: amazon/aws-cli
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-test}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-testsecret}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-us-east-1}
+      - AWS_ENDPOINT_URL=http://s3-local:4566
+    volumes:
+      - ./test:/aws
+    entrypoint: /bin/sh -c
+    command: |
+      "
+        echo 'test log1' >> /proc/1/fd/1
+        echo pwd: $(pwd) >> /proc/1/fd/1
+        echo ls: $(ls) >> /proc/1/fd/1
+        touch me
+        aws s3api create-bucket --bucket data
+        aws s3 cp api-test.js s3://data/ 
+        aws s3 ls s3://data
+      "
 volumes:
   db:
     driver: local
