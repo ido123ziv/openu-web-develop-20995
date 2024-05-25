@@ -107,9 +107,21 @@ If the images are missing it will build them before, for building run:
 docker compose build
 ```
 
-# Docs
-TBD
+# Testing
+We use [Puppeteer](https://pptr.dev/) for frontend testing and [Node-Fetch](https://www.npmjs.com/package/node-fetch) for backend testing.
 
-# Links
-TBD
+You can see the test suite in [tests](./test/)
 
+* `api-test.js` -> testing the api for simple calls and validation
+
+* `browser-test.js` -> testing all front public pages
+
+*  `login-test.js` -> signup and loging for both parent and babysitter
+
+if you add:
+```bash
+export TEST_NON_EXISTS=1
+```
+before running [api-test.js](./test/api-test.js) it will test non existing users as well
+
+all test running in github action after a pr is created following by a linter check.
