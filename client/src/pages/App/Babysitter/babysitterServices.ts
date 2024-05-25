@@ -12,7 +12,7 @@ export const getRecommendations = async (
   ).data;
 };
 
-export const getNumOfViews = async (babysitterId: number) => {
+export const getNumOfViews = async (babysitterId: number): Promise<string> => {
   return (
     await axios.get(`http://localhost:3000/api/babysitter/${babysitterId}`)
   ).data.numOfViews;
