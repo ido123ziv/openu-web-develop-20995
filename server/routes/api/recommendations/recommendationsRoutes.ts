@@ -81,7 +81,7 @@ recommendationsRouter.get(
       const babysitterRating = await handler.getBabysitterRating(
         Number(babysitterId)
       );
-      return res.status(200).send({ "rating" : babysitterRating});
+      return res.status(200).send(babysitterRating);
     } catch (e) {
       console.log(
         `Error message: ${req.body.id}: ${(e as Error).message}\n${

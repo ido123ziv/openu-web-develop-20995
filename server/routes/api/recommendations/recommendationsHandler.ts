@@ -1,5 +1,5 @@
 import DBHandler from "./recommendationsDBHandler";
-import { Recommendation, Validation } from "./recommendationsTypes";
+import { Recommendation, Validation, RatingObject } from "./recommendationsTypes";
 
 export default class Handler {
   private dbHandler: DBHandler;
@@ -44,14 +44,11 @@ export default class Handler {
   getBabysitter = async (babysitterId: number): Promise<Recommendation[]> => {
     return this.dbHandler.getBabySitterRecommendation(babysitterId);
   };
-  getBabysitterRating = async (babysitterId: number): Promise<number> => {
-     const ratings = await this.dbHandler.getBabySitterRating(babysitterId);
-     console.log(ratings);
-     const ratingScore = ratings.map((item) => item.rating)
-     console.log(ratingScore);
-     const average = ratingScore.reduce((a, b) => a + b, 0) / ratingScore.length;
-     console.log(average);
-     return average;
+  getBabysitterRating = async (babysitterId: number): Promise<RatingObject> => {
+    const getBabysitterAverageRating =  await this.dbHandler.getBabySitterRating(babysitterId);
+    if (getBabysitterAverageRating.length > 0)
+      return getBabysitterAverageRating[0];
+    return { "babysitterRating": -1 };
   };
 
   getParent = async (parentId: number): Promise<Recommendation[]> => {
