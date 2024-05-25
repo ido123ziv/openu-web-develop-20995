@@ -1,11 +1,12 @@
-export interface BabysitterData {
+export interface ParentData {
   name?: string;
   email?: string;
   city?: string;
   street?: string;
   phoneNumber?: string;
-  experience?: string;
-  gender?: string;
+  minKidAge?: number;
+  maxKidAge?: number;
+  numOfKids?: number;
   comments?: string;
   imageString?: string;
 }
