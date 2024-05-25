@@ -49,7 +49,6 @@ async function testUrl(url, outputFile) {
     }
 }
 async function testApiBadInput(url, outputFile) {
-    console.log(url);
     try {
         const response = await fetch(url);
         if (response.status !== 400) {
