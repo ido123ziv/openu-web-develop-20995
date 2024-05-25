@@ -1,12 +1,13 @@
 import { Icon } from "semantic-ui-react";
 import { useRecoilValue } from "recoil";
+import { useQuery } from "react-query";
 
 import CardsView from "../../../ui/CardsView/CardsView";
 import styles from "./Moderator.module.css";
-import { useQuery } from "react-query";
 import { getAllUsers } from "./moderatorServices";
 import BackgroundSVG from "../../../ui/BackgroundSVG/BackgroundSVG";
 import { userState } from "../../../state/atoms/userAtom";
+import Nodata from "../../../ui/NoData/NoData";
 
 const ModeratorMainView = () => {
   const user = useRecoilValue(userState);
@@ -26,7 +27,7 @@ const ModeratorMainView = () => {
         <p>Here you can see the accounts waiting on action</p>
       </div>
       <h1 className={styles.h1}>Hello, {user?.name}</h1>
-      {!data ? <p>NO DATA</p> : <CardsView data={data} />}
+      {!data?.length ? <Nodata role={user.role} /> : <CardsView data={data} />}
     </>
   );
 };
