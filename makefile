@@ -14,3 +14,10 @@ clean:
 
 down: 
 	docker-compose down
+
+after:
+	docker rm -f $(docker ps -a -q) || echo "no running contatiners"
+	docker volume rm $(docker volume ls -q) || echo "no volumes found"
+	docker rmi $(docker images -f "dangling=true" -q) || echo "all good"
+prune:
+	docker system prune
