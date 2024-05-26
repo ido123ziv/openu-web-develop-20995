@@ -19,8 +19,26 @@ export default class Handler {
 
   babysitterValidation = async (babysitterId: number): Promise<Validation> => {
     const babysitter = await this.dbHandler.getBabysitter(babysitterId);
+
     if (!babysitter) {
       return { isValid: false, message: "Babysitter user doesn't exist" };
+    }
+
+    return { isValid: true };
+  };
+
+  userValidation = async (
+    parentId: number,
+    babysitterId: number
+  ): Promise<Validation> => {
+    const parent = await this.parentValidation(parentId);
+    if (!parent.isValid) {
+      return parent;
+    }
+
+    const babysitter = await this.babysitterValidation(babysitterId);
+    if (!babysitter.isValid) {
+      return babysitter;
     }
 
     return { isValid: true };

@@ -135,16 +135,13 @@ recommendationsRouter.get(
       }
       const { parent: parentId, babysitter: babysitterId } = req.params;
 
-      const parentValidation = await handler.parentValidation(Number(parentId));
-
-      const babySitterValidation = await handler.babysitterValidation(
+      const validation = await handler.userValidation(
+        Number(parentId),
         Number(babysitterId)
       );
 
-      if (!parentValidation.isValid || !babySitterValidation.isValid) {
-        return res.status(400).json({
-          error: parentValidation.message || babySitterValidation.message,
-        });
+      if (!validation.isValid) {
+        return res.status(400).json({ error: validation.message });
       }
 
       const babysitterAndParentRecommendations =
@@ -201,7 +198,8 @@ recommendationsRouter.post(
 
       const { parentId, rating, recommendationText } = req.body;
 
-      const userValidation = await handler.babysitterValidation(
+      const userValidation = await handler.userValidation(
+        Number(parentId),
         Number(babysitterId)
       );
 
@@ -211,11 +209,9 @@ recommendationsRouter.post(
       );
 
       if (!userValidation.isValid || !recommendationValidation.isValid) {
-        return res
-          .status(400)
-          .send({
-            error: userValidation.message || recommendationValidation.message,
-          });
+        return res.status(400).send({
+          error: userValidation.message || recommendationValidation.message,
+        });
       }
 
       await handler.postRecommendation({
