@@ -44,9 +44,19 @@ recommendationsRouter.get(
         });
       }
       const { babysitter: babysitterId } = req.params;
+
+      const validation = await handler.babysitterValidation(
+        Number(babysitterId)
+      );
+
+      if (!validation.isValid) {
+        return res.status(400).json({ error: validation.message });
+      }
+
       const babysitterRecommendations = await handler.getBabysitter(
         Number(babysitterId)
       );
+
       return res.status(200).send(babysitterRecommendations);
     } catch (e) {
       console.log(
@@ -79,6 +89,12 @@ recommendationsRouter.get(
         });
       }
       const { parent: parentId } = req.params;
+
+      const validation = await handler.parentValidation(Number(parentId));
+
+      if (!validation.isValid) {
+        return res.status(400).json({ error: validation.message });
+      }
 
       const parentRecommendations = await handler.getParent(Number(parentId));
 
@@ -118,6 +134,18 @@ recommendationsRouter.get(
         });
       }
       const { parent: parentId, babysitter: babysitterId } = req.params;
+
+      const parentValidation = await handler.parentValidation(Number(parentId));
+
+      const babySitterValidation = await handler.babysitterValidation(
+        Number(babysitterId)
+      );
+
+      if (!parentValidation.isValid || !babySitterValidation.isValid) {
+        return res.status(400).json({
+          error: parentValidation.message || babySitterValidation.message,
+        });
+      }
 
       const babysitterAndParentRecommendations =
         await handler.getRecommendationByBabysitterAndParent(
