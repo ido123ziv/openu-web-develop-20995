@@ -49,6 +49,7 @@ async function testUrl(url, outputFile) {
     }
 }
 async function testApiBadInput(url, outputFile) {
+    console.log(`Testing ${url}`)
     try {
         const response = await fetch(url);
         if (response.status !== 400) {
@@ -79,13 +80,11 @@ async function testApiBadInput(url, outputFile) {
         }));
     }
     console.log("--Finished with non numeric, playing with numbers--");
-    if (process.env.TEST_NON_EXISTS){
-        for (const url of Object.values(inputUrls)) {
-            if (!url.includes("/api/babysitter/")){
-                await Promise.all(numericInputs.map(async (input) => {
-                    await testApiBadInput(url.replace(":id", input), outputFile);
-                }));
-            }
+    for (const url of Object.values(inputUrls)) {
+        if (!url.includes("/api/babysitter/")){
+            await Promise.all(numericInputs.map(async (input) => {
+                await testApiBadInput(url.replace(":id", input), outputFile);
+            }));
         }
     }
 })();
