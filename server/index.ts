@@ -14,6 +14,7 @@ import recommendationsRouter from "./routes/api/recommendations/recommendationsR
 import deleteRouter from "./routes/api/delete/deleteUserRoutes";
 import profileRouter from "./routes/api/profile/profileRoutes";
 import babysitterRouter from "./routes/api/babysitter/babysitterRoutes";
+import contactRouter from "./routes/contact/contactRoutes";
 
 // Creating an Express app
 const app = express();
@@ -32,6 +33,7 @@ headerSetup(app);
 // Define routes
 app.use("/signup", signupRouter);
 app.use("/login", loginRouter);
+app.use("/contact", contactRouter);
 app.use("/api/parents", parentsRouter);
 app.use("/api/recommendations", recommendationsRouter);
 app.use("/api/delete", deleteRouter);
