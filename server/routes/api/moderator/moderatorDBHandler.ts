@@ -1,6 +1,6 @@
 import db from "../../../utils/db/db";
 import { END_TIMESTAMP } from "../../../utils/global/globals";
-import { User } from "./moderatorTypes";
+import { User, ContactRequest } from "./moderatorTypes";
 
 export default class DBHandler {
   async getAllUsers(): Promise<User[]> {
@@ -36,5 +36,18 @@ export default class DBHandler {
     const babysitters = await db.query(babysitterQuery, [END_TIMESTAMP]);
 
     return [...parents.rows, ...babysitters.rows];
+  }
+
+  async getContactRequests(): Promise<ContactRequest[]> {
+    const query = `SELECT request_status AS "requestStatus",
+                          user_name AS name,
+                          user_email AS email,
+                          message_title AS title,
+                          user_message AS message
+                   FROM contact_requests`;
+
+    const contactRequests = await db.query(query);
+
+    return contactRequests.rows;
   }
 }
