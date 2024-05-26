@@ -7,7 +7,7 @@ export default class Handler {
     this.dbHandler = new DBHandler();
   }
 
-  numOfViews = async (babysitterId: number): Promise<number> => {
+  numOfViews = async (babysitterId: number): Promise<string> => {
     return this.dbHandler.getNumWatchedProfile(babysitterId);
   };
 }

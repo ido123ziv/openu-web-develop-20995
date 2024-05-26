@@ -1,13 +1,14 @@
 import { Icon, Image } from "semantic-ui-react";
 import { useRecoilValue } from "recoil";
 import { useQuery } from "react-query";
+import { useState } from "react";
 
 import styles from "./Babysitter.module.css";
 import { userState } from "../../../state/atoms/userAtom";
 import BackgroundSVG from "../../../ui/BackgroundSVG/BackgroundSVG";
 import RecommendationCards from "./RecommendationCards/RecommendationCards";
 import { getNumOfViews, getRecommendations } from "./babysitterServices";
-import { useState } from "react";
+import Nodata from "../../../ui/NoData/NoData";
 
 const BabysitterMainView = () => {
   const [avgRating, setAvgRating] = useState<number>(0);
@@ -17,7 +18,6 @@ const BabysitterMainView = () => {
     queryKey: ["getRecommendations"],
     queryFn: () => getRecommendations(user.id),
     onSuccess: (data) => {
-      console.log(data);
       if (!data.length) {
         return;
       }
@@ -54,8 +54,8 @@ const BabysitterMainView = () => {
           <Image src="/babysitter.svg" size="small" />
         </div>
         <div className={styles.CardsContainer}>
-          {!recommendations ? (
-            <p>NO DATA</p>
+          {!recommendations?.length ? (
+            <Nodata role={user.role} />
           ) : (
             <RecommendationCards data={recommendations} />
           )}
