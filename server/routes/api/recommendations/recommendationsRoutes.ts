@@ -198,15 +198,24 @@ recommendationsRouter.post(
       }
 
       const { babysitterId } = req.params;
+
       const { parentId, rating, recommendationText } = req.body;
 
-      const validation = await handler.recommendationValidation(
+      const userValidation = await handler.babysitterValidation(
+        Number(babysitterId)
+      );
+
+      const recommendationValidation = await handler.recommendationValidation(
         Number(parentId),
         Number(babysitterId)
       );
 
-      if (!validation.isValid) {
-        return res.status(400).send({ error: validation.message });
+      if (!userValidation.isValid || !recommendationValidation.isValid) {
+        return res
+          .status(400)
+          .send({
+            error: userValidation.message || recommendationValidation.message,
+          });
       }
 
       await handler.postRecommendation({
