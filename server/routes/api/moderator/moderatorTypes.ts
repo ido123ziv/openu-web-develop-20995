@@ -17,3 +17,11 @@ export type User = {
   age?: number;
   experience?: string;
 };
+
+export type ContactRequest = {
+  requestStatus: string;
+  name: string;
+  email: string;
+  title: string;
+  message: string;
+};

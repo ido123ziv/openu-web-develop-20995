@@ -119,3 +119,20 @@ INSERT INTO moderator_requests (request_status, request_type, request_diff)
 VALUES
 ('new', 'activation', '{"user_id": 123, "activation_code": "abc123"}'),
 ('working-on', 'report', '{"report_id": 456, "issue": "complaint"}');
+
+CREATE table IF NOT EXISTS contact_requests (
+    request_id SERIAL PRIMARY KEY,
+    request_status moderator_status DEFAULT 'new',
+    user_name VARCHAR(255) NOT NULL,
+    user_email VARCHAR(255) NOT NULL,
+    message_title VARCHAR(50) NOT NULL,
+    user_message VARCHAR(500) NOT NULL
+);
+
+INSERT INTO contact_requests (request_status, user_name, user_email, message_title, user_message)
+VALUES
+('new', 'Nahum', 'nahum@test.com', 'Nahums Title', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+                                                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                                                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
+                                                    nisi ut aliquip ex ea commodo consequat.'),
+('working-on', 'Dana', 'Dana@test.com', 'Thanks', 'Hi, I want to express my gratitude for the excellent service you offer on this platform.');
