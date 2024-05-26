@@ -58,6 +58,46 @@ recommendationsRouter.get(
     }
   }
 );
+recommendationsRouter.get(
+  "/babysitter/rating/:babysitter",
+  [
+    param("babysitter")
+      .notEmpty()
+      .isNumeric()
+      .withMessage(BABYSITTER_INVALID_INPUT_ERROR),
+  ],
+  async (req: Request, res: Response) => {
+    try {
+      const fieldValidationResult = validationResult(req);
+      if (!fieldValidationResult.isEmpty()) {
+        return res.status(400).json({
+          message: fieldValidationResult
+            .array()
+            .map((item) => item.msg)
+            .join(" "),
+        });
+      }
+      const { babysitter: babysitterId } = req.params;
+      const babysitterExists = await handler.validateBabysitter(
+        Number(babysitterId)
+      );
+      if (!babysitterExists) {
+        return res.status(404).send({ "message": "babysitter doesn't exists"})
+      }
+      const babysitterRating = await handler.getBabysitterRating(
+        Number(babysitterId)
+      );
+      return res.status(200).send(babysitterRating);
+    } catch (e) {
+      console.log(
+        `Error message: ${req.body.id}: ${(e as Error).message}\n${
+          (e as Error).stack
+        }`
+      );
+      return res.status(500).end();
+    }
+  }
+);
 
 recommendationsRouter.get(
   "/parent/:parent",

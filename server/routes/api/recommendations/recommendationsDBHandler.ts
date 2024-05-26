@@ -1,5 +1,5 @@
 import db from "../../../utils/db/db";
-import { Recommendation } from "./recommendationsTypes";
+import { RatingObject, Recommendation } from "./recommendationsTypes";
 
 export default class DBHandler {
   async getParent(parentId: number): Promise<number> {
@@ -57,6 +57,15 @@ export default class DBHandler {
     const recommendations = await db.query(babysitterQuery, [babysitterId]);
     return recommendations.rows;
   }
+  async getBabySitterRating(
+    babysitterId: number
+  ): Promise<RatingObject[]> {
+    const babysitterQuery = `SELECT TRUNC(AVG(rating),2) AS "babysitterRating"
+                                 FROM recommendations
+                                 WHERE babysitter_id = ($1)`;
+    const recommendations = await db.query(babysitterQuery, [babysitterId]);
+    return recommendations.rows;
+  }
 
   async getParentRecommendation(parentId: number): Promise<Recommendation[]> {
     const parentQuery = `SELECT  parent_id AS "parentId",
@@ -99,5 +108,12 @@ export default class DBHandler {
       data.rating,
       data.recommendationText,
     ]);
+  }
+  async validateBabysitterExists(babysitterId: number): Promise<boolean> {
+    const query = `SELECT babysitter_name as "babysitterName"
+                    FROM babysitters
+                    WHERE babysitter_id = ($1);`;
+    const babysitter = await db.query(query, [babysitterId]);
+    return babysitter.rows.length > 0;
   }
 }
