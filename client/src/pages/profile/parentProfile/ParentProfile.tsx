@@ -12,6 +12,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { FieldValues, useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useMemo } from "react";
 
 import { userState } from "../../../state/atoms/userAtom";
 import BackgroundSVG from "../../../ui/BackgroundSVG/BackgroundSVG";
@@ -25,11 +26,6 @@ import {
 } from "./parentProfileServices";
 
 const ParentProfile = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { isSubmitting },
-  } = useForm();
   const user = useRecoilValue(userState);
   const resetUser = useResetRecoilState(userState);
   const queryClient = useQueryClient();
@@ -49,6 +45,20 @@ const ParentProfile = () => {
     queryFn: () => getProfile(user.id),
     onError: (error) => console.log(error),
   });
+
+  const defaultFormValues = useMemo(
+    () => ({
+      name: userData?.name || "",
+      city: userData?.city || "",
+      street: userData?.street || "",
+      phoneNumber: userData?.phoneNumber || "",
+      minKidAge: userData?.minKidAge || "",
+      maxKidAge: userData?.maxKidAge || "",
+      numOfKids: userData?.numOfKids || "",
+      comments: userData?.comments || "",
+    }),
+    [userData]
+  );
 
   const { mutate } = useMutation({
     mutationKey: ["updateProfile"],
@@ -79,6 +89,17 @@ const ParentProfile = () => {
     },
     onError: (error) => console.log(error),
   });
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isSubmitting },
+  } = useForm({ defaultValues: defaultFormValues });
+
+  useEffect(() => {
+    reset(defaultFormValues);
+  }, [userData, reset, defaultFormValues]);
 
   const handleDelete = () => {
     deleteUser();
@@ -116,79 +137,66 @@ const ParentProfile = () => {
                 <FormGroup>
                   <FormField>
                     <label>Full Name</label>
-                    <input placeholder={userData?.name} {...register("name")} />
+                    <input {...register("name")} />
                   </FormField>
 
                   <FormField>
                     <label>Email</label>
-                    <input placeholder={userData?.email} readOnly />
+                    <input value={userData?.email} readOnly />
                   </FormField>
                 </FormGroup>
 
                 <FormGroup>
                   <FormField>
                     <label>City</label>
-                    <input placeholder={userData?.city} {...register("city")} />
+                    <input {...register("city")} />
                   </FormField>
 
                   <FormField>
                     <label>Street</label>
-                    <input
-                      placeholder={userData?.street}
-                      {...register("street")}
-                    />
+                    <input {...register("street")} />
                   </FormField>
                 </FormGroup>
 
                 <FormField>
                   <label>Phone Number</label>
-                  <input
-                    placeholder={userData?.phoneNumber}
-                    {...register("phoneNumber")}
-                  />
+                  <input {...register("phoneNumber")} />
                 </FormField>
-                <FormGroup>
-                  <FormField>
-                    <label>Phone Number</label>
-                    <input
-                      placeholder={`${userData?.minKidAge}`}
-                      {...register("minKidAge")}
-                    />
-                  </FormField>
-                  <FormField>
-                    <label>Eldest Child Age</label>
-                    <input
-                      placeholder={`${userData?.maxKidAge}`}
-                      {...register("maxKidAge")}
-                    />
-                  </FormField>
-                  <FormField>
-                    <label>Phone Number</label>
-                    <input
-                      placeholder={`${userData?.numOfKids}`}
-                      {...register("minKidAge")}
-                    />
-                  </FormField>
-                </FormGroup>
               </div>
 
               <FormField className={styles.commentsField}>
                 <label>Comments</label>
-                <textarea
-                  placeholder={userData?.comments}
-                  {...register("comments")}
-                />
+                <textarea {...register("comments")} />
               </FormField>
             </div>
+            <FormGroup className={styles.kidsContainer}>
+              <FormField>
+                <label>Youngest Child Age</label>
+                <input {...register("minKidAge")} />
+              </FormField>
 
-            <FormButton
-              primary
-              type="submit"
-              disabled={isSubmitting}
-              className={styles.saveBtn}
-            >
-              Save Changes
-            </FormButton>
+              <FormField>
+                <label>Eldest Child Age</label>
+                <input {...register("maxKidAge")} />
+              </FormField>
+
+              <FormField>
+                <label>Total Number of Kids</label>
+                <input {...register("minKidAge")} />
+              </FormField>
+            </FormGroup>
+
+            <div className={styles.submitContainer}>
+              <FormButton
+                primary
+                type="submit"
+                disabled={isSubmitting}
+                className={styles.saveBtn}
+                size="large"
+              >
+                Save Changes
+              </FormButton>
+            </div>
           </Form>
           <div className={styles.delete}>
             <Button

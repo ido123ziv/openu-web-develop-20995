@@ -9,9 +9,10 @@
 }
 
 .container {
+  position: relative;
   display: flex;
   flex-direction: row !important;
-  width: 90vw;
+  width: 70vw;
   margin: 0 auto;
   margin-top: 2vh;
   background-color: #ececed;
@@ -56,6 +57,7 @@
   display: flex;
   flex-direction: column;
   margin-left: 2vw;
+  margin-right: 2vw !important;
   flex: 1;
   justify-self: end;
   width: 30vw;
@@ -73,6 +75,10 @@
 }
 
 .delete {
+  position: absolute;
+  bottom: 2vh;
+  right: 0;
+  margin-right: 2vh;
   display: flex;
   flex-direction: column;
   justify-content: end;

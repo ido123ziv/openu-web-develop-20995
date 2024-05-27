@@ -13,8 +13,8 @@ import ParentsMainView from "../pages/App/Parents/ParentsMainView";
 import BabysitterMainView from "../pages/App/Babysitter/BabysitterMainView";
 import ModeratorMainView from "../pages/App/Moderator/ModeratorMainView";
 import TermsAndConditions from "../pages/TermsAndConditions/TermsAndConditions";
-import BabysitterProfile from "../pages/profile/BabysitterProfile/BabysitterProfile";
-import ParentProfile from "../pages/profile/parentProfile/ParentProfile";
+import BabysitterProfile from "../pages/Profile/BabysitterProfile/BabysitterProfile";
+import ParentProfile from "../pages/Profile/parentProfile/ParentProfile";
 
 function Layout() {
   return (

@@ -12,6 +12,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Controller, FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useEffect, useMemo } from "react";
 
 import styles from "./BabysitterProfile.module.css";
 import BackgroundSVG from "../../../ui/BackgroundSVG/BackgroundSVG";
@@ -31,16 +32,28 @@ const experience = [
 ];
 
 const BabysitterProfile = () => {
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { isSubmitting },
-  } = useForm();
   const user = useRecoilValue(userState);
   const resetUser = useResetRecoilState(userState);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+
+  const { data: userData } = useQuery({
+    queryKey: ["getProfile"],
+    queryFn: () => getProfile(user.id),
+    onError: (error) => console.log(error),
+  });
+
+  const defaultFormValues = useMemo(
+    () => ({
+      name: userData?.name || "",
+      city: userData?.city || "",
+      street: userData?.street || "",
+      phoneNumber: userData?.phoneNumber || "",
+      experience: userData?.experience || "",
+      comments: userData?.comments || "",
+    }),
+    [userData]
+  );
 
   const onSubmit = async (data: FieldValues) => {
     const updatedProfile = updatedValues(data);
@@ -50,12 +63,6 @@ const BabysitterProfile = () => {
 
     mutate(updatedProfile as BabysitterData);
   };
-
-  const { data: userData } = useQuery({
-    queryKey: ["getProfile"],
-    queryFn: () => getProfile(user.id),
-    onError: (error) => console.log(error),
-  });
 
   const { mutate } = useMutation({
     mutationKey: ["updateProfile"],
@@ -86,6 +93,20 @@ const BabysitterProfile = () => {
     },
     onError: (error) => console.log(error),
   });
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    formState: { isSubmitting },
+  } = useForm({
+    defaultValues: defaultFormValues,
+  });
+
+  useEffect(() => {
+    reset(defaultFormValues);
+  }, [userData, reset, defaultFormValues]);
 
   const handleDelete = () => {
     deleteUser();
@@ -123,36 +144,30 @@ const BabysitterProfile = () => {
                 <FormGroup>
                   <FormField>
                     <label>Full Name</label>
-                    <input placeholder={userData?.name} {...register("name")} />
+                    <input {...register("name")} />
                   </FormField>
 
                   <FormField>
                     <label>Email</label>
-                    <input placeholder={userData?.email} readOnly />
+                    <input value={userData?.email} readOnly />
                   </FormField>
                 </FormGroup>
 
                 <FormGroup>
                   <FormField>
                     <label>City</label>
-                    <input placeholder={userData?.city} {...register("city")} />
+                    <input {...register("city")} />
                   </FormField>
 
                   <FormField>
                     <label>Street</label>
-                    <input
-                      placeholder={userData?.street}
-                      {...register("street")}
-                    />
+                    <input {...register("street")} />
                   </FormField>
                 </FormGroup>
 
                 <FormField>
                   <label>Phone Number</label>
-                  <input
-                    placeholder={userData?.phoneNumber}
-                    {...register("phoneNumber")}
-                  />
+                  <input {...register("phoneNumber")} />
                 </FormField>
                 <FormField>
                   <label>Experience</label>
@@ -178,10 +193,7 @@ const BabysitterProfile = () => {
 
               <FormField className={styles.commentsField}>
                 <label>Comments</label>
-                <textarea
-                  placeholder={userData?.comments}
-                  {...register("comments")}
-                />
+                <textarea {...register("comments")} />
               </FormField>
             </div>
 
