@@ -44,9 +44,19 @@ recommendationsRouter.get(
         });
       }
       const { babysitter: babysitterId } = req.params;
+
+      const validation = await handler.babysitterValidation(
+        Number(babysitterId)
+      );
+
+      if (!validation.isValid) {
+        return res.status(400).json({ error: validation.message });
+      }
+
       const babysitterRecommendations = await handler.getBabysitter(
         Number(babysitterId)
       );
+
       return res.status(200).send(babysitterRecommendations);
     } catch (e) {
       console.log(
@@ -120,6 +130,12 @@ recommendationsRouter.get(
       }
       const { parent: parentId } = req.params;
 
+      const validation = await handler.parentValidation(Number(parentId));
+
+      if (!validation.isValid) {
+        return res.status(400).json({ error: validation.message });
+      }
+
       const parentRecommendations = await handler.getParent(Number(parentId));
 
       return res.status(200).send(parentRecommendations);
@@ -158,6 +174,15 @@ recommendationsRouter.get(
         });
       }
       const { parent: parentId, babysitter: babysitterId } = req.params;
+
+      const validation = await handler.userValidation(
+        Number(parentId),
+        Number(babysitterId)
+      );
+
+      if (!validation.isValid) {
+        return res.status(400).json({ error: validation.message });
+      }
 
       const babysitterAndParentRecommendations =
         await handler.getRecommendationByBabysitterAndParent(
@@ -210,15 +235,23 @@ recommendationsRouter.post(
       }
 
       const { babysitterId } = req.params;
+
       const { parentId, rating, recommendationText } = req.body;
 
-      const validation = await handler.recommendationValidation(
+      const userValidation = await handler.userValidation(
         Number(parentId),
         Number(babysitterId)
       );
 
-      if (!validation.isValid) {
-        return res.status(400).send({ error: validation.message });
+      const recommendationValidation = await handler.recommendationValidation(
+        Number(parentId),
+        Number(babysitterId)
+      );
+
+      if (!userValidation.isValid || !recommendationValidation.isValid) {
+        return res.status(400).send({
+          error: userValidation.message || recommendationValidation.message,
+        });
       }
 
       await handler.postRecommendation({
