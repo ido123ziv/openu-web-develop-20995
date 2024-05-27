@@ -1,5 +1,5 @@
 import DBHandler from "./moderatorDBHandler";
-import { User } from "./moderatorTypes";
+import { User, ContactRequest } from "./moderatorTypes";
 
 export default class Handler {
   private dbHandler: DBHandler;
@@ -10,5 +10,9 @@ export default class Handler {
 
   getAllUsers = async (): Promise<User[]> => {
     return this.dbHandler.getAllUsers();
+  };
+
+  getContactRequests = async (): Promise<ContactRequest[]> => {
+    return this.dbHandler.getContactRequests();
   };
 }

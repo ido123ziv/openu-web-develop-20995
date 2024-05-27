@@ -19,4 +19,17 @@ moderatorRouter.get("/allUsers", async (req: Request, res: Response) => {
   }
 });
 
+moderatorRouter.get("/allContactRequests", async (req: Request, res: Response) => {
+  try {
+    const contactRequests = await handler.getContactRequests();
+
+    return res.status(200).send(contactRequests);
+  } catch (e) {
+    console.log(
+      `Error message: ${(e as Error).message}\n${(e as Error).stack}`
+    );
+    return res.status(500).end();
+  }
+});
+
 export default moderatorRouter;
