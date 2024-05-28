@@ -76,6 +76,8 @@ jobs:
           cat output.txt >> $GITHUB_STEP_SUMMARY || echo "no output.txt"
           rm output.txt || echo "no output"
           echo "passed=$passed" >> $GITHUB_OUTPUT
+      - name: post test logs
+        run: docker compose logs
       - name: consolidate
         run: |
           docker compose down
