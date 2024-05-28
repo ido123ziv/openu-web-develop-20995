@@ -63,7 +63,10 @@ const ParentProfile = () => {
   const { mutate } = useMutation({
     mutationKey: ["updateProfile"],
     mutationFn: (data: ParentData) => updateProfile(user.id, data),
-    onSuccess: () => queryClient.invalidateQueries(["getProfile"]),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["getProfile"]);
+      reset();
+    },
     onError: (error) => console.log(error),
   });
 
@@ -84,7 +87,7 @@ const ParentProfile = () => {
       }
 
       resetUser();
-      deleteProfile(user.id);
+      await deleteProfile(user.id);
       navigate("/");
     },
     onError: (error) => console.log(error),
