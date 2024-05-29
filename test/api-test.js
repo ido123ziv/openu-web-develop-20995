@@ -15,7 +15,9 @@ const urls = {
     allUsers: 'http://localhost:3000/api/moderator/allUsers',
     recommendations: 'http://localhost:3000/api/recommendations/',
     profileBaby: 'http://localhost:3000/api/profile/babysitter/:id',
-    profileParent: 'http://localhost:3000/api/profile/parent/:id'
+    profileParent: 'http://localhost:3000/api/profile/parent/:id',
+    rating: 'http://localhost:3000/api/recommendations/babysitter/rating/:id'
+
 };
 const inputUrls = {
     babysitters: 'http://localhost:3000/api/babysitter/:id',
@@ -49,6 +51,7 @@ async function testUrl(url, outputFile) {
     }
 }
 async function testApiBadInput(url, outputFile) {
+    console.log(`Testing ${url}`)
     try {
         const response = await fetch(url);
         if (response.status !== 400) {
@@ -79,13 +82,11 @@ async function testApiBadInput(url, outputFile) {
         }));
     }
     console.log("--Finished with non numeric, playing with numbers--");
-    if (process.env.TEST_NON_EXISTS){
-        for (const url of Object.values(inputUrls)) {
-            if (!url.includes("/api/babysitter/")){
-                await Promise.all(numericInputs.map(async (input) => {
-                    await testApiBadInput(url.replace(":id", input), outputFile);
-                }));
-            }
+    for (const url of Object.values(inputUrls)) {
+        if (!url.includes("/api/babysitter/")){
+            await Promise.all(numericInputs.map(async (input) => {
+                await testApiBadInput(url.replace(":id", input), outputFile);
+            }));
         }
     }
 })();

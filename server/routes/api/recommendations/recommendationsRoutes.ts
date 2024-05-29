@@ -44,10 +44,60 @@ recommendationsRouter.get(
         });
       }
       const { babysitter: babysitterId } = req.params;
+
+      const validation = await handler.babysitterValidation(
+        Number(babysitterId)
+      );
+
+      if (!validation.isValid) {
+        return res.status(400).json({ error: validation.message });
+      }
+
       const babysitterRecommendations = await handler.getBabysitter(
         Number(babysitterId)
       );
+
       return res.status(200).send(babysitterRecommendations);
+    } catch (e) {
+      console.log(
+        `Error message: ${req.body.id}: ${(e as Error).message}\n${
+          (e as Error).stack
+        }`
+      );
+      return res.status(500).end();
+    }
+  }
+);
+recommendationsRouter.get(
+  "/babysitter/rating/:babysitter",
+  [
+    param("babysitter")
+      .notEmpty()
+      .isNumeric()
+      .withMessage(BABYSITTER_INVALID_INPUT_ERROR),
+  ],
+  async (req: Request, res: Response) => {
+    try {
+      const fieldValidationResult = validationResult(req);
+      if (!fieldValidationResult.isEmpty()) {
+        return res.status(400).json({
+          message: fieldValidationResult
+            .array()
+            .map((item) => item.msg)
+            .join(" "),
+        });
+      }
+      const { babysitter: babysitterId } = req.params;
+      const babysitterExists = await handler.validateBabysitter(
+        Number(babysitterId)
+      );
+      if (!babysitterExists) {
+        return res.status(404).send({ "message": "babysitter doesn't exists"})
+      }
+      const babysitterRating = await handler.getBabysitterRating(
+        Number(babysitterId)
+      );
+      return res.status(200).send(babysitterRating);
     } catch (e) {
       console.log(
         `Error message: ${req.body.id}: ${(e as Error).message}\n${
@@ -79,6 +129,12 @@ recommendationsRouter.get(
         });
       }
       const { parent: parentId } = req.params;
+
+      const validation = await handler.parentValidation(Number(parentId));
+
+      if (!validation.isValid) {
+        return res.status(400).json({ error: validation.message });
+      }
 
       const parentRecommendations = await handler.getParent(Number(parentId));
 
@@ -118,6 +174,15 @@ recommendationsRouter.get(
         });
       }
       const { parent: parentId, babysitter: babysitterId } = req.params;
+
+      const validation = await handler.userValidation(
+        Number(parentId),
+        Number(babysitterId)
+      );
+
+      if (!validation.isValid) {
+        return res.status(400).json({ error: validation.message });
+      }
 
       const babysitterAndParentRecommendations =
         await handler.getRecommendationByBabysitterAndParent(
@@ -170,15 +235,23 @@ recommendationsRouter.post(
       }
 
       const { babysitterId } = req.params;
+
       const { parentId, rating, recommendationText } = req.body;
 
-      const validation = await handler.recommendationValidation(
+      const userValidation = await handler.userValidation(
         Number(parentId),
         Number(babysitterId)
       );
 
-      if (!validation.isValid) {
-        return res.status(400).send({ error: validation.message });
+      const recommendationValidation = await handler.recommendationValidation(
+        Number(parentId),
+        Number(babysitterId)
+      );
+
+      if (!userValidation.isValid || !recommendationValidation.isValid) {
+        return res.status(400).send({
+          error: userValidation.message || recommendationValidation.message,
+        });
       }
 
       await handler.postRecommendation({

@@ -4,5 +4,6 @@ export type Recommendation = {
   rating: number;
   recommendationText: string;
 };
+export type RatingObject = { babysitterRating: number };
 
 export type Validation = { isValid: boolean; message?: string };
