@@ -13,6 +13,8 @@ import ParentsMainView from "../pages/App/Parents/ParentsMainView";
 import BabysitterMainView from "../pages/App/Babysitter/BabysitterMainView";
 import ModeratorMainView from "../pages/App/Moderator/ModeratorMainView";
 import TermsAndConditions from "../pages/TermsAndConditions/TermsAndConditions";
+import BabysitterProfile from "../pages/profile/BabysitterProfile/BabysitterProfile";
+import ParentProfile from "../pages/profile/parentProfile/ParentProfile";
 
 function Layout() {
   return (
@@ -30,6 +32,8 @@ function Layout() {
         <Route path="/app/babysitter" element={<BabysitterMainView />} />
         <Route path="/app/moderator" element={<ModeratorMainView />} />
         <Route path="/termsandconditions" element={<TermsAndConditions />} />
+        <Route path="/babysitter/profile/:id" element={<BabysitterProfile />} />
+        <Route path="/parents/profile/:id" element={<ParentProfile />} />
       </Routes>
       <ScrollToTopButton />
     </Router>
