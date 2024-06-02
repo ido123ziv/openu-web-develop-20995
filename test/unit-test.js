@@ -120,27 +120,33 @@ async function sendData(url, data, method, plan) {
         throw error;
     }
 }
-
+function exitOnError(msg){
+    console.error(msg);
+    process.exit(1);
+}
 (async () => {
     console.log("--Testing Valid Requests--");
     for (const [key, schema] of Object.entries(schemas)) {
         try {
-            let url = postUrlsMap[urlKey];
+            let url = postUrlsMap[key];
             if (url.includes(":id")) url = url.replace(":id", 1);
             const response = await sendData(url, getGoodInputs(schema), 'POST');
             console.log(`${key} Response:`, response);
         } catch (error) {
-            console.error(`${key} Error:`, error);
+            console.error(error);
+            exitOnError(`${key} Error in vaild post request`)
         }
     }
     for (const [key, schema] of Object.entries(schemas)) {
         try {
-            let url = postUrlsMap[urlKey];
+            let url = postUrlsMap[key];
             if (url.includes(":id")) url = url.replace(":id", 2);
             const response = await sendData(url, getGoodInputs(schema), 'PUT');
             console.log(`${key} Response:`, response);
         } catch (error) {
-            console.error(`${key} Error:`, error);
+            console.error( error);
+            exitOnError(`${key} Error in vaild put request`)
+
         }
     }
 
@@ -149,53 +155,57 @@ async function sendData(url, data, method, plan) {
     for (const [key, schema] of Object.entries(schemas)) {
         for (const attribute of badAttributes) {
             try {
-                let url = postUrlsMap[urlKey];
+                let url = postUrlsMap[key];
                 if (url.includes(":id")) url = url.replace(":id", 1);
                 const response = await sendData(key, getBadInputs(schema, attribute), 'POST');
                 console.log(`${key} with bad ${attribute} Response:`, response);
             } catch (error) {
-                console.error(`${key} with bad ${attribute} Error:`, error);
+                console.error( error);
+                exitOnError(`${key} with bad ${attribute} Error POST`)
             }
         }
     }
     for (const [key, schema] of Object.entries(schemas)) {
         for (const attribute of badAttributes) {
             try {
-                let url = postUrlsMap[urlKey];
+                let url = postUrlsMap[key];
                 for (const badId of badIds) {
                     if (url.includes(":id")) url = url.replace(":id", badId);
                     const response = await sendData(url, getBadInputs(schema, attribute), 'POST');
                     console.log(`${url} with bad ${attribute} Response:`, response);
                 }
             } catch (error) {
-                console.error(`${key} with bad ${attribute} Error:`, error);
+                console.error( error);
+                exitOnError(`${key} with bad ${attribute} Error POST bad id`)         
             }
         }
     }
     for (const [key, schema] of Object.entries(schemas)) {
         for (const attribute of badAttributes) {
             try {
-                let url = putUrlsMap[urlKey];
+                let url = putUrlsMap[key];
                 for (const badId of badIds) {
                     if (url.includes(":id")) url = url.replace(":id", badId);
                     const response = await sendData(url, getBadInputs(schema, attribute), 'PUT');
                     console.log(`${url} with bad ${attribute} Response:`, response);
                 }
             } catch (error) {
-                console.error(`${key} with bad ${attribute} Error:`, error);
+                console.error( error);
+                exitOnError(`${key} with bad ${attribute} Error put bad id`)
             }
         }
     }
     for (const [key, schema] of Object.entries(schemas)) {
         for (const attribute of badAttributes) {
             try {
-                let url = putUrlsMap[urlKey];
+                let url = putUrlsMap[key];
                 if (url.includes(":id")) url = url.replace(":id", 1);
                 const response = await sendData(url, getBadInputs(schema, attribute), 'PUT');
                 console.log(`${url} with bad ${attribute} Response:`, response);
             } catch (error) {
-                console.error(`${key} with bad ${attribute} Error:`, error);
-            }
+                console.error( error);
+                exitOnError(`${key} with bad ${attribute} Error PUT`)
+        }
         }
     }
 })();
