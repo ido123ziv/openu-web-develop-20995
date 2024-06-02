@@ -95,7 +95,7 @@ function getBadInputs(schema, attribute) {
 
 async function sendData(url, data, method, plan) {
     if (!url) throw new Error(`URL for key "${url}" not found`);
-
+    console.log(`testing: ${url}, with: ${JSON.stringify(data)}, method: ${method} and the plan is to ${plan}`)
     try {
         const response = await fetch(url, {
             method: method,
