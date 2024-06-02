@@ -97,7 +97,7 @@ jobs:
           ui=${{ steps.ui_test.outputs.passed }}
           login=${{ steps.parent_signup_login.outputs.passed }}
           unit=${{ steps.unit_test.outputs.passed }}
-          if [[ -n "$api" ]] || [[ -n "$ui" ]] || [[ -n "$login" ]]; then
+          if [[ -n "$api" ]] || [[ -n "$ui" ]] || [[ -n "$login" ]] || [[ -n "$unit" ]]; then
             echo "not all test passed, failing the workflow"
             exit 1
           else
