@@ -1,0 +1,187 @@
+/* .iconContainer {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center !important;
+  align-items: center;
+  margin: 0 auto;
+  margin-top: 0.5vh;
+}
+
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: row !important;
+  width: 70vw;
+  margin: 0 auto;
+  margin-top: 2vh;
+  background-color: #ececed;
+  border-radius: 0.5rem;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+}
+
+.imageContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  margin-top: 1vh;
+  margin-left: 1vh;
+  width: 300px !important;
+}
+
+.uploadImageBtn {
+  margin-top: 1vh !important;
+}
+
+.dataContainer {
+  display: flex;
+  flex-direction: row !important;
+  margin-left: 2vw;
+  width: 100% !important;
+}
+
+.formContentContainer {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-self: end !important;
+}
+
+.kidsContainer {
+  margin-top: 2vh !important;
+}
+
+.leftContainer {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.commentsField {
+  display: flex;
+  flex-direction: column;
+  margin-left: 2vw !important;
+  flex: 1;
+  justify-self: end;
+  max-width: 425px;
+  margin-right: 2vw !important;
+}
+
+.submitContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.saveBtn {
+  margin-top: 4vh !important;
+}
+
+.delete {
+  position: absolute;
+  bottom: 2vh;
+  right: 0;
+  margin-right: 2vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+}
+
+.deleteBtn {
+  width: 10vw;
+} */
+
+.iconContainer {
+  position: relative;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center !important;
+  align-items: center;
+  margin: 0 auto;
+  margin-top: 0.5vh;
+}
+
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: row !important;
+  width: 70vw;
+  margin: 0 auto;
+  margin-top: 2vh;
+  background-color: #ececed;
+  border-radius: 0.5rem;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+}
+
+.imageContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  margin-top: 1vh;
+  margin-left: 1vh;
+  width: 300px !important;
+}
+
+.uploadImageBtn {
+  margin-top: 1vh !important;
+}
+
+.dataContainer {
+  display: flex;
+  flex-direction: row !important;
+  margin-left: 2vw;
+  width: 100% !important;
+}
+
+.formContentContainer {
+  display: flex;
+  flex-direction: row;
+  justify-self: end !important;
+}
+
+.leftContainer {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.commentsField {
+  display: flex;
+  flex-direction: column;
+  margin-left: 2vw;
+  margin-right: 2vw !important;
+  flex: 1;
+  justify-self: end;
+  width: 30vw;
+  margin-left: 50px !important;
+}
+
+.kidsContainer {
+  margin-top: 2vh !important;
+  width: 90%;
+}
+
+.submitContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.saveBtn {
+  margin-top: 4vh !important;
+}
+
+.delete {
+  position: absolute;
+  bottom: 2vh;
+  right: 0;
+  margin-right: 2vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+}
+
+.deleteBtn {
+  width: 10vw;
+}
