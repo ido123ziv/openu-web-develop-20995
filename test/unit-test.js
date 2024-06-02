@@ -130,7 +130,7 @@ function exitOnError(msg){
         try {
             let url = postUrlsMap[key];
             if (url.includes(":id")) url = url.replace(":id", 1);
-            const response = await sendData(url, getGoodInputs(schema), 'POST');
+            const response = await sendData(url, getGoodInputs(schema), 'POST', "success");
             console.log(`${key} Response:`, response);
         } catch (error) {
             console.error(error);
@@ -141,7 +141,7 @@ function exitOnError(msg){
         try {
             let url = postUrlsMap[key];
             if (url.includes(":id")) url = url.replace(":id", 2);
-            const response = await sendData(url, getGoodInputs(schema), 'PUT');
+            const response = await sendData(url, getGoodInputs(schema), 'PUT', "success");
             console.log(`${key} Response:`, response);
         } catch (error) {
             console.error( error);
@@ -157,7 +157,7 @@ function exitOnError(msg){
             try {
                 let url = postUrlsMap[key];
                 if (url.includes(":id")) url = url.replace(":id", 1);
-                const response = await sendData(key, getBadInputs(schema, attribute), 'POST');
+                const response = await sendData(key, getBadInputs(schema, attribute), 'POST', "fail");
                 console.log(`${key} with bad ${attribute} Response:`, response);
             } catch (error) {
                 console.error( error);
@@ -171,7 +171,7 @@ function exitOnError(msg){
                 let url = postUrlsMap[key];
                 for (const badId of badIds) {
                     if (url.includes(":id")) url = url.replace(":id", badId);
-                    const response = await sendData(url, getBadInputs(schema, attribute), 'POST');
+                    const response = await sendData(url, getBadInputs(schema, attribute), 'POST', "fail");
                     console.log(`${url} with bad ${attribute} Response:`, response);
                 }
             } catch (error) {
@@ -186,7 +186,7 @@ function exitOnError(msg){
                 let url = putUrlsMap[key];
                 for (const badId of badIds) {
                     if (url.includes(":id")) url = url.replace(":id", badId);
-                    const response = await sendData(url, getBadInputs(schema, attribute), 'PUT');
+                    const response = await sendData(url, getBadInputs(schema, attribute), 'PUT', "fail");
                     console.log(`${url} with bad ${attribute} Response:`, response);
                 }
             } catch (error) {
@@ -200,7 +200,7 @@ function exitOnError(msg){
             try {
                 let url = putUrlsMap[key];
                 if (url.includes(":id")) url = url.replace(":id", 1);
-                const response = await sendData(url, getBadInputs(schema, attribute), 'PUT');
+                const response = await sendData(url, getBadInputs(schema, attribute), 'PUT', "fail");
                 console.log(`${url} with bad ${attribute} Response:`, response);
             } catch (error) {
                 console.error( error);
