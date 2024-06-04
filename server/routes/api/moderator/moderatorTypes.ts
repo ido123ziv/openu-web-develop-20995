@@ -25,3 +25,8 @@ export type ContactRequest = {
   title: string;
   message: string;
 };
+
+export type Validation = {
+  isValid: boolean;
+  message?: string;
+};
