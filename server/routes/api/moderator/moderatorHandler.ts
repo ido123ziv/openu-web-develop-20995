@@ -17,12 +17,12 @@ export default class Handler {
 
   requestValidation = async (requestId: number, newStatus: string): Promise<Validation> => {
     const contactRequest = await this.dbHandler.getContactRequest(requestId);
-    if (!contactRequest.length) {
-      return { isValid: false, message: "Incorrect id" };
-    }
-
     if (!newStatus) {
       return { isValid: false, message: "field 'status' is undefined" };
+    }
+
+    if (!contactRequest.length) {
+      return { isValid: false, message: "Incorrect id" };
     }
 
     if (typeof newStatus !== "string" || !Object.values(RequestStatuses).includes(newStatus)) {
