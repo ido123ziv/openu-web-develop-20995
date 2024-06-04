@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { param } from "express-validator";
+import { param, validationResult } from "express-validator";
 
 import Handler from "./parentsHandler";
 import {
@@ -25,6 +25,64 @@ parentsRouter.get("/", async (req: Request, res: Response) => {
     return res.status(500).end();
   }
 });
+
+parentsRouter.get(
+  "/:parent/babysitter/:babysitter",
+  param("parent")
+    .notEmpty()
+    .isNumeric()
+    .withMessage(PARENT_INVALID_INPUT_ERROR),
+  param("babysitter")
+    .notEmpty()
+    .isNumeric()
+    .withMessage(BABYSITTER_INVALID_INPUT_ERROR),
+  async (req: Request, res: Response) => {
+    try {
+      const fieldValidationResult = validationResult(req);
+      if (!fieldValidationResult.isEmpty()) {
+        return res.status(400).json({
+          message: fieldValidationResult
+            .array()
+            .map((item) => item.msg)
+            .join(" "),
+        });
+      }
+
+      const { parent, babysitter } = req.params;
+
+      const parentId = Number(parent);
+      const babysitterId = Number(babysitter);
+
+      const userValidation = await handler.userValidation(
+        parentId,
+        babysitterId
+      );
+
+      if (!userValidation.isValid) {
+        return res.status(400).json({ error: userValidation.message });
+      }
+      // const interactionValidation = await handler.interactionValidation(
+      //   parentId,
+      //   babysitterId
+      // );
+
+      // if (!interactionValidation.isValid) {
+      //   return res.status(404).json({ error: interactionValidation.message });
+      // }
+
+      const interaction = await handler.getInteraction(parentId, babysitterId);
+
+      res.status(200).json({ interaction });
+    } catch (e) {
+      console.log(
+        `Error message: ${req.body.id}: ${(e as Error).message}\n${
+          (e as Error).stack
+        }`
+      );
+      return res.status(500).end();
+    }
+  }
+);
 
 parentsRouter.put(
   "/:parent/babysitter/:babysitter",
@@ -59,6 +117,60 @@ parentsRouter.put(
       );
       return res.status(500).end();
     }
+  }
+);
+
+parentsRouter.put(
+  "/:parent/babysitter/:babysitter/contacted",
+  param("parent")
+    .notEmpty()
+    .isNumeric()
+    .withMessage(PARENT_INVALID_INPUT_ERROR),
+  param("babysitter")
+    .notEmpty()
+    .isNumeric()
+    .withMessage(BABYSITTER_INVALID_INPUT_ERROR),
+  async (req: Request, res: Response) => {
+    const { parent, babysitter } = req.params;
+
+    const parentId = Number(parent);
+    const babysitterId = Number(babysitter);
+
+    const validation = await handler.userValidation(parentId, babysitterId);
+    if (!validation.isValid) {
+      return res.status(400).json({ error: validation.message });
+    }
+
+    await handler.updateContacted(parentId, babysitterId);
+
+    res.status(204).end();
+  }
+);
+
+parentsRouter.put(
+  "/:parent/babysitter/:babysitter/workedwith",
+  param("parent")
+    .notEmpty()
+    .isNumeric()
+    .withMessage(PARENT_INVALID_INPUT_ERROR),
+  param("babysitter")
+    .notEmpty()
+    .isNumeric()
+    .withMessage(BABYSITTER_INVALID_INPUT_ERROR),
+  async (req: Request, res: Response) => {
+    const { parent, babysitter } = req.params;
+
+    const parentId = Number(parent);
+    const babysitterId = Number(babysitter);
+
+    const validation = await handler.userValidation(parentId, babysitterId);
+    if (!validation.isValid) {
+      return res.status(400).json({ error: validation.message });
+    }
+
+    await handler.updateWorkedWith(parentId, babysitterId);
+
+    res.status(204).end();
   }
 );
 

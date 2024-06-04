@@ -15,3 +15,8 @@ export type Validation = {
   isValid: boolean;
   message?: string;
 };
+
+export type Interaction = {
+  contacted: boolean;
+  workedWith: boolean;
+};

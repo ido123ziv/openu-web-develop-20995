@@ -1,5 +1,5 @@
 import DBHandler from "./parentsDBHandler";
-import { Babysitter, Validation } from "./parentsTypes";
+import { Babysitter, Interaction, Validation } from "./parentsTypes";
 
 export default class Handler {
   private dbHandler: DBHandler;
@@ -29,6 +29,18 @@ export default class Handler {
     return { isValid: true };
   };
 
+  interactionValidation = async (
+    parentId: number,
+    babysitterId: number
+  ): Promise<Validation> => {
+    const users = await this.dbHandler.validUsers(parentId, babysitterId);
+    if (!users) {
+      return { isValid: false, message: "Interaction doesn't exist" };
+    }
+
+    return { isValid: true };
+  };
+
   getAllBabysitters = async (): Promise<Babysitter[]> => {
     return this.dbHandler.getAllBabysitters();
   };
@@ -36,7 +48,7 @@ export default class Handler {
   getInteraction = async (
     parentId: number,
     babysitterId: number
-  ): Promise<number> => {
+  ): Promise<Interaction> => {
     return this.dbHandler.getInteraction(parentId, babysitterId);
   };
 
@@ -50,5 +62,19 @@ export default class Handler {
     } else {
       await this.dbHandler.createInteraction(parentId, babysitterId);
     }
+  };
+
+  updateContacted = async (
+    parentId: number,
+    babysitterId: number
+  ): Promise<void> => {
+    await this.dbHandler.updateContacted(parentId, babysitterId);
+  };
+
+  updateWorkedWith = async (
+    parentId: number,
+    babysitterId: number
+  ): Promise<void> => {
+    await this.dbHandler.updateWorkedWith(parentId, babysitterId);
   };
 }

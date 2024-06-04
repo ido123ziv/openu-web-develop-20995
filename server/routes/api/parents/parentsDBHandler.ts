@@ -1,25 +1,52 @@
 import db from "../../../utils/db/db";
 import { END_TIMESTAMP } from "../../../utils/global/globals";
-
-import { Babysitter } from "./parentsTypes";
+import { Babysitter, Interaction } from "./parentsTypes";
 
 export default class DBHandler {
   async getParent(parentId: number): Promise<number> {
     const query = `SELECT parent_id
                     FROM parents
-                    WHERE parent_id = $1 AND end_timestamp = $2`;
+                    WHERE parent_id = $1 AND 
+                          end_timestamp = $2`;
 
-    const parent = await db.query(query, [parentId, END_TIMESTAMP]);
-    return parent.rows[0];
+    const { rows } = await db.query(query, [parentId, END_TIMESTAMP]);
+    return rows[0];
   }
 
   async getBabysitter(babysitterId: number): Promise<number> {
     const query = `SELECT babysitter_id
                     FROM babysitters
-                    WHERE babysitter_id = $1 AND end_timestamp = $2`;
+                    WHERE babysitter_id = $1 AND 
+                          end_timestamp = $2`;
 
-    const babysitter = await db.query(query, [babysitterId, END_TIMESTAMP]);
-    return babysitter.rows[0];
+    const { rows } = await db.query(query, [babysitterId, END_TIMESTAMP]);
+    return rows[0];
+  }
+
+  async validUsers(
+    parentId: number,
+    babysitterId: number
+  ): Promise<number | null> {
+    const query = `SELECT b.babysitter_id AS babysitter_id,
+                          p.parent_id AS parent_id
+                  FROM 
+                      parents_babysitters_interactions i 
+                    JOIN 
+                      parents p ON i.parent_id = p.parent_id
+                    JOIN
+                      babysitters b ON i.babysitter_id = b.babysitter_id
+                  WHERE p.parent_id = $1 AND
+                        b.babysitter_id = $2 AND
+                        p.end_timestamp = $3 AND
+                        b.end_timestamp = $3`;
+
+    const { rowCount } = await db.query(query, [
+      parentId,
+      babysitterId,
+      END_TIMESTAMP,
+    ]);
+
+    return rowCount;
   }
 
   async getAllBabysitters(): Promise<Babysitter[]> {
@@ -44,14 +71,27 @@ export default class DBHandler {
   async getInteraction(
     parentId: number,
     babysitterId: number
-  ): Promise<number> {
-    const query = `SELECT parent_id
-                    FROM parents_babysitters_interactions
-                    WHERE parent_id = $1 AND 
-                    babysitter_id = $2`;
+  ): Promise<Interaction> {
+    const query = `SELECT contacted,
+                          worked_with AS "workedWith"
+                  FROM 
+                      parents_babysitters_interactions i 
+                    JOIN 
+                      parents p ON i.parent_id = p.parent_id
+                    JOIN
+                      babysitters b ON i.babysitter_id = b.babysitter_id
+                  WHERE p.parent_id = $1 AND
+                        b.babysitter_id = $2 AND
+                        p.end_timestamp = $3 AND
+                        b.end_timestamp = $3`;
 
-    const interaction = await db.query(query, [parentId, babysitterId]);
-    return interaction.rows.length;
+    const { rows } = await db.query(query, [
+      parentId,
+      babysitterId,
+      END_TIMESTAMP,
+    ]);
+
+    return rows[0];
   }
 
   async updateLastVisited(
@@ -73,6 +113,27 @@ export default class DBHandler {
     const query = `INSERT INTO parents_babysitters_interactions 
                   (last_visit_timestamp, contacted, worked_with, parent_id, babysitter_id)
                   VALUES (NOW(), false, false, $1, $2)`;
+
+    await db.query(query, [parentId, babysitterId]);
+  }
+
+  async updateContacted(parentId: number, babysitterId: number): Promise<void> {
+    const query = `UPDATE parents_babysitters_interactions
+                    SET contacted = true
+                    WHERE parent_id = $1 AND
+                          babysitter_id = $2`;
+
+    await db.query(query, [parentId, babysitterId]);
+  }
+
+  async updateWorkedWith(
+    parentId: number,
+    babysitterId: number
+  ): Promise<void> {
+    const query = `UPDATE parents_babysitters_interactions
+                    SET worked_with = true
+                    WHERE parent_id = $1 AND
+                          babysitter_id = $2`;
 
     await db.query(query, [parentId, babysitterId]);
   }
