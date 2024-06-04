@@ -69,7 +69,7 @@ const ModalView = ({ isOpen, setIsOpen, card }: ModalViewProps) => {
   const { mutate: mutateContacted } = useMutation({
     mutationKey: ["updateLastVisit"],
     mutationFn: () => updateContacted(user.id, card?.id as number),
-    onSettled: () => {
+    onSuccess: () => {
       queryClient.invalidateQueries(["getInteraction"]);
     },
     onError: (error) => console.log(error),
@@ -82,7 +82,7 @@ const ModalView = ({ isOpen, setIsOpen, card }: ModalViewProps) => {
   const { mutate: mutateWorkedWith } = useMutation({
     mutationKey: ["updateLastVisit"],
     mutationFn: () => updateWorkedWith(user.id, card?.id as number),
-    onSettled: () => {
+    onSuccess: () => {
       queryClient.invalidateQueries(["getInteraction"]);
     },
   });
