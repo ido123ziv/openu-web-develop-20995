@@ -16,8 +16,8 @@ const urls = {
     recommendations: 'http://localhost:3000/api/recommendations/',
     profileBaby: 'http://localhost:3000/api/profile/babysitter/:id',
     profileParent: 'http://localhost:3000/api/profile/parent/:id',
-    rating: 'http://localhost:3000/api/recommendations/babysitter/rating/:id'
-
+    rating: 'http://localhost:3000/api/recommendations/babysitter/rating/:id',
+    allContactRequests: 'http://localhost:3000/api/moderator/allContactRequests'
 };
 const inputUrls = {
     babysitters: 'http://localhost:3000/api/babysitter/:id',
