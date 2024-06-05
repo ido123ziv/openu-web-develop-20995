@@ -27,7 +27,7 @@ export default class DBHandler {
     parentId: number,
     babysitterId: number
   ): Promise<number | null> {
-    const query = `SELECT b.babysitter_id AS babysitter_id,
+    const query = `SELECT b.babysitter_id AS "babysitterId",
                           p.parent_id AS parent_id
                   FROM 
                       parents_babysitters_interactions i 

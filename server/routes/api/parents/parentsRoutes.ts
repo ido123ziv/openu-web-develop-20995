@@ -61,14 +61,6 @@ parentsRouter.get(
       if (!userValidation.isValid) {
         return res.status(400).json({ error: userValidation.message });
       }
-      // const interactionValidation = await handler.interactionValidation(
-      //   parentId,
-      //   babysitterId
-      // );
-
-      // if (!interactionValidation.isValid) {
-      //   return res.status(404).json({ error: interactionValidation.message });
-      // }
 
       const interaction = await handler.getInteraction(parentId, babysitterId);
 
