@@ -4,7 +4,7 @@ import { Babysitter, Interaction } from "./parentsTypes";
 
 export default class DBHandler {
   async getParent(parentId: number): Promise<number> {
-    const query = `SELECT parent_id
+    const query = `SELECT parent_id AS "parentId"
                     FROM parents
                     WHERE parent_id = $1 AND 
                           end_timestamp = $2`;
@@ -14,7 +14,7 @@ export default class DBHandler {
   }
 
   async getBabysitter(babysitterId: number): Promise<number> {
-    const query = `SELECT babysitter_id
+    const query = `SELECT AS "babysitterId"
                     FROM babysitters
                     WHERE babysitter_id = $1 AND 
                           end_timestamp = $2`;
@@ -28,7 +28,7 @@ export default class DBHandler {
     babysitterId: number
   ): Promise<number | null> {
     const query = `SELECT b.babysitter_id AS "babysitterId",
-                          p.parent_id AS parent_id
+                          p.parent_id AS "parentId"
                   FROM 
                       parents_babysitters_interactions i 
                     JOIN 
