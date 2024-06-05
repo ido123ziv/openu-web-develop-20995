@@ -46,7 +46,7 @@ const ModeratorMainView = () => {
 
         <div>
           <Button
-            content="Users"
+            content="All Users"
             icon="users"
             labelPosition="left"
             positive={content === "users"}

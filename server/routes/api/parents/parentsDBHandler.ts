@@ -14,7 +14,7 @@ export default class DBHandler {
   }
 
   async getBabysitter(babysitterId: number): Promise<number> {
-    const query = `SELECT AS "babysitterId"
+    const query = `SELECT babysitter_id AS "babysitterId"
                     FROM babysitters
                     WHERE babysitter_id = $1 AND 
                           end_timestamp = $2`;
