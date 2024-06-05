@@ -40,3 +40,23 @@
 .iconContainer .h1 {
   margin-left: 20px !important;
 }
+
+.headerContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-right: 1vw;
+}
+
+.usersButton {
+  height: 80%;
+  font-size: 1.25rem !important;
+  line-height: 1.75rem !important;
+  margin-right: 1vw !important;
+}
+
+.contactButton {
+  height: 80%;
+  font-size: 1.25rem !important;
+  line-height: 1.75rem !important;
+}
