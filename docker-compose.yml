@@ -23,7 +23,9 @@ services:
     ports:
       - 3000:3000
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+        restart: true
     environment:
       DATABASE_NAME: ${DB_NAME:-docker}
       DATABASE_USERNAME: ${DB_USERNAME:-docker}
@@ -40,7 +42,8 @@ services:
     image: ghcr.io/ido123ziv/openu-web-develop-20995/db:latest
     build: ./db
     depends_on:
-      - populate
+      populate:
+        condition: service_completed_successfully
     ports:
       - target: 5432
         published: ${DB_PORT:-5432}
@@ -53,6 +56,11 @@ services:
       - db:/var/lib/postgresql/data
     networks:
       - my_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   s3:
     container_name: s3-local
     image: localstack/localstack:s3-latest
@@ -71,7 +79,8 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock"
   populate:
     depends_on: 
-      - s3
+      s3:
+        condition: service_healthy
     image: amazon/aws-cli
     environment:
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-test}
@@ -79,17 +88,17 @@ services:
       - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-us-east-1}
       - AWS_ENDPOINT_URL=http://s3-local:4566
     volumes:
-      - ./test:/aws
+      - ./assets:/aws
     entrypoint: /bin/sh -c
     command: |
       "
         echo 'test log1' >> /proc/1/fd/1
         echo pwd: $(pwd) >> /proc/1/fd/1
         echo ls: $(ls) >> /proc/1/fd/1
-        touch me
         aws s3api create-bucket --bucket data
-        aws s3 cp api-test.js s3://data/ 
-        aws s3 ls s3://data
+        aws s3 sync . s3://data/ --include "*.png" --exclude "*"
+        sleep 3
+        echo "aws s3 ls $(aws s3 ls s3://data)" >> /proc/1/fd/1
       "
 volumes:
   db:
