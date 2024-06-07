@@ -89,6 +89,7 @@ class aws_connection():
             response = self._s3_client.list_objects_v2(
                 Bucket=bucket_name
             )
+            logging.debug("response: {}".format(response))
             if response:
                 return response.get('Contents')
             return []
