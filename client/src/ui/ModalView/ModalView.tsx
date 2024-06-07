@@ -16,18 +16,79 @@ import { FaChildren } from "react-icons/fa6";
 import { GiRank1, GiRank2, GiRank3 } from "react-icons/gi";
 import { useRecoilValue } from "recoil";
 import { useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import styles from "./ModalView.module.css";
 import { ModalViewProps } from "./ModalViewInterface";
 import { userState } from "../../state/atoms/userAtom";
 import AddRecommendationModal from "../../pages/App/Parents/AddRecommendationModal/AddRecommendationModal";
+import {
+  getInteraction,
+  updateContacted,
+  updateLastVisited,
+  updateWorkedWith,
+} from "./modalViewServices";
 
 const ModalView = ({ isOpen, setIsOpen, card }: ModalViewProps) => {
   const [isOpenReviewModal, setIsOpenReviewModal] = useState<boolean>(false);
   const user = useRecoilValue(userState);
+  const queryClient = useQueryClient();
 
   const handleAddReview = () => {
     setIsOpenReviewModal(true);
+  };
+
+  const { data: interaction } = useQuery({
+    queryKey: ["getInteraction"],
+    queryFn: () => getInteraction(user.id, card?.id as number),
+    onSuccess: (interaction) => {
+      if (!interaction) {
+        handleUpdateLastVisit();
+      }
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  const { mutate: mutateLastVisited } = useMutation({
+    mutationKey: ["updateLastVisit"],
+    mutationFn: () => updateLastVisited(user.id, card?.id as number),
+    onSuccess: () =>
+      queryClient.invalidateQueries([
+        "getInteraction",
+        user.id,
+        card?.id as number,
+      ]),
+  });
+
+  const handleUpdateLastVisit = () => {
+    mutateLastVisited();
+  };
+
+  const { mutate: mutateContacted } = useMutation({
+    mutationKey: ["updateLastVisit"],
+    mutationFn: () => updateContacted(user.id, card?.id as number),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["getInteraction"]);
+    },
+    onError: (error) => console.log(error),
+  });
+
+  const handleContacted = () => {
+    mutateContacted();
+  };
+
+  const { mutate: mutateWorkedWith } = useMutation({
+    mutationKey: ["updateLastVisit"],
+    mutationFn: () => updateWorkedWith(user.id, card?.id as number),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["getInteraction"]);
+    },
+  });
+
+  const handleWorkedWith = () => {
+    mutateWorkedWith();
   };
 
   return (
@@ -143,11 +204,18 @@ const ModalView = ({ isOpen, setIsOpen, card }: ModalViewProps) => {
               Add a review
             </Button>
             <Button
+              content="Contacted"
+              labelPosition="right"
+              icon={interaction?.contacted ? "checkmark" : "question"}
+              onClick={handleContacted}
+              positive={interaction?.contacted}
+            />
+            <Button
               content="Worked with"
               labelPosition="right"
-              icon="checkmark"
-              onClick={() => setIsOpen(false)}
-              positive
+              icon={interaction?.workedWith ? "checkmark" : "question"}
+              onClick={handleWorkedWith}
+              positive={interaction?.workedWith}
             />
           </>
         )}

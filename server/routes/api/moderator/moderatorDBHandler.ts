@@ -1,6 +1,6 @@
 import db from "../../../utils/db/db";
 import { END_TIMESTAMP } from "../../../utils/global/globals";
-import { User } from "./moderatorTypes";
+import { User, ContactRequest } from "./moderatorTypes";
 
 export default class DBHandler {
   async getAllUsers(): Promise<User[]> {
@@ -36,5 +36,41 @@ export default class DBHandler {
     const babysitters = await db.query(babysitterQuery, [END_TIMESTAMP]);
 
     return [...parents.rows, ...babysitters.rows];
+  }
+
+  async getContactRequest(requestId: number): Promise<ContactRequest[]> {
+    const query = `SELECT request_status AS "requestStatus",
+                          user_name AS name,
+                          user_email AS email,
+                          message_title AS title,
+                          user_message AS message
+                   FROM contact_requests
+                   WHERE request_id = $1`;
+
+    const contactRequest = await db.query(query, [requestId]);
+
+    return contactRequest.rows;
+  }
+
+  async getContactRequests(): Promise<ContactRequest[]> {
+    const query = `SELECT request_status AS "requestStatus",
+                          user_name AS name,
+                          user_email AS email,
+                          message_title AS title,
+                          user_message AS message
+                   FROM contact_requests
+                   ORDER BY request_id`;
+
+    const contactRequests = await db.query(query);
+
+    return contactRequests.rows;
+  }
+
+  async editContactRequestStatus(requestId: number, newStatus: string): Promise<void> {
+    const query = `UPDATE contact_requests
+                   SET request_status = $1
+                   WHERE request_id = $2`;
+
+    await db.query(query, [newStatus, requestId]);
   }
 }

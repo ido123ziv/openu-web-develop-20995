@@ -11,8 +11,10 @@ import headerSetup from "./middlewares/headerSetup";
 import securitySetup from "./middlewares/security";
 import signupRouter from "./routes/signup/signupRoutes";
 import recommendationsRouter from "./routes/api/recommendations/recommendationsRoutes";
+import deleteRouter from "./routes/api/delete/deleteUserRoutes";
 import profileRouter from "./routes/api/profile/profileRoutes";
 import babysitterRouter from "./routes/api/babysitter/babysitterRoutes";
+import contactRouter from "./routes/contact/contactRoutes";
 
 // Creating an Express app
 const app = express();
@@ -31,12 +33,15 @@ headerSetup(app);
 // Define routes
 app.use("/signup", signupRouter);
 app.use("/login", loginRouter);
+app.use("/contact", contactRouter);
 app.use("/api/parents", parentsRouter);
 app.use("/api/recommendations", recommendationsRouter);
+app.use("/api/delete", deleteRouter);
 app.use("/api/moderator", moderatorRouter);
 app.use("/api/profile", profileRouter);
 app.use("/api/babysitter", babysitterRouter);
 app.use("/", router);
+
 
 // Start the server
 app.listen(port, () => {

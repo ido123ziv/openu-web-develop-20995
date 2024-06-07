@@ -23,6 +23,12 @@ babysitterRouter.get(
       }
 
       const { babysitterId } = req.params;
+
+      const validation =await handler.userValidation(Number(babysitterId));
+      if (!validation.isValid) {
+        return res.status(400).json({ error: validation.message });
+      }
+
       const numOfViews = await handler.numOfViews(Number(babysitterId));
 
       res.status(200).json({ numOfViews });
