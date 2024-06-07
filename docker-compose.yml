@@ -129,17 +129,6 @@ services:
     command: [ "python3", "main.py", "--action", "db"]
     networks:
       - my_network
-    # entrypoint: /bin/sh -c
-    # command: |
-    #   "
-    #     echo 'test log1' >> /proc/1/fd/1
-    #     echo pwd: $(pwd) >> /proc/1/fd/1
-    #     echo ls: $(ls) >> /proc/1/fd/1
-    #     aws s3api create-bucket --bucket data
-    #     aws s3 sync . s3://data/ --include "*.png" --exclude "*"
-    #     sleep 3
-    #     echo "aws s3 ls $(aws s3 ls s3://data)" >> /proc/1/fd/1
-    #   "
 volumes:
   db:
     driver: local
