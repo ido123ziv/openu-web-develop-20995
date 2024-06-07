@@ -1,66 +1,66 @@
 version: "3.9"
 services:
-  app:
-    image: ghcr.io/ido123ziv/openu-web-develop-20995/app:latest
-    build:
-      context: client
-      target: development
-    ports:
-      - 5172:5172
-    depends_on:
-      - api
-    volumes:
-      - ./client:/app/
-      - /app/node_modules
-    networks:
-      - my_network
-  api:
-    image: ghcr.io/ido123ziv/openu-web-develop-20995/api:latest
-    restart: always
-    build:
-      context: server
-      target: development
-    ports:
-      - 3000:3000
-    depends_on:
-      db:
-        condition: service_healthy
-        restart: true
-    environment:
-      DATABASE_NAME: ${DB_NAME:-docker}
-      DATABASE_USERNAME: ${DB_USERNAME:-docker}
-      DATABASE_PASSWORD: ${DB_PASSWORD:-1234}
-      DATABASE_URL: db
-      DATABASE_PORT: ${DATABASE_PORT:-5432}
-    volumes:
-      - ./server:/app/
-      - /app/node_modules
-    networks:
-      - my_network
+  # app:
+  #   image: ghcr.io/ido123ziv/openu-web-develop-20995/app:latest
+  #   build:
+  #     context: client
+  #     target: development
+  #   ports:
+  #     - 5172:5172
+  #   depends_on:
+  #     - api
+  #   volumes:
+  #     - ./client:/app/
+  #     - /app/node_modules
+  #   networks:
+  #     - my_network
+  # api:
+  #   image: ghcr.io/ido123ziv/openu-web-develop-20995/api:latest
+  #   restart: always
+  #   build:
+  #     context: server
+  #     target: development
+  #   ports:
+  #     - 3000:3000
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+  #       restart: true
+  #   environment:
+  #     DATABASE_NAME: ${DB_NAME:-docker}
+  #     DATABASE_USERNAME: ${DB_USERNAME:-docker}
+  #     DATABASE_PASSWORD: ${DB_PASSWORD:-1234}
+  #     DATABASE_URL: db
+  #     DATABASE_PORT: ${DATABASE_PORT:-5432}
+  #   volumes:
+  #     - ./server:/app/
+  #     - /app/node_modules
+  #   networks:
+  #     - my_network
 
-  db:
-    image: ghcr.io/ido123ziv/openu-web-develop-20995/db:latest
-    build: ./db
-    depends_on:
-      populate:
-        condition: service_completed_successfully
-    ports:
-      - target: 5432
-        published: ${DB_PORT:-5432}
-        protocol: tcp
-    environment:
-      POSTGRES_USER: ${DB_USERNAME:-docker}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-1234}
-      POSTGRES_db: ${DB_NAME:-docker}
-    volumes:
-      - db:/var/lib/postgresql/data
-    networks:
-      - my_network
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+  # db:
+  #   image: ghcr.io/ido123ziv/openu-web-develop-20995/db:latest
+  #   build: ./db
+  #   depends_on:
+  #     populate:
+  #       condition: service_completed_successfully
+  #   ports:
+  #     - target: 5432
+  #       published: ${DB_PORT:-5432}
+  #       protocol: tcp
+  #   environment:
+  #     POSTGRES_USER: ${DB_USERNAME:-docker}
+  #     POSTGRES_PASSWORD: ${DB_PASSWORD:-1234}
+  #     POSTGRES_db: ${DB_NAME:-docker}
+  #   volumes:
+  #     - db:/var/lib/postgresql/data
+  #   networks:
+  #     - my_network
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
   s3:
     container_name: s3-local
     image: localstack/localstack:s3-latest
@@ -81,25 +81,31 @@ services:
     depends_on: 
       s3:
         condition: service_healthy
-    image: amazon/aws-cli
+    image: ghcr.io/ido123ziv/openu-web-develop-20995/populate:latest
+    build:
+      context: ./utils
     environment:
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-test}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-testsecret}
       - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-us-east-1}
       - AWS_ENDPOINT_URL=http://s3-local:4566
+      - BUCKET_NAME=${BUCKET_NAME:-data}
+      - IMAGES_DIR=${IMAGES_DIR:-/aws}
     volumes:
       - ./assets:/aws
-    entrypoint: /bin/sh -c
-    command: |
-      "
-        echo 'test log1' >> /proc/1/fd/1
-        echo pwd: $(pwd) >> /proc/1/fd/1
-        echo ls: $(ls) >> /proc/1/fd/1
-        aws s3api create-bucket --bucket data
-        aws s3 sync . s3://data/ --include "*.png" --exclude "*"
-        sleep 3
-        echo "aws s3 ls $(aws s3 ls s3://data)" >> /proc/1/fd/1
-      "
+    command: [ "python3", "main.py", "--action", "bucket"]
+
+    # entrypoint: /bin/sh -c
+    # command: |
+    #   "
+    #     echo 'test log1' >> /proc/1/fd/1
+    #     echo pwd: $(pwd) >> /proc/1/fd/1
+    #     echo ls: $(ls) >> /proc/1/fd/1
+    #     aws s3api create-bucket --bucket data
+    #     aws s3 sync . s3://data/ --include "*.png" --exclude "*"
+    #     sleep 3
+    #     echo "aws s3 ls $(aws s3 ls s3://data)" >> /proc/1/fd/1
+    #   "
 volumes:
   db:
     driver: local

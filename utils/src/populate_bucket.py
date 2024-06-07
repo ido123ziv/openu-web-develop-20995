@@ -4,6 +4,7 @@ import logging
 
 def upload_files(aws: aws_connection, bucket_name: str, images_path=None):
     try:
+        logging.debug(os.listdir(images_path))
         for file in os.listdir(images_path):
             if images_path:
                 file_path = images_path + '/' + file
@@ -23,6 +24,7 @@ def create_bucket(aws: aws_connection, bucket_name):
         response = aws.create_bucket(bucket_name)
         if not response:
             raise ValueError("no bucket")
+        return True
     except Exception as e:
         logging.error("failed to create bucket, exiting")
         exit(1)
@@ -31,6 +33,8 @@ def create_bucket(aws: aws_connection, bucket_name):
 def validate_bucket(aws: aws_connection, bucket_name):
     try:
         files = aws.list_files(bucket_name)
+        if not files:
+            raise ValueError("No files in bucket")
         for file in files:
             logging.info("found: {} in bucket".format(file))
     except Exception as e:

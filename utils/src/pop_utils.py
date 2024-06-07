@@ -14,6 +14,7 @@ class db_connection():
             port=os.environ.get('DATABASE_PORT')
         )
         self._cursor = self._conn.cursor()
+        logging.info("Created a db connection!")
 
     @property
     def connection(self):
@@ -53,6 +54,7 @@ class aws_connection():
             region_name=os.environ.get('AWS_DEFAULT_REGION'),
             endpoint_url=os.environ.get('AWS_ENDPOINT_URL')
         )
+        logging.info("created a s3 client connection!")
     
     @property
     def session(self):
@@ -84,11 +86,11 @@ class aws_connection():
 
     def list_files(self, bucket_name):
         try:
-            response = self._s3_client.list_objects(
+            response = self._s3_client.list_objects_v2(
                 Bucket=bucket_name
             )
             if response:
-                return response.Contents
+                return response.get('Contents')
             return []
         except ClientError as e:
             logging.error(str(e))
@@ -100,7 +102,7 @@ class aws_connection():
                 Bucket=bucket_name
             )
             if response:
-                logging.info("created bucket: {}".format(bucket_name))
+                logging.info("Successfully created a bucket named: {}".format(bucket_name))
                 return True
             raise ValueError("didn't create bucket.")
         except ClientError as e:
