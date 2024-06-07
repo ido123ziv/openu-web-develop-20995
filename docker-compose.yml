@@ -38,29 +38,29 @@ services:
   #   networks:
   #     - my_network
 
-  # db:
-  #   image: ghcr.io/ido123ziv/openu-web-develop-20995/db:latest
-  #   build: ./db
-  #   depends_on:
-  #     populate:
-  #       condition: service_completed_successfully
-  #   ports:
-  #     - target: 5432
-  #       published: ${DB_PORT:-5432}
-  #       protocol: tcp
-  #   environment:
-  #     POSTGRES_USER: ${DB_USERNAME:-docker}
-  #     POSTGRES_PASSWORD: ${DB_PASSWORD:-1234}
-  #     POSTGRES_db: ${DB_NAME:-docker}
-  #   volumes:
-  #     - db:/var/lib/postgresql/data
-  #   networks:
-  #     - my_network
-  #   healthcheck:
-  #     test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER"]
-  #     interval: 10s
-  #     timeout: 5s
-  #     retries: 5
+  db:
+    image: ghcr.io/ido123ziv/openu-web-develop-20995/db:latest
+    build: ./db
+    depends_on:
+      populate:
+        condition: service_completed_successfully
+    ports:
+      - target: 5432
+        published: ${DB_PORT:-5432}
+        protocol: tcp
+    environment:
+      POSTGRES_USER: ${DB_USERNAME:-docker}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-1234}
+      POSTGRES_db: ${DB_NAME:-docker}
+    volumes:
+      - db:/var/lib/postgresql/data
+    networks:
+      - my_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   s3:
     container_name: s3-local
     image: localstack/localstack:s3-latest
@@ -77,6 +77,8 @@ services:
     volumes:
       - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - my_network
   populate:
     depends_on: 
       s3:
@@ -85,16 +87,41 @@ services:
     build:
       context: ./utils
     environment:
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-test}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-testsecret}
-      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-us-east-1}
-      - AWS_ENDPOINT_URL=http://s3-local:4566
-      - BUCKET_NAME=${BUCKET_NAME:-data}
-      - IMAGES_DIR=${IMAGES_DIR:-/aws}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-test}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-testsecret}
+      AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION:-us-east-1}
+      AWS_ENDPOINT_URL: http://s3-local:4566
+      BUCKET_NAME: ${BUCKET_NAME:-data}
+      IMAGES_DIR: ${IMAGES_DIR:-/aws}
     volumes:
       - ./assets:/aws
     command: [ "python3", "main.py", "--action", "bucket"]
-
+    networks:
+      - my_network
+  db_populate:
+    depends_on: 
+      s3:
+        condition: service_healthy
+      db:
+        condition: service_healthy
+      populate:
+        condition: service_completed_successfully
+    image: ghcr.io/ido123ziv/openu-web-develop-20995/populate:latest
+    environment:
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-test}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-testsecret}
+      AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION:-us-east-1}
+      AWS_ENDPOINT_URL: http://s3-local:4566
+      BUCKET_NAME: ${BUCKET_NAME:-data}
+      IMAGES_DIR: ${IMAGES_DIR:-/aws}
+      DATABASE_NAME: ${DB_NAME:-docker}
+      DATABASE_USERNAME: ${DB_USERNAME:-docker}
+      DATABASE_PASSWORD: ${DB_PASSWORD:-1234}
+      DATABASE_URL: db
+      DATABASE_PORT: ${DATABASE_PORT:-5432}
+    command: [ "python3", "main.py", "--action", "db"]
+    networks:
+      - my_network
     # entrypoint: /bin/sh -c
     # command: |
     #   "
