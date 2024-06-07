@@ -1,42 +1,49 @@
 version: "3.9"
 services:
-  # app:
-  #   image: ghcr.io/ido123ziv/openu-web-develop-20995/app:latest
-  #   build:
-  #     context: client
-  #     target: development
-  #   ports:
-  #     - 5172:5172
-  #   depends_on:
-  #     - api
-  #   volumes:
-  #     - ./client:/app/
-  #     - /app/node_modules
-  #   networks:
-  #     - my_network
-  # api:
-  #   image: ghcr.io/ido123ziv/openu-web-develop-20995/api:latest
-  #   restart: always
-  #   build:
-  #     context: server
-  #     target: development
-  #   ports:
-  #     - 3000:3000
-  #   depends_on:
-  #     db:
-  #       condition: service_healthy
-  #       restart: true
-  #   environment:
-  #     DATABASE_NAME: ${DB_NAME:-docker}
-  #     DATABASE_USERNAME: ${DB_USERNAME:-docker}
-  #     DATABASE_PASSWORD: ${DB_PASSWORD:-1234}
-  #     DATABASE_URL: db
-  #     DATABASE_PORT: ${DATABASE_PORT:-5432}
-  #   volumes:
-  #     - ./server:/app/
-  #     - /app/node_modules
-  #   networks:
-  #     - my_network
+  app:
+    image: ghcr.io/ido123ziv/openu-web-develop-20995/app:latest
+    build:
+      context: client
+      target: development
+    ports:
+      - 5172:5172
+    depends_on:
+      - api
+    volumes:
+      - ./client:/app/
+      - /app/node_modules
+    networks:
+      - my_network
+  api:
+    image: ghcr.io/ido123ziv/openu-web-develop-20995/api:latest
+    restart: always
+    build:
+      context: server
+      target: development
+    ports:
+      - 3000:3000
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+      db_populate:
+        condition: service_completed_successfully
+    environment:
+      DATABASE_NAME: ${DB_NAME:-docker}
+      DATABASE_USERNAME: ${DB_USERNAME:-docker}
+      DATABASE_PASSWORD: ${DB_PASSWORD:-1234}
+      DATABASE_URL: db
+      DATABASE_PORT: ${DATABASE_PORT:-5432}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-test}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-testsecret}
+      AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION:-us-east-1}
+      AWS_ENDPOINT_URL: http://s3-local:4566
+      BUCKET_NAME: ${BUCKET_NAME:-data}
+    volumes:
+      - ./server:/app/
+      - /app/node_modules
+    networks:
+      - my_network
 
   db:
     image: ghcr.io/ido123ziv/openu-web-develop-20995/db:latest
