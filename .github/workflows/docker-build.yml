@@ -9,6 +9,7 @@ on:
       - 'server/**'
       - 'client/**'
       - 'db/**'
+      - 'utils/**'
 
 env:
   REGISTRY: ghcr.io
@@ -24,7 +25,7 @@ jobs:
       packages: write
     strategy:
       matrix: 
-        images: ["app", "api", "db"]
+        images: ["app", "api", "db", "populate"]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -34,7 +35,9 @@ jobs:
             if [[ "${{ matrix.images }}" =~ "app" ]]; then
                 echo "context=./client" >> $GITHUB_OUTPUT
             elif [[ "${{matrix.images}}" =~ "api" ]]; then
-                echo "context=./server" >> $GITHUB_OUTPUT
+              echo "context=./server" >> $GITHUB_OUTPUT
+            elif [[ "${{matrix.images}}" =~ "populate" ]]; then
+                echo "context=./utils" >> $GITHUB_OUTPUT
             else
                 echo "context=./db" >> $GITHUB_OUTPUT
             fi
