@@ -11,3 +11,7 @@ export const getAllContactRequests = async () => {
     await axios.get("http://localhost:3000/api/moderator/allContactRequests")
   ).data;
 };
+
+export const getAllPendingUsers = async () => {
+  return (await axios.get("http://localhost:3000/api/moderator/pending")).data;
+};

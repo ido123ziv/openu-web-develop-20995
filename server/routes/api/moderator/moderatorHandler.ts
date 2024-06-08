@@ -38,6 +38,16 @@ export default class Handler {
     return { isValid: true };
   };
 
+  userValidation = async (role: string, id: number): Promise<Validation> => {
+    const user = await this.dbHandler.getPendingUser(role, id);
+
+    if (!user) {
+      return { isValid: false, message: "Invalid User" };
+    }
+
+    return { isValid: true };
+  };
+
   getAllUsers = async (): Promise<User[]> => {
     return this.dbHandler.getAllUsers();
   };
@@ -51,5 +61,13 @@ export default class Handler {
     newStatus: string
   ): Promise<void> => {
     return this.dbHandler.editContactRequestStatus(requestId, newStatus);
+  };
+
+  activateUser = async (role: string, id: number): Promise<void> => {
+    return this.dbHandler.activateUser(role, id);
+  };
+
+  getAllPendingUsers = async (): Promise<User[]> => {
+    return await this.dbHandler.getAllPendingUsers();
   };
 }

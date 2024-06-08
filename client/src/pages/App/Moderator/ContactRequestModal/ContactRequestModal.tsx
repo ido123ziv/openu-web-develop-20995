@@ -9,16 +9,38 @@ import {
   ModalHeader,
   SemanticICONS,
 } from "semantic-ui-react";
+import { useMutation, useQueryClient } from "react-query";
 
 import styles from "./ContactRequestModal.module.css";
 import { contactRequestProps } from "./contactRequestProps";
-import { Icons } from "../ContactRequestsCards/ContactRequestsCardsProps";
+import { Icons } from "../ContactRequestsCards/contactTypes";
+import { setNextStatus } from "../ContactRequestsCards/helpers";
+import { updateRequestStatus } from "../ContactRequestsCards/contactRequestsServices";
 
 const ContactRequestModal = ({
   isOpen,
   setIsOpen,
   contactRequest: data,
 }: contactRequestProps) => {
+  const queryClient = useQueryClient();
+
+  const nextStatus = data && setNextStatus(data?.requestStatus);
+
+  const { mutate } = useMutation({
+    mutationKey: ["updateStatus"],
+    mutationFn: () =>
+      updateRequestStatus(data?.requestId as number, nextStatus as string),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["getAllContactRequests"]);
+      setIsOpen(false);
+    },
+    onError: (error) => console.log(error),
+  });
+
+  const handleUpdateStatus = () => {
+    mutate();
+  };
+
   return (
     <Modal
       closeIcon
@@ -49,7 +71,9 @@ const ContactRequestModal = ({
         </ModalDescription>
       </ModalContent>
       <ModalActions>
-        <Button positive>Approve</Button>
+        <Button positive onClick={handleUpdateStatus}>
+          Set status as {nextStatus}
+        </Button>
         <Button negative>Decline</Button>
       </ModalActions>
     </Modal>

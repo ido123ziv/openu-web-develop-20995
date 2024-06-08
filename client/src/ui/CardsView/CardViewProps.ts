@@ -22,4 +22,7 @@ export interface CardsData {
 
 export interface CardsDataArr {
   data: CardsData[] | undefined;
+
+  // Moderator Screen
+  screen?: string;
 }

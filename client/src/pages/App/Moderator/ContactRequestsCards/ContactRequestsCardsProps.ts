@@ -1,4 +1,7 @@
+import { RequestStatus } from "./contactTypes";
+
 export interface ContactData {
+  requestId: number;
   requestStatus: RequestStatus;
   email: string;
   name: string;
@@ -9,17 +12,3 @@ export interface ContactData {
 export interface ContactDataArr {
   data: ContactData[];
 }
-
-enum RequestStatus {
-  New = "new",
-  WorkingOn = "working-on",
-  Seen = "seen",
-  Done = "done",
-}
-
-export const Icons: Record<RequestStatus, string> = {
-  [RequestStatus.New]: "exclamation circle",
-  [RequestStatus.WorkingOn]: "hourglass half",
-  [RequestStatus.Seen]: "eye",
-  [RequestStatus.Done]: "check",
-};

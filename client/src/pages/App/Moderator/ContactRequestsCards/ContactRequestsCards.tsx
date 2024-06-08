@@ -11,12 +11,9 @@ import {
 import { useState } from "react";
 
 import styles from "./ContactRequestsCards.module.css";
-import {
-  ContactData,
-  ContactDataArr,
-  Icons,
-} from "./ContactRequestsCardsProps";
+import { ContactData, ContactDataArr } from "./ContactRequestsCardsProps";
 import ContactRequestModal from "../ContactRequestModal/ContactRequestModal";
+import { Icons } from "./contactTypes";
 
 const ContactRequestsCards = ({ data }: ContactDataArr) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -26,7 +23,7 @@ const ContactRequestsCards = ({ data }: ContactDataArr) => {
 
   const handleClick = (element: ContactData) => {
     setContactRequest(element);
-    setIsOpen(() => !isOpen);
+    setIsOpen(true);
   };
 
   return (
@@ -47,8 +44,9 @@ const ContactRequestsCards = ({ data }: ContactDataArr) => {
             </CardContent>
             <CardContent extra>
               <div>
-                <Button positive>Approve</Button>
-                <Button negative>Decline</Button>
+                <Button positive onClick={(_e) => handleClick(element)}>
+                  Open Request
+                </Button>
               </div>
             </CardContent>
           </Card>

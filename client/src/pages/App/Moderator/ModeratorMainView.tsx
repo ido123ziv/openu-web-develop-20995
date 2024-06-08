@@ -5,7 +5,11 @@ import { useState } from "react";
 
 import CardsView from "../../../ui/CardsView/CardsView";
 import styles from "./Moderator.module.css";
-import { getAllContactRequests, getAllUsers } from "./moderatorServices";
+import {
+  getAllContactRequests,
+  getAllPendingUsers,
+  getAllUsers,
+} from "./moderatorServices";
 import BackgroundSVG from "../../../ui/BackgroundSVG/BackgroundSVG";
 import { userState } from "../../../state/atoms/userAtom";
 import Nodata from "../../../ui/NoData/NoData";
@@ -27,11 +31,11 @@ const ModeratorMainView = () => {
     onError: (error) => console.log(error),
   });
 
-  // const { data: pendingUsers } = useQuery({
-  //   queryKey: ["getAllPendingUsers"],
-  //   queryFn: getAllContactRequests,
-  //   onError: (error) => console.log(error),
-  // });
+  const { data: pendingUsers } = useQuery({
+    queryKey: ["getAllPendingUsers"],
+    queryFn: getAllPendingUsers,
+    onError: (error) => console.log(error),
+  });
 
   return (
     <>
@@ -84,7 +88,7 @@ const ModeratorMainView = () => {
       {content === "contactRequests" && (
         <>
           {!contactRequests?.length ? (
-            <Nodata role={user.role} />
+            <Nodata role={user.role} message="No Contact Requests" />
           ) : (
             <ContactRequestsCards data={contactRequests} />
           )}
@@ -93,10 +97,10 @@ const ModeratorMainView = () => {
 
       {content === "pendingUsers" && (
         <>
-          {!contactRequests?.length ? (
-            <Nodata role={user.role} />
+          {!pendingUsers?.length ? (
+            <Nodata role={user.role} message="No Pending Users" />
           ) : (
-            <ContactRequestsCards data={contactRequests} />
+            <CardsView data={pendingUsers} screen="pending" />
           )}
         </>
       )}
