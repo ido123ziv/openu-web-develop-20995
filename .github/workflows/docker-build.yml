@@ -25,7 +25,7 @@ jobs:
       packages: write
     strategy:
       matrix: 
-        images: ["app", "api", "db", "utils"]
+        images: ["app", "api", "db", "populate"]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -36,7 +36,7 @@ jobs:
                 echo "context=./client" >> $GITHUB_OUTPUT
             elif [[ "${{matrix.images}}" =~ "api" ]]; then
               echo "context=./server" >> $GITHUB_OUTPUT
-            elif [[ "${{matrix.images}}" =~ "utils" ]]; then
+            elif [[ "${{matrix.images}}" =~ "populate" ]]; then
                 echo "context=./utils" >> $GITHUB_OUTPUT
             else
                 echo "context=./db" >> $GITHUB_OUTPUT

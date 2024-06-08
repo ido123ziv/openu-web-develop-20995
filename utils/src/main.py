@@ -23,5 +23,6 @@ if __name__ == "__main__":
                         required=True,
                         choices=['db', 'bucket'])
     args = parser.parse_args()
-    logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
+    LOGLEVEL = os.environ.get('LOGLEVEL', 'INFO').upper()
+    logging.basicConfig(format='%(levelname)s: %(message)s', level=LOGLEVEL)
     main(args)
