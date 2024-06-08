@@ -71,10 +71,12 @@ function generateRandomString(length) {
 }
 
 function getGoodInputs(schema) {
+    const min = 1; 
+    const max = 7;
     const parsedData = {};
     for (const [key, type] of Object.entries(schema)) {
         if (type === "string") parsedData[key] = generateRandomString(12);
-        if (type === "number") parsedData[key] = Math.floor(Math.random() * 10);
+        if (type === "number") parsedData[key] = Math.floor(Math.random() *(max - min + 1) + min);
         if (type === "email") parsedData[key] = `${generateRandomString(8)}@${generateRandomString(6)}.com`;
     }
     return parsedData;
@@ -96,7 +98,7 @@ function getBadInputs(schema, attribute) {
 
 async function sendData(url, data, method, plan) {
     if (!url) throw new Error(`URL for key "${url}" not found`);
-    console.log(`testing: ${url}, with: ${JSON.stringify(data)}, method: ${method} and the plan is to ${plan}`)
+    console.log(`testing: ${url}, with: ${JSON.stringify(data)}, method: ${method} and the plan is to ${plan}\n`)
     try {
         const response = await fetch(url, {
             method: method,
@@ -104,16 +106,19 @@ async function sendData(url, data, method, plan) {
             body: JSON.stringify(data),
         });
         if (plan === "fail"){
-            if (response.ok) 
+            if (response.ok) {
+                console.error(response.statusText);
                 throw new Error(`Validation error! check: ${url}, status: ${response.status}`);
+            }
             else 
-                console.log(`Nice handle for ${url}!`)
+                console.log(`Nice handle for ${url}!\n`)
         }
         else if (!response.ok){
+                console.error(response.statusText);
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             else{
-                console.log(`Nice handle for ${url}!`)
+                console.log(`Nice handle for ${url}!\n`)
             }
         return await response.json();
     } catch (error) {
@@ -172,14 +177,14 @@ async function testInValidIdsRequest(urlMap, method){
 }
 
 (async () => {
-    console.log("--Testing Valid Requests--");
+    console.log("--Testing Valid Requests--\n");
     await testValidRequests(postUrlsMap,'POST',1);
     await testValidRequests(putUrlsMap,'PUT',2);
 
-    console.log("--Testing Invalid Requests--");
+    console.log("--Testing Invalid Requests--\n");
     await testInValidRequest(postUrlsMap, 'POST', 1);
     await testInValidRequest(putUrlsMap, 'PUT', 2);
-    console.log("--Testing Invalid Ids Requests--");
+    console.log("--Testing Invalid Ids Requests--\n");
     await testInValidIdsRequest(postUrlsMap, 'POST');
     await testInValidIdsRequest(putUrlsMap, 'PUT');
 
