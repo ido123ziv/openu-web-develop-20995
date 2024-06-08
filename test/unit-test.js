@@ -224,7 +224,7 @@ async function testInValidIdsRequest(urlMap, method, min, max){
 
     console.log("--Testing Invalid Requests--\n");
     await testInValidRequest(postUrlsMap, 'POST', getRandomNumber(min,max), min, max);
-    // await testInValidRequest(putUrlsMap, 'PUT', getRandomNumber(min,max), min, max);
+    await testInValidRequest(putUrlsMap, 'PUT', getRandomNumber(min,max), min, max);
     // console.log("--Testing Invalid Ids Requests--\n");
     // await testInValidIdsRequest(postUrlsMap, 'POST', min, max);
     // await testInValidIdsRequest(putUrlsMap, 'PUT', min, max);
