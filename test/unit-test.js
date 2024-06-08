@@ -13,7 +13,8 @@ const putUrlsMap = {
     signupBabysitter: "http://localhost:3000/api/profile/babysitter/update/:id",
     signupParent: "http://localhost:3000/api/profile/parent/update/:id",
     deleteBabysitter: "http://localhost:3000/api/delete/babysitter/:id",
-    deleteParent: "http://localhost:3000/api/delete/parent/:id"
+    deleteParent: "http://localhost:3000/api/delete/parent/:id",
+    moderatorRequest: "'http://localhost:3000/api/moderator/editContactRequestStatus/:id"
 }
 
 const badIds = [-1, "@", ']', 77777, 0];
