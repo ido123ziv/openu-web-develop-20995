@@ -5,8 +5,8 @@ const outputFile = 'output.txt';
 const postUrlsMap = {
     contact: "http://localhost:3000/contact",
     // login: "http://localhost:3000/login",
-    // signupBabysitter: "http://localhost:3000/signup/babysitter",
-    // signupParent: "http://localhost:3000/signup/parent",
+    signupBabysitter: "http://localhost:3000/signup/babysitters",
+    signupParent: "http://localhost:3000/signup/parents",
     recommendationText: "http://localhost:3000/api/recommendations/:id"
 };
 const putUrlsMap = {
