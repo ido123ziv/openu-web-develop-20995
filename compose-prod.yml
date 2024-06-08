@@ -4,8 +4,9 @@ services:
     image: ghcr.io/ido123ziv/openu-web-develop-20995/app:latest
     build:
       context: client
+      target: production
     ports:
-      - 8080:8080
+      - 8080:5172
     depends_on:
       - api
     networks:
@@ -43,6 +44,11 @@ services:
       - db:/var/lib/postgresql/data
     networks:
       - my_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 volumes:
   db:
     driver: local
