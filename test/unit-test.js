@@ -124,7 +124,11 @@ async function sendData(url, data, method, plan) {
         const responseJson = await response.text();
         if (plan === "fail"){
             if (response.ok) {
-                const output = `Validation error! check: ${url}, status: ${response.status}\nresult: ${responseJson}`
+                const output = `Validation error! 
+                    check: ${url},
+                    data: ${JSON.stringify(data)},
+                    status: ${response.status}\n
+                    result: ${responseJson}`
                 console.error(output);
                 fs.appendFileSync(outputFile, output + '\n');
             }
@@ -132,7 +136,11 @@ async function sendData(url, data, method, plan) {
                 console.log(`Nice handle for ${url}!\n`)
         }
         else if (!response.ok){
-                const output = `HTTP error! check: ${url}, status: ${response.status}\nresult: ${responseJson}`
+                const output = `HTTP error! 
+                    check: ${url},
+                    data: ${JSON.stringify(data)},
+                    status: ${response.status}\n
+                    result: ${responseJson}`
                 console.error(output);
                 fs.appendFileSync(outputFile, output + '\n');
             }
@@ -174,9 +182,12 @@ async function testInValidRequest(urlMap, method, id, min, max){
         for (const attribute of badAttributes) {
             try {
                 let url = urlMap[key];
+                if (url)
+                    {
                 if (url.includes(":id")) url = url.replace(":id", id);
-                let response = await sendData(key, getBadInputs(schema, attribute, min, max), method, "fail");
+                let response = await sendData(url, getBadInputs(schema, attribute, min, max), method, "fail");
                 console.log(`${key} with bad ${attribute} Response:`, response);
+                    }
             } catch (error) {
                 console.error( error);
                 // exitOnError(`${key} with bad ${attribute} Error ${method}`)
@@ -191,7 +202,7 @@ async function testInValidIdsRequest(urlMap, method, min, max){
                 let url = urlMap[key];
                 for (const badId of badIds) {
                 if (url.includes(":id")) url = url.replace(":id", badId);
-                const response = await sendData(key, getBadInputs(schema, attribute, min, max), method, "fail");
+                const response = await sendData(url, getBadInputs(schema, attribute, min, max), method, "fail");
                 console.log(`${key} with bad ${attribute} Response:`, response);
                 }
             } catch (error) {
@@ -211,7 +222,7 @@ async function testInValidIdsRequest(urlMap, method, min, max){
     await testValidRequests(putUrlsMap,'PUT',getRandomNumber(min,max), min, max);
 
     console.log("--Testing Invalid Requests--\n");
-    // await testInValidRequest(postUrlsMap, 'POST', getRandomNumber(min,max), min, max);
+    await testInValidRequest(postUrlsMap, 'POST', getRandomNumber(min,max), min, max);
     // await testInValidRequest(putUrlsMap, 'PUT', getRandomNumber(min,max), min, max);
     // console.log("--Testing Invalid Ids Requests--\n");
     // await testInValidIdsRequest(postUrlsMap, 'POST', min, max);
