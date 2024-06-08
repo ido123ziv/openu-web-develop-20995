@@ -30,7 +30,11 @@ const ContactRequestsCards = ({ data }: ContactDataArr) => {
     <>
       <div className={styles.cardContainer}>
         {data?.map((element: ContactData) => (
-          <Card className={styles.card} onClick={(_e) => handleClick(element)}>
+          <Card
+            className={styles.card}
+            key={element.requestId}
+            onClick={(_e) => handleClick(element)}
+          >
             <CardContent>
               <CardHeader className={styles.cardHeader}>
                 {element.name}
