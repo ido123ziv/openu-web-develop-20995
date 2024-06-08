@@ -7,8 +7,13 @@ import styles from "./Babysitter.module.css";
 import { userState } from "../../../state/atoms/userAtom";
 import BackgroundSVG from "../../../ui/BackgroundSVG/BackgroundSVG";
 import RecommendationCards from "./RecommendationCards/RecommendationCards";
-import { getNumOfViews, getRecommendations } from "./babysitterServices";
+import {
+  getInteractionsData,
+  getNumOfViews,
+  getRecommendations,
+} from "./babysitterServices";
 import Nodata from "../../../ui/NoData/NoData";
+import StatsChart from "./StatsChart/StatsChart";
 
 const BabysitterMainView = () => {
   const [avgRating, setAvgRating] = useState<number>(0);
@@ -29,8 +34,14 @@ const BabysitterMainView = () => {
   });
 
   const { data: numOfViews } = useQuery({
-    queryKey: ["getRNumOfViews"],
+    queryKey: ["getNumOfViews"],
     queryFn: () => getNumOfViews(user.id),
+    onError: (error) => console.log(error),
+  });
+
+  const { data: interactionsData } = useQuery({
+    queryKey: ["getInteractionsData"],
+    queryFn: () => getInteractionsData(user.id),
     onError: (error) => console.log(error),
   });
 
@@ -60,6 +71,8 @@ const BabysitterMainView = () => {
             <RecommendationCards data={recommendations} />
           )}
         </div>
+
+        <StatsChart data={interactionsData || []} />
       </div>
     </>
   );
