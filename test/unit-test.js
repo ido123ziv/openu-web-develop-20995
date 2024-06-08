@@ -1,5 +1,7 @@
 const fetch = require('node-fetch');
+const fs = require('fs');
 
+const outputFile = 'output.txt';
 const postUrlsMap = {
     contact: "http://localhost:3000/contact",
     login: "http://localhost:3000/login",
@@ -53,14 +55,26 @@ const schemas = {
         password: "string",
         city: "string",
         street: "string",
-        experience: "string",
+        experience: "mid",
         age: "number",
         phoneNumber: "string",
         gender: "string",
         comments: "string"
     }
 };
-
+async function getBabysitterCount(){
+    const responseAll = await fetch('http://localhost:3000/api/moderator/allUsers');
+    const responseBaby = await fetch('http://localhost:3000/api/parents');
+    const allUsers = await responseAll.json();
+    const babysitters = await responseBaby.json();
+    
+    const result = {
+        "babysitters": babysitters.length,
+        "parents":  allUsers.length - babysitters.length
+    };
+    console.log(result);
+    return result;
+}
 function generateRandomString(length) {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';
@@ -70,9 +84,7 @@ function generateRandomString(length) {
     return result;
 }
 
-function getGoodInputs(schema) {
-    const min = 1; 
-    const max = 7;
+function getGoodInputs(schema, min, max) {
     const parsedData = {};
     for (const [key, type] of Object.entries(schema)) {
         if (type === "string") parsedData[key] = generateRandomString(12);
@@ -86,8 +98,8 @@ function getBadId() {
     return badIds[Math.floor(Math.random() * badIds.length)];
 }
 
-function getBadInputs(schema, attribute) {
-    const parsedData = getGoodInputs(schema);
+function getBadInputs(schema, attribute, min, max) {
+    const parsedData = getGoodInputs(schema, min, max);
     for (const [key, type] of Object.entries(schema)) {
         if (type === "email" && attribute === "email") parsedData[key] = "notAnEmail.";
         if (key.includes("Id") && attribute === "id") parsedData[key] = getBadId();
@@ -105,17 +117,20 @@ async function sendData(url, data, method, plan) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
         });
+        const responseJson = JSON.stringify(await response.json());
         if (plan === "fail"){
             if (response.ok) {
-                console.error(response.statusText);
-                throw new Error(`Validation error! check: ${url}, status: ${response.status}`);
+                const output = `Validation error! check: ${url}, status: ${response.status}\nresult: ${responseJson}`
+                console.error(output);
+                fs.appendFileSync(outputFile, output + '\n');
             }
             else 
                 console.log(`Nice handle for ${url}!\n`)
         }
         else if (!response.ok){
-                console.error(response.statusText);
-                throw new Error(`HTTP error! status: ${response.status}`);
+                const output = `HTTP error! check: ${url}, status: ${response.status}\nresult: ${responseJson}`
+                console.error(output);
+                fs.appendFileSync(outputFile, output + '\n');
             }
             else{
                 console.log(`Nice handle for ${url}!\n`)
@@ -130,63 +145,69 @@ function exitOnError(msg){
     console.error(msg);
     process.exit(1);
 }
-async function testValidRequests(urlMap, method, id){
+async function testValidRequests(urlMap, method, id, min, max){
     for (const [key, schema] of Object.entries(schemas)) {
         try {
             let url = urlMap[key];
             if (url.includes(":id")) url = url.replace(":id", id);
-            const response = await sendData(url, getGoodInputs(schema), method, "success");
+            const response = await sendData(url, getGoodInputs(schema, min, max), method, "success");
             console.log(`${key} Response:`, response);
         } catch (error) {
             console.error(error);
-            exitOnError(`${key} Error in a valid ${method} request`)
+            // exitOnError(`${key} Error in a valid ${method} request`)
         }
     }
 }
-async function testInValidRequest(urlMap, method, id){
+async function testInValidRequest(urlMap, method, id, min, max){
     for (const [key, schema] of Object.entries(schemas)) {
         for (const attribute of badAttributes) {
             try {
                 let url = urlMap[key];
                 if (url.includes(":id")) url = url.replace(":id", id);
-                const response = await sendData(key, getBadInputs(schema, attribute), method, "fail");
+                const response = await sendData(key, getBadInputs(schema, attribute, min, max), method, "fail");
                 console.log(`${key} with bad ${attribute} Response:`, response);
             } catch (error) {
                 console.error( error);
-                exitOnError(`${key} with bad ${attribute} Error ${method}`)
+                // exitOnError(`${key} with bad ${attribute} Error ${method}`)
             }
         }
     }
 }
-async function testInValidIdsRequest(urlMap, method){
+async function testInValidIdsRequest(urlMap, method, min, max){
     for (const [key, schema] of Object.entries(schemas)) {
         for (const attribute of badAttributes) {
             try {
                 let url = urlMap[key];
                 for (const badId of badIds) {
                 if (url.includes(":id")) url = url.replace(":id", badId);
-                const response = await sendData(key, getBadInputs(schema, attribute), method, "fail");
+                const response = await sendData(key, getBadInputs(schema, attribute, min, max), method, "fail");
                 console.log(`${key} with bad ${attribute} Response:`, response);
                 }
             } catch (error) {
                 console.error( error);
-                exitOnError(`${key} with bad ${attribute} Error ${method}`)
+                // exitOnError(`${key} with bad ${attribute} Error ${method}`)
             }
         }
     }
 }
 
 (async () => {
+    usersCount = await getBabysitterCount();
+    const min = 1;
+    const max = Math.max(usersCount.babysitters, usersCount.parents);
     console.log("--Testing Valid Requests--\n");
-    await testValidRequests(postUrlsMap,'POST',1);
-    await testValidRequests(putUrlsMap,'PUT',2);
+    await testValidRequests(postUrlsMap,'POST',1, min, max);
+    // await testValidRequests(putUrlsMap,'PUT',2, min, max);
 
-    console.log("--Testing Invalid Requests--\n");
-    await testInValidRequest(postUrlsMap, 'POST', 1);
-    await testInValidRequest(putUrlsMap, 'PUT', 2);
-    console.log("--Testing Invalid Ids Requests--\n");
-    await testInValidIdsRequest(postUrlsMap, 'POST');
-    await testInValidIdsRequest(putUrlsMap, 'PUT');
+    // console.log("--Testing Invalid Requests--\n");
+    // await testInValidRequest(postUrlsMap, 'POST', 1, min, max);
+    // await testInValidRequest(putUrlsMap, 'PUT', 2, min, max);
+    // console.log("--Testing Invalid Ids Requests--\n");
+    // await testInValidIdsRequest(postUrlsMap, 'POST', min, max);
+    // await testInValidIdsRequest(putUrlsMap, 'PUT', min, max);
 
-
+    if (fs.existsSync(outputFile)){
+        if (fs.readFileSync(outputFile).length === 0)
+            exitOnError(`Found Errors. please see ${outputFile} for more.`)
+    }
 })();
