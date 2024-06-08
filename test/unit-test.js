@@ -7,7 +7,7 @@ const postUrlsMap = {
     signupParent: "http://localhost:3000/signup/parent",
     recommendationText: "http://localhost:3000/api/recommendations/:id"
 };
-const putUrlmap = {
+const putUrlsMap = {
     signupBabysitter: "http://localhost:3000/api/profile/babysitter/update/:id",
     signupParent: "http://localhost:3000/api/profile/parent/update/:id",
     deleteBabysitter: "http://localhost:3000/api/delete/babysitter/:id",
@@ -15,6 +15,7 @@ const putUrlmap = {
 }
 
 const badIds = [-1, "@", ']', 77777, 0];
+const badAttributes = ['email', 'id', 'name'];
 
 const schemas = {
     contact: {
@@ -124,88 +125,63 @@ function exitOnError(msg){
     console.error(msg);
     process.exit(1);
 }
-(async () => {
-    console.log("--Testing Valid Requests--");
+async function testValidRequests(urlMap, method, id){
     for (const [key, schema] of Object.entries(schemas)) {
         try {
-            let url = postUrlsMap[key];
-            if (url.includes(":id")) url = url.replace(":id", 1);
-            const response = await sendData(url, getGoodInputs(schema), 'POST', "success");
+            let url = urlMap[key];
+            if (url.includes(":id")) url = url.replace(":id", id);
+            const response = await sendData(url, getGoodInputs(schema), method, "success");
             console.log(`${key} Response:`, response);
         } catch (error) {
             console.error(error);
-            exitOnError(`${key} Error in vaild post request`)
+            exitOnError(`${key} Error in a valid ${method} request`)
         }
     }
-    for (const [key, schema] of Object.entries(schemas)) {
-        try {
-            let url = postUrlsMap[key];
-            if (url.includes(":id")) url = url.replace(":id", 2);
-            const response = await sendData(url, getGoodInputs(schema), 'PUT', "success");
-            console.log(`${key} Response:`, response);
-        } catch (error) {
-            console.error( error);
-            exitOnError(`${key} Error in vaild put request`)
-
-        }
-    }
-
-    console.log("--Testing Invalid Requests--");
-    const badAttributes = ['email', 'id', 'name'];
+}
+async function testInValidRequest(urlMap, method, id){
     for (const [key, schema] of Object.entries(schemas)) {
         for (const attribute of badAttributes) {
             try {
-                let url = postUrlsMap[key];
-                if (url.includes(":id")) url = url.replace(":id", 1);
-                const response = await sendData(key, getBadInputs(schema, attribute), 'POST', "fail");
+                let url = urlMap[key];
+                if (url.includes(":id")) url = url.replace(":id", id);
+                const response = await sendData(key, getBadInputs(schema, attribute), method, "fail");
                 console.log(`${key} with bad ${attribute} Response:`, response);
             } catch (error) {
                 console.error( error);
-                exitOnError(`${key} with bad ${attribute} Error POST`)
+                exitOnError(`${key} with bad ${attribute} Error ${method}`)
             }
         }
     }
+}
+async function testInValidIdsRequest(urlMap, method){
     for (const [key, schema] of Object.entries(schemas)) {
         for (const attribute of badAttributes) {
             try {
-                let url = postUrlsMap[key];
+                let url = urlMap[key];
                 for (const badId of badIds) {
-                    if (url.includes(":id")) url = url.replace(":id", badId);
-                    const response = await sendData(url, getBadInputs(schema, attribute), 'POST', "fail");
-                    console.log(`${url} with bad ${attribute} Response:`, response);
+                if (url.includes(":id")) url = url.replace(":id", badId);
+                const response = await sendData(key, getBadInputs(schema, attribute), method, "fail");
+                console.log(`${key} with bad ${attribute} Response:`, response);
                 }
             } catch (error) {
                 console.error( error);
-                exitOnError(`${key} with bad ${attribute} Error POST bad id`)         
+                exitOnError(`${key} with bad ${attribute} Error ${method}`)
             }
         }
     }
-    for (const [key, schema] of Object.entries(schemas)) {
-        for (const attribute of badAttributes) {
-            try {
-                let url = putUrlsMap[key];
-                for (const badId of badIds) {
-                    if (url.includes(":id")) url = url.replace(":id", badId);
-                    const response = await sendData(url, getBadInputs(schema, attribute), 'PUT', "fail");
-                    console.log(`${url} with bad ${attribute} Response:`, response);
-                }
-            } catch (error) {
-                console.error( error);
-                exitOnError(`${key} with bad ${attribute} Error put bad id`)
-            }
-        }
-    }
-    for (const [key, schema] of Object.entries(schemas)) {
-        for (const attribute of badAttributes) {
-            try {
-                let url = putUrlsMap[key];
-                if (url.includes(":id")) url = url.replace(":id", 1);
-                const response = await sendData(url, getBadInputs(schema, attribute), 'PUT', "fail");
-                console.log(`${url} with bad ${attribute} Response:`, response);
-            } catch (error) {
-                console.error( error);
-                exitOnError(`${key} with bad ${attribute} Error PUT`)
-        }
-        }
-    }
+}
+
+(async () => {
+    console.log("--Testing Valid Requests--");
+    await testValidRequests(postUrlsMap,'POST',1);
+    await testValidRequests(putUrlsMap,'PUT',2);
+
+    console.log("--Testing Invalid Requests--");
+    await testInValidRequest(postUrlsMap, 'POST', 1);
+    await testInValidRequest(putUrlsMap, 'PUT', 2);
+    console.log("--Testing Invalid Ids Requests--");
+    await testInValidIdsRequest(postUrlsMap, 'POST');
+    await testInValidIdsRequest(putUrlsMap, 'PUT');
+
+
 })();
