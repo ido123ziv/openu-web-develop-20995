@@ -290,3 +290,4 @@ dist
 
 
 .vscode/extensions.json
+volume/*
