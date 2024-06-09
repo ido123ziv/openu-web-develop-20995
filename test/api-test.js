@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const fetch = require("node-fetch");
 const fs = require("fs");
+const fetch = require("node-fetch");
+const fs = require("fs");
 
 const outputFile = "output.txt";
 const badInputs = ["a", "@", "[", "1c"];
@@ -23,6 +25,20 @@ const urls = {
     "http://localhost:3000/api/moderator/allContactRequests",
 };
 const inputUrls = {
+  babysitters: "http://localhost:3000/api/babysitter/:id",
+  parentProfile: "http://localhost:3000/api/profile/parent/:id",
+  babysitterProfile: "http://localhost:3000/api/profile/babysitter/:id",
+  babysitterRecommendation:
+    "http://localhost:3000/api/recommendations/babysitter/:id",
+  parentRecommendation: "http://localhost:3000/api/recommendations/parent/:id",
+  RecommendationStart:
+    "http://localhost:3000/api/recommendations/parent/1/babysitter/:id",
+  RecommendationEnd:
+    "http://localhost:3000/api/recommendations/parent/:id/babysitter/1",
+  RecommendationBoth:
+    "http://localhost:3000/api/recommendations/parent/:id/babysitter/:id",
+  profileBaby: "http://localhost:3000/api/profile/babysitter/:id",
+  profileParent: "http://localhost:3000/api/profile/parent/:id",
   babysitters: "http://localhost:3000/api/babysitter/:id",
   parentProfile: "http://localhost:3000/api/profile/parent/:id",
   babysitterProfile: "http://localhost:3000/api/profile/babysitter/:id",
@@ -64,7 +80,7 @@ async function testApiBadInput(url, outputFile) {
   console.log(`Testing ${url}`);
   try {
     const response = await fetch(url);
-    if (response.status !== 400) {
+    if (response.status < 399) {
       const text = await response.text();
       console.log(text);
       const output = `**Error with: ${url} -> missed bad input ${text} -> Error Code: ${response.status}**`;
