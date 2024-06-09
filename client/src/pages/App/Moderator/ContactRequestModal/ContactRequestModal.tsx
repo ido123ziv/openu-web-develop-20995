@@ -74,7 +74,9 @@ const ContactRequestModal = ({
         <Button positive onClick={handleUpdateStatus}>
           Set status as {nextStatus}
         </Button>
-        <Button negative>Decline</Button>
+        <Button negative onClick={() => setIsOpen(false)}>
+          Decline
+        </Button>
       </ModalActions>
     </Modal>
   );

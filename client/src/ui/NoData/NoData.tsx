@@ -7,7 +7,6 @@ interface NoDataProps {
 
 const parentNodataMessage = "Sorry, No available babysitters yet";
 const babysitterNodataMessage = "Sorry, No Reviews Yet";
-const moderatorNodataMessage = "No Users";
 
 const Nodata = ({ role, message }: NoDataProps) => {
   return (
@@ -16,8 +15,6 @@ const Nodata = ({ role, message }: NoDataProps) => {
         {role === "parents" && parentNodataMessage}
 
         {role === "babysitter" && babysitterNodataMessage}
-
-        {role === "moderator" && moderatorNodataMessage}
 
         {message}
       </p>
