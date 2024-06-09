@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const fetch = require("node-fetch");
 const fs = require("fs");
-const fetch = require("node-fetch");
-const fs = require("fs");
 
 const outputFile = "output.txt";
 const badInputs = ["a", "@", "[", "1c"];
