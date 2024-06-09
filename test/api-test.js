@@ -61,7 +61,7 @@ async function testApiBadInput(url, outputFile) {
   console.log(`Testing ${url}`);
   try {
     const response = await fetch(url);
-    if (response.status < 400) {
+    if (response.status < 399) {
       const text = await response.text();
       console.log(text);
       const output = `**Error with: ${url} -> missed bad input ${text} -> Error Code: ${response.status}**`;
