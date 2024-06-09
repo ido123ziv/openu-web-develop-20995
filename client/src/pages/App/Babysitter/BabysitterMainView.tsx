@@ -7,11 +7,7 @@ import styles from "./Babysitter.module.css";
 import { userState } from "../../../state/atoms/userAtom";
 import BackgroundSVG from "../../../ui/BackgroundSVG/BackgroundSVG";
 import RecommendationCards from "./RecommendationCards/RecommendationCards";
-import {
-  getInteractionsData,
-  getNumOfViews,
-  getRecommendations,
-} from "./babysitterServices";
+import { getInteractionsData, getRecommendations } from "./babysitterServices";
 import Nodata from "../../../ui/NoData/NoData";
 import StatsChart from "./StatsChart/StatsChart";
 
@@ -33,17 +29,13 @@ const BabysitterMainView = () => {
     onError: (error) => console.log(error),
   });
 
-  const { data: numOfViews } = useQuery({
-    queryKey: ["getNumOfViews"],
-    queryFn: () => getNumOfViews(user.id),
-    onError: (error) => console.log(error),
-  });
-
-  const { data: interactionsData } = useQuery({
+  const { data } = useQuery({
     queryKey: ["getInteractionsData"],
     queryFn: () => getInteractionsData(user.id),
     onError: (error) => console.log(error),
   });
+
+  const chartData: number[] = data ? Object.values(data) : [];
 
   return (
     <>
@@ -58,7 +50,7 @@ const BabysitterMainView = () => {
         <div className={styles.main}>
           <div className={styles.analytics}>
             <h2>Analytics</h2>
-            <p>{numOfViews || "0"} People viewed your profile</p>
+            <p>{`${data?.totalCount}` || "0"} People viewed your profile</p>
             <p>You have {recommendations?.length || "0"} recommendations</p>
             <p>{avgRating} AVG Rating</p>
           </div>
@@ -72,7 +64,7 @@ const BabysitterMainView = () => {
           )}
         </div>
 
-        <StatsChart data={interactionsData || []} />
+        <StatsChart data={chartData} />
       </div>
     </>
   );

@@ -1,5 +1,5 @@
 export interface StatsChartProps {
-  data: InteractionsData[];
+  data: number[];
 }
 
 export interface InteractionsData {
