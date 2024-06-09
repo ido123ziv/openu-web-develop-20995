@@ -24,6 +24,7 @@ import {
 } from "./babysitterProfileServices";
 import { updatedValues } from "../helpers/helpers";
 import { BabysitterData } from "./BabysitterProfileInterfaces";
+import UploadButton from "../UploadButton/UploadButton";
 
 const experience = [
   { key: 0, text: "No Experience", value: "no_experience" },
@@ -134,9 +135,7 @@ const BabysitterProfile = () => {
             size="medium"
             rounded
           />
-          <Button primary className={styles.uploadImageBtn}>
-            Upload a picture
-          </Button>
+          <UploadButton />
         </div>
 
         <div className={styles.dataContainer}>

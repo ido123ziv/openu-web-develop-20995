@@ -24,6 +24,7 @@ import {
   getProfile,
   updateProfile,
 } from "./parentProfileServices";
+import UploadButton from "../UploadButton/UploadButton";
 
 const ParentProfile = () => {
   const user = useRecoilValue(userState);
@@ -127,9 +128,7 @@ const ParentProfile = () => {
             size="medium"
             rounded
           />
-          <Button primary className={styles.uploadImageBtn}>
-            Upload a picture
-          </Button>
+          <UploadButton />
         </div>
 
         <div className={styles.dataContainer}>
