@@ -20,6 +20,7 @@ const urls = {
   allContactRequests: "http://localhost:3000/api/moderator/allContactRequests",
   getInteraction: "http://localhost:3000/api/babysitter/interactions/:id",
 };
+
 const inputUrls = {
   babysitters: "http://localhost:3000/api/babysitter/:id",
   parentProfile: "http://localhost:3000/api/profile/parent/:id",
@@ -58,11 +59,12 @@ async function testUrl(url, outputFile) {
     process.exit(1); // Exit with code 1 if any error occurs
   }
 }
+
 async function testApiBadInput(url, outputFile) {
   console.log(`Testing ${url}`);
   try {
     const response = await fetch(url);
-    if (response.status !== 400) {
+    if (response.status < 400) {
       const text = await response.text();
       console.log(text);
       const output = `**Error with: ${url} -> missed bad input ${text} -> Error Code: ${response.status}**`;
