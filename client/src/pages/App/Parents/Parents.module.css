@@ -40,3 +40,28 @@
 .iconContainer .h1 {
   margin-left: 20px !important;
 }
+
+.headerContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.sortersContainer {
+  margin-right: 1vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.filter {
+  font-size: 1.125rem !important;
+  line-height: 1.75rem !important;
+  height: 80%;
+}
+
+.itemMenu .itemSelect {
+  margin: 0 !important;
+  width: 100% !important;
+  padding: 200px !important;
+}
