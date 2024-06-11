@@ -63,6 +63,6 @@ jobs:
         with:
           context: ${{ steps.context.outputs.context }}
           push: true
-          target: ${{ matrix.images != 'db' && 'development' || null }}
+          target: ${{ (matrix.images != 'db' && 'development') || (matrix.images != 'utils'  && 'development') || null }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
