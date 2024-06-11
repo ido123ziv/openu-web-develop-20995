@@ -42,18 +42,12 @@ import {
   export const getImage = async (babysitterId: number) => {
     const imageName = (
       await db.query(`
-            SELECT image_string
+            SELECT image_string AS imageString
             FROM babysitters
             WHERE babysitter_id = ($1)`, [babysitterId])
-    ).rows[0].image;
+    ).rows[0].imagestring;
   
-    const getObjectParams = {
-      Bucket: process.env.BUCKET_NAME,
-      Key: imageName,
-    };
-  
-    const command = new GetObjectCommand(getObjectParams);
-    return await getSignedUrl(s3, command);
+    return imageName;
   };
 
   export const listBucket = async () => {
