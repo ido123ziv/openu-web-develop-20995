@@ -36,14 +36,23 @@ const sortingOptions = [
 
 const filterOptions = [
   {
-    key: "Important",
-    text: "Important",
-    label: { color: "red", empty: true, circular: true },
+    key: "experience",
+    text: "Experience",
+    icon: "chart line",
+    optionsArr: [
+      { key: "No Experience", text: "No Experience" },
+      { key: "1-3 Years", text: "1-3 Years" },
+      { key: "3+ years", text: "3+ years" },
+    ],
   },
   {
-    key: "Announcement",
-    text: "Announcement",
+    key: "rating",
+    text: "Rating",
     icon: "search",
+    optionsArr: [
+      { key: "goodRating", text: "More then 3 Stars" },
+      { key: "badRating", text: "Less then 3 Stars" },
+    ],
   },
 ];
 
@@ -51,13 +60,20 @@ const ParentsMainView = () => {
   const user = useRecoilValue(userState);
   const [sorter, setSorter] = useState<string>("");
   const [filters, setFilters] = useState<string[]>([]);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [babysitters, setBabysitters] = useState<CardsData[] | undefined>(
     undefined
   );
 
-  const handleSetFilters = (newFilter: string) => {
-    setFilters([...new Set([...filters, newFilter])]);
-  };
+  // const handleSetFilters = ({
+  //   newFilterKey,
+  //   newFilterValue,
+  // }: {
+  //   key: string;
+  //   value: string;
+  // }) => {
+  //   // setFilters([...new Set([...filters, newFilter])]);
+  // };
 
   const { data } = useQuery({
     queryKey: ["getAllBabysitters"],
@@ -89,6 +105,48 @@ const ParentsMainView = () => {
 
         <div className={styles.sortersContainer}>
           <Dropdown
+            text="Filter Babysitters"
+            icon="filter"
+            floating
+            labeled
+            button
+            direction="left"
+            className={`icon ${styles.filter}`}
+          >
+            <DropdownMenu className={styles.widthSetter}>
+              <DropdownMenu scrolling className={styles.itemMenu}>
+                {filterOptions.map((option) => (
+                  <DropdownItem
+                    key={option.key}
+                    className={styles.itemSelect}
+                    onClick={(_e) => console.log(option)}
+                  >
+                    {option.text}
+                    {option.optionsArr && (
+                      <DropdownMenu
+                        scrolling
+                        open={isOpen}
+                        className={styles.subMenu}
+                      >
+                        {option.optionsArr.map((el) => (
+                          <DropdownItem
+                            {...el}
+                            className={styles.optionsArr}
+                            onClick={
+                              (_e) => console.log(el)
+                              //   handleSetFilters(option.key, el.key)
+                            }
+                          />
+                        ))}
+                      </DropdownMenu>
+                    )}
+                  </DropdownItem>
+                ))}
+              </DropdownMenu>
+            </DropdownMenu>
+          </Dropdown>
+
+          <Dropdown
             text="Sort Babysitters"
             icon="sort amount down"
             floating
@@ -102,28 +160,6 @@ const ParentsMainView = () => {
                   <DropdownItem
                     {...option}
                     onClick={() => setSorter(option.key)}
-                  />
-                ))}
-              </DropdownMenu>
-            </DropdownMenu>
-          </Dropdown>
-
-          <Dropdown
-            text="Filter Babysitters"
-            icon="filter"
-            floating
-            labeled
-            button
-            direction="left"
-            className={`icon ${styles.filter}`}
-          >
-            <DropdownMenu className={styles.widthSetter}>
-              <DropdownMenu scrolling className={styles.itemMenu}>
-                {filterOptions.map((option) => (
-                  <DropdownItem
-                    {...option}
-                    className={styles.itemSelect}
-                    onClick={(_e) => handleSetFilters(option.key)}
                   />
                 ))}
               </DropdownMenu>

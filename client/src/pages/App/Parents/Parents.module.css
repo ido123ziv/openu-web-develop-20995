@@ -65,3 +65,8 @@
   width: 100% !important;
   padding: 200px !important;
 }
+
+.optionsArr {
+  /* width: 500px !important; */
+  display: block !important;
+}

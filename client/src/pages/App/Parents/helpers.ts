@@ -28,3 +28,7 @@ export const filterBabysitters = (
 ): CardsData[] => {
   return data;
 };
+
+// const parseFilter = ({newFilterKey, newFilterValue}: {key:string, value: string}) => {
+//     return
+// }
