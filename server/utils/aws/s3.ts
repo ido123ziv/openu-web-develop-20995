@@ -38,17 +38,6 @@ import {
             WHERE babysitter_id = ($2)`, [imageName,id,        
     ]);
   };
-  
-  export const getImage = async (babysitterId: number) => {
-    const imageName = (
-      await db.query(`
-            SELECT image_string AS imageString
-            FROM babysitters
-            WHERE babysitter_id = ($1)`, [babysitterId])
-    ).rows[0].imagestring;
-  
-    return imageName;
-  };
 
   export const listBucket = async () => {
     const input = {

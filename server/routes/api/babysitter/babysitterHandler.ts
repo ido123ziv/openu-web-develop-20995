@@ -10,6 +10,7 @@ export default class Handler {
 
   userValidation = async (babysitterId: number): Promise<Validation> => {
     const babysitter = await this.dbHandler.getBabysitter(babysitterId);
+    console.log(babysitter)
     if (!babysitter) {
       return { isValid: false, message: "Babysitter doesn't exist" };
     }
@@ -19,5 +20,13 @@ export default class Handler {
 
   numOfViews = async (babysitterId: number): Promise<string> => {
     return this.dbHandler.getNumWatchedProfile(babysitterId);
+  };
+
+  putProfileImage = async (imageName: string, babysitterId: number): Promise<void> => {
+    return this.dbHandler.putProfileImage(imageName, babysitterId);
+  };
+
+  getProfileImage = async (babysitterId: number): Promise<string> => {
+    return this.dbHandler.getProfileImage(babysitterId);
   };
 }

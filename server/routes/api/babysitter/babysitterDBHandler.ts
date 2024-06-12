@@ -20,4 +20,21 @@ export default class DBHandler {
     const numWatched = await db.query(query, [babysitterId]);
     return numWatched.rows[0].amount;
   }
+
+  async putProfileImage(imageName: string, babysitterId: number): Promise<void> {
+    const query = `UPDATE babysitters
+                   SET image_string = $1
+                   WHERE babysitter_id = $2`;
+
+    await db.query(query, [imageName, babysitterId]);
+  }
+
+  async getProfileImage(babysitterId: number): Promise<string> {
+    const query = `SELECT image_string AS imageString
+                   FROM babysitters
+                   WHERE babysitter_id = $1`;
+
+    const image = await db.query(query, [babysitterId]);
+    return image.rows[0].imagestring;
+  }
 }
