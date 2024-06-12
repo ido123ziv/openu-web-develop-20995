@@ -48,3 +48,11 @@ export const updateWorkedWith = async (
     }
   );
 };
+
+export const getBabysitterRecommendations = async (babysitterId: number) => {
+  const { data } = await axios.get(
+    `http://localhost:3000/api/recommendations/babysitter/${babysitterId}`
+  );
+
+  return data;
+};

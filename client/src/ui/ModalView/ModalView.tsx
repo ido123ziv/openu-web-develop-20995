@@ -23,11 +23,13 @@ import { ModalViewProps } from "./ModalViewInterface";
 import { userState } from "../../state/atoms/userAtom";
 import AddRecommendationModal from "../../pages/App/Parents/AddRecommendationModal/AddRecommendationModal";
 import {
+  getBabysitterRecommendations,
   getInteraction,
   updateContacted,
   updateLastVisited,
   updateWorkedWith,
 } from "./modalViewServices";
+import RecommendationCards from "../../pages/App/Babysitter/RecommendationCards/RecommendationCards";
 
 const ModalView = ({ isOpen, setIsOpen, card }: ModalViewProps) => {
   const [isOpenReviewModal, setIsOpenReviewModal] = useState<boolean>(false);
@@ -87,6 +89,12 @@ const ModalView = ({ isOpen, setIsOpen, card }: ModalViewProps) => {
     },
   });
 
+  const { data: recommendations } = useQuery({
+    queryKey: ["babysitterRecommendations"],
+    queryFn: () => getBabysitterRecommendations(card?.id as number),
+    onError: (error) => console.log(error),
+  });
+
   const handleWorkedWith = () => {
     mutateWorkedWith();
   };
@@ -97,6 +105,7 @@ const ModalView = ({ isOpen, setIsOpen, card }: ModalViewProps) => {
       onClose={() => setIsOpen(false)}
       onOpen={() => setIsOpen(true)}
       open={isOpen}
+      size="large"
     >
       <ModalHeader>{card?.name}</ModalHeader>
       <ModalContent image>
@@ -220,6 +229,12 @@ const ModalView = ({ isOpen, setIsOpen, card }: ModalViewProps) => {
           </>
         )}
       </ModalActions>
+
+      <div className={styles.recommendations}>
+        {user.role === "parents" && recommendations?.length > 0 && (
+          <RecommendationCards data={recommendations} />
+        )}
+      </div>
 
       {isOpenReviewModal && (
         <AddRecommendationModal
