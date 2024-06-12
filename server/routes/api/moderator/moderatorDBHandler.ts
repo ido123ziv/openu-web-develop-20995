@@ -17,7 +17,7 @@ export default class DBHandler {
                         FROM parents
                         WHERE end_timestamp = $1`;
 
-    const babysitterQuery = `SELECT babysitter_id AS id, 
+    const babysitterQuery = `SELECT b.babysitter_id AS id, 
                                   babysitter_name AS name, 
                                   email, 
                                   gender, 
@@ -28,8 +28,10 @@ export default class DBHandler {
                                   experience,
                                   image_string AS "imageString",
                                   comments,
+                                  rating,
                                   'babysitter' AS role
-                          FROM babysitters
+                          FROM babysitters AS b
+                          JOIN recommendations AS r ON b.babysitter_id=r.babysitter_id
                           WHERE end_timestamp = $1`;
 
     const parents = await db.query(parentQuery, [END_TIMESTAMP]);

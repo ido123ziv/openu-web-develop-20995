@@ -14,10 +14,10 @@ export default class DBHandler {
   }
 
   async getBabysitter(babysitterId: number): Promise<number> {
-    const query = `SELECT babysitter_id AS "babysitterId"
-                    FROM babysitters
-                    WHERE babysitter_id = $1 AND 
-                          end_timestamp = $2`;
+    const query = `SELECT babysitter_id AS id
+                   FROM babysitters
+                   WHERE babysitter_id = $1 AND 
+                         end_timestamp = $2`;
 
     const { rows } = await db.query(query, [babysitterId, END_TIMESTAMP]);
     return rows[0];
@@ -50,7 +50,7 @@ export default class DBHandler {
   }
 
   async getAllBabysitters(): Promise<Babysitter[]> {
-    const query = `SELECT babysitter_id AS id,
+    const query = `SELECT b.babysitter_id AS id,
                               babysitter_name AS name,
                               email,
                               city,
@@ -60,8 +60,10 @@ export default class DBHandler {
                               phone_number AS "phoneNumber",
                               gender,
                               image_string AS "imageString",
-                              comments
-                       FROM babysitters
+                              comments,
+                              rating
+                       FROM babysitters AS b
+                       JOIN recommendations AS r ON b.babysitter_id=r.babysitter_id
                        WHERE end_timestamp = $1`;
 
     const data = await db.query(query, [END_TIMESTAMP]);
