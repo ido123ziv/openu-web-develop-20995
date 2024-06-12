@@ -11,7 +11,7 @@ const urls = {
   name: "http://localhost:3000/hello/name",
   dbHealth: "http://localhost:3000/db/health",
   dbTables: "http://localhost:3000/db/tables",
-  parents: "http://localhost:3000/api/parents",
+  parents: "http://localhost:3000/api/parents/allBabysitters",
   allUsers: "http://localhost:3000/api/moderator/allUsers",
   recommendations: "http://localhost:3000/api/recommendations/",
   profileBaby: "http://localhost:3000/api/profile/babysitter/:id",
