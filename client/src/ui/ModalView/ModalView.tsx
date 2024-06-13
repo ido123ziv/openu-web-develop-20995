@@ -44,11 +44,9 @@ const ModalView = ({ isOpen, setIsOpen, card, screen }: ModalViewProps) => {
   const { data: interaction } = useQuery({
     queryKey: ["getInteraction"],
     queryFn: () => {
-      if (user.role !== "parent") {
-        return;
+      if (user.role === "parents") {
+        return getInteraction(user.id, card?.id as number);
       }
-
-      return getInteraction(user.id, card?.id as number);
     },
     onSuccess: (interaction) => {
       if (!interaction) {
@@ -63,7 +61,7 @@ const ModalView = ({ isOpen, setIsOpen, card, screen }: ModalViewProps) => {
   const { mutate: mutateLastVisited } = useMutation({
     mutationKey: ["updateLastVisit"],
     mutationFn: () => {
-      if (user.role !== "parent") {
+      if (user.role === "parents") {
         return Promise.resolve();
       }
 
@@ -274,9 +272,10 @@ const ModalView = ({ isOpen, setIsOpen, card, screen }: ModalViewProps) => {
       </ModalActions>
 
       <div className={styles.recommendations}>
-        {user.role === "parents" && recommendations?.length > 0 && (
-          <RecommendationCards data={recommendations} />
-        )}
+        {(user.role === "parents" || user.role === "moderator") &&
+          recommendations?.length > 0 && (
+            <RecommendationCards data={recommendations} />
+          )}
       </div>
 
       {isOpenReviewModal && (
