@@ -119,7 +119,8 @@ babysitterRouter.get(
         return res.status(400).json({ error: validation.message });
       }
       const imageName = await handler.getProfileImage(Number(babysitterId));
-      const imageUrl = await s3.getImageUrl(imageName);
+      const localStackImageUrl = await s3.getImageUrl(imageName);
+      const imageUrl = localStackImageUrl.replace('s3-local', s3.s3Uri);
 
       res.status(200).json({ imageUrl });
     } catch (e) {
