@@ -28,4 +28,12 @@ export default class DBHandler {
 
     await db.query(query, [imageName, babysitterId]);
   }
+
+  async getProfileImageKey (babysitterId: number): Promise<string> {
+    const query = `SELECT image_string AS imageString
+            FROM babysitters
+            WHERE babysitter_id = ($1)`
+    const imageName = await db.query(query, [babysitterId])
+    return imageName.rows[0].imagestring; 
+  }
 }
