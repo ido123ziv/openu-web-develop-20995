@@ -5,7 +5,7 @@ import { useState } from "react";
 import ModalView from "../ModalView/ModalView";
 import { CardsData, CardsDataArr } from "./CardViewProps";
 
-const CardsView = ({ data }: CardsDataArr) => {
+const CardsView = ({ data, screen }: CardsDataArr) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [card, setCard] = useState<CardsData | undefined>(undefined);
 
@@ -35,7 +35,12 @@ const CardsView = ({ data }: CardsDataArr) => {
       </div>
 
       {isOpen && (
-        <ModalView isOpen={isOpen} setIsOpen={setIsOpen} card={card} />
+        <ModalView
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          card={card}
+          screen={screen}
+        />
       )}
     </>
   );

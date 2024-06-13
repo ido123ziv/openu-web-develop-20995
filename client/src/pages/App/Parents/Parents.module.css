@@ -1,15 +1,13 @@
 .iconContainer {
-  width: fit-content;
-  height: fit-content;
   display: flex !important;
   flex-direction: column;
   justify-content: center !important;
   align-items: center;
+  width: fit-content;
+  height: fit-content;
   background-color: white;
-  border: 1px solid #000;
-  border-radius: 0.375rem;
   margin: 0 auto;
-  margin-top: 0.5vh;
+  margin-bottom: 2rem;
 }
 
 .iconContainer .icon {
@@ -39,4 +37,16 @@
 
 .iconContainer .h1 {
   margin-left: 20px !important;
+}
+
+.borderedDiv {
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  z-index: 1;
+  margin: auto;
+  margin-top: 25px;
 }

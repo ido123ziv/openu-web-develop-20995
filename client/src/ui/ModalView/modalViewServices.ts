@@ -16,7 +16,7 @@ export const getInteraction = async (
 export const updateLastVisited = async (
   parentId: number,
   babysitterId: number
-) => {
+): Promise<void> => {
   return await axios.put(
     `http://localhost:3000/api/parents/${parentId}/babysitter/${babysitterId}`,
     {
@@ -28,7 +28,7 @@ export const updateLastVisited = async (
 export const updateContacted = async (
   parentId: number,
   babysitterId: number
-) => {
+): Promise<void> => {
   return await axios.put(
     `http://localhost:3000/api/parents/${parentId}/babysitter/${babysitterId}/contacted`,
     {
@@ -40,9 +40,18 @@ export const updateContacted = async (
 export const updateWorkedWith = async (
   parentId: number,
   babysitterId: number
-) => {
+): Promise<void> => {
   return await axios.put(
     `http://localhost:3000/api/parents/${parentId}/babysitter/${babysitterId}/workedwith`,
+    {
+      headers: { "Content-Type": "application/json" },
+    }
+  );
+};
+
+export const approveUser = async (role: string, id: number): Promise<void> => {
+  return await axios.put(
+    `http://localhost:3000/api/moderator/activate/${role}/${id}`,
     {
       headers: { "Content-Type": "application/json" },
     }
