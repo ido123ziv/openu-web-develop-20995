@@ -2,8 +2,10 @@ import {
     S3Client,
     PutObjectCommand,
     GetObjectCommand,
+    DeleteObjectCommand,
     ListObjectsV2Command 
   } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner"
 import sharp from "sharp";
 
   
@@ -14,7 +16,7 @@ import sharp from "sharp";
     forcePathStyle: true
   });
   
-  export const putProfileImage = async (file: Express.Multer.File, imageName: string) => {
+  export const putImage = async (file: Express.Multer.File, imageName: string) => {
     const buffer = await sharp(file.buffer)
       .resize({ height: 1920, width: 1080, fit: "contain" })
       .toBuffer();
@@ -28,6 +30,28 @@ import sharp from "sharp";
   
     const command = new PutObjectCommand(params);
     await s3.send(command);
+  };
+  
+  export const getImageUrl = async (imageName: string) => {
+    const params = {
+      Bucket: bucket,
+      Key: imageName
+    }
+
+    const command = new GetObjectCommand(params);
+    const seconds = 60
+    const url = await getSignedUrl(s3, command, { expiresIn: seconds });
+
+    return url
+  };
+
+  export const deleteImage = async (imageName: string) => {
+    const deleteParams = {
+      Bucket: bucket,
+      Key: imageName,
+    }
+  
+    return s3.send(new DeleteObjectCommand(deleteParams));
   };
 
   export const listBucket = async () => {

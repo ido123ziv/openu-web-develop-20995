@@ -82,7 +82,7 @@ babysitterRouter.put(
         return res.status(400).json({ error: `Wrong request file.` });
       }
       
-      s3.putProfileImage(req.file, imageName)
+      s3.putImage(req.file, imageName)
       await handler.putProfileImage(imageName, Number(babysitterId));
 
       return res.status(200).json({ message: `Image profile uploaded.` });
@@ -119,9 +119,10 @@ babysitterRouter.get(
         return res.status(400).json({ error: validation.message });
       }
 
-      const imageUrl = await handler.getProfileImage(Number(babysitterId));
-      
-      return res.status(200).send(imageUrl);
+      const imageName = `babysitter_${babysitterId}`;
+      const imageUrl = await s3.getImageUrl(imageName)
+
+      res.status(200).json({ imageUrl });
     } catch (e) {
       console.log(
         `Error message: ${req.body.id}: ${(e as Error).message}\n${

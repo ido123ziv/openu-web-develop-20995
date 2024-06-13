@@ -24,8 +24,4 @@ export default class Handler {
   putProfileImage = async (imageName: string, babysitterId: number): Promise<void> => {
     return this.dbHandler.putProfileImage(imageName, babysitterId);
   };
-
-  getProfileImage = async (babysitterId: number): Promise<string> => {
-    return this.dbHandler.getProfileImage(babysitterId);
-  };
 }
