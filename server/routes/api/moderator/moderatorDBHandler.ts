@@ -28,10 +28,10 @@ export default class DBHandler {
                                   experience,
                                   image_string AS "imageString",
                                   comments,
-                                  AVG(rating) AS rating,
+                                  ROUND(AVG(rating), 2) AS rating,
                                   'babysitter' AS role
                           FROM babysitters AS b
-                          JOIN recommendations AS r ON b.babysitter_id=r.babysitter_id
+                          LEFT JOIN recommendations AS r ON b.babysitter_id=r.babysitter_id
                           WHERE end_timestamp = $1
                           GROUP BY b.babysitter_id`;
 

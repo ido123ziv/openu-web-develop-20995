@@ -14,7 +14,7 @@ export default class DBHandler {
   }
 
   async getBabysitter(babysitterId: number): Promise<number> {
-    const query = `SELECT babysitter_id AS id
+    const query = `SELECT babysitter_id AS "babysitterId"
                    FROM babysitters
                    WHERE babysitter_id = $1 AND 
                          end_timestamp = $2`;
@@ -61,9 +61,9 @@ export default class DBHandler {
                               gender,
                               image_string AS "imageString",
                               comments,
-                              AVG(rating) AS rating
+                              ROUND(AVG(rating), 2) AS rating
                        FROM babysitters AS b
-                       JOIN recommendations AS r ON b.babysitter_id=r.babysitter_id
+                       LEFT JOIN recommendations AS r ON b.babysitter_id=r.babysitter_id
                        WHERE end_timestamp = $1
                        GROUP BY b.babysitter_id`;
 
