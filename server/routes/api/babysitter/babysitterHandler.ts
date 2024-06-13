@@ -10,7 +10,6 @@ export default class Handler {
 
   userValidation = async (babysitterId: number): Promise<Validation> => {
     const babysitter = await this.dbHandler.getBabysitter(babysitterId);
-    console.log(babysitter)
     if (!babysitter) {
       return { isValid: false, message: "Babysitter doesn't exist" };
     }
