@@ -40,7 +40,9 @@ const BabysitterMainView = () => {
     return (
         <>
             <BackgroundSVG/>
+
             <div className={styles.borderedDiv}>
+
                 <div className={styles.iconContainer}>
                     <Header as="h2" icon textAlign="center">
                         <Icon name="address card outline" circular/>
