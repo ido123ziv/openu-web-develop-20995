@@ -20,10 +20,7 @@ def get_images_names_from_s3(aws: aws_connection, bucket_name: str):
                 logging.info("working on: {}".format(file))
                 db_images.append({
                     'key': file.get('Key'),
-                    'id': file.get('Key').replace(".png","").replace("babysitter_",""),
-                    'url': aws.create_presigned_url(bucket_name=bucket_name,
-                                                    object_name=file.get('Key'),
-                                                    expiration=604800)       
+                    'id': file.get('Key').replace(".png","").replace("babysitter_","")      
                 })
     except Exception as e:
         logging.error("Got unexpected error on getting images: {}".format(str(e)))
@@ -33,7 +30,7 @@ def get_images_names_from_s3(aws: aws_connection, bucket_name: str):
 def update_image_in_table(images: list, db=db_connection):
     try:
         for image in images:
-            db.execute(UPDATE_QUERY, (image.get('url'), image.get('id')))
+            db.execute(UPDATE_QUERY, (image.get('key'), image.get('id')))
             db.commit()
             result = db.query(VALIDATE_QUERY, (image.get('id')))
             for row in result:
