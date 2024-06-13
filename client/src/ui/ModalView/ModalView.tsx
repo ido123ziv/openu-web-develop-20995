@@ -23,13 +23,14 @@ import { ModalViewProps } from "./ModalViewInterface";
 import { userState } from "../../state/atoms/userAtom";
 import AddRecommendationModal from "../../pages/App/Parents/AddRecommendationModal/AddRecommendationModal";
 import {
+  approveUser,
   getInteraction,
   updateContacted,
   updateLastVisited,
   updateWorkedWith,
 } from "./modalViewServices";
 
-const ModalView = ({ isOpen, setIsOpen, card }: ModalViewProps) => {
+const ModalView = ({ isOpen, setIsOpen, card, screen }: ModalViewProps) => {
   const [isOpenReviewModal, setIsOpenReviewModal] = useState<boolean>(false);
   const user = useRecoilValue(userState);
   const queryClient = useQueryClient();
@@ -40,7 +41,13 @@ const ModalView = ({ isOpen, setIsOpen, card }: ModalViewProps) => {
 
   const { data: interaction } = useQuery({
     queryKey: ["getInteraction"],
-    queryFn: () => getInteraction(user.id, card?.id as number),
+    queryFn: () => {
+      if (user.role !== "parent") {
+        return;
+      }
+
+      return getInteraction(user.id, card?.id as number);
+    },
     onSuccess: (interaction) => {
       if (!interaction) {
         handleUpdateLastVisit();
@@ -53,13 +60,20 @@ const ModalView = ({ isOpen, setIsOpen, card }: ModalViewProps) => {
 
   const { mutate: mutateLastVisited } = useMutation({
     mutationKey: ["updateLastVisit"],
-    mutationFn: () => updateLastVisited(user.id, card?.id as number),
+    mutationFn: () => {
+      if (user.role !== "parent") {
+        return Promise.resolve();
+      }
+
+      return updateLastVisited(user.id, card?.id as number);
+    },
     onSuccess: () =>
       queryClient.invalidateQueries([
         "getInteraction",
         user.id,
         card?.id as number,
       ]),
+    onError: (error) => console.log(error),
   });
 
   const handleUpdateLastVisit = () => {
@@ -89,6 +103,20 @@ const ModalView = ({ isOpen, setIsOpen, card }: ModalViewProps) => {
 
   const handleWorkedWith = () => {
     mutateWorkedWith();
+  };
+
+  const { mutate: mutateApprove } = useMutation({
+    mutationKey: ["approveUser"],
+    mutationFn: () => {
+      return approveUser(card?.role as string, card?.id as number);
+    },
+    onSuccess: () => queryClient.invalidateQueries(["getAllPendingUsers"]),
+    onError: (error) => console.log(error),
+  });
+
+  const handleActivate = () => {
+    mutateApprove();
+    setIsOpen(false);
   };
 
   return (
@@ -216,6 +244,21 @@ const ModalView = ({ isOpen, setIsOpen, card }: ModalViewProps) => {
               icon={interaction?.workedWith ? "checkmark" : "question"}
               onClick={handleWorkedWith}
               positive={interaction?.workedWith}
+            />
+          </>
+        )}
+
+        {screen === "pending" && (
+          <>
+            <Button
+              content="Activate"
+              positive
+              onClick={() => handleActivate()}
+            />
+            <Button
+              content="Decline"
+              negative
+              onClick={() => setIsOpen(false)}
             />
           </>
         )}

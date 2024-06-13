@@ -18,8 +18,25 @@ const urls = {
   profileParent: "http://localhost:3000/api/profile/parent/:id",
   rating: "http://localhost:3000/api/recommendations/babysitter/rating/:id",
   allContactRequests: "http://localhost:3000/api/moderator/allContactRequests",
+  getAllPendingUsers: "http://localhost:3000/api/moderator/pending/",
+  getAllContactRequests:
+    "http://localhost:3000/api/moderator/allContactRequests",
 };
 const inputUrls = {
+  babysitters: "http://localhost:3000/api/babysitter/:id",
+  parentProfile: "http://localhost:3000/api/profile/parent/:id",
+  babysitterProfile: "http://localhost:3000/api/profile/babysitter/:id",
+  babysitterRecommendation:
+    "http://localhost:3000/api/recommendations/babysitter/:id",
+  parentRecommendation: "http://localhost:3000/api/recommendations/parent/:id",
+  RecommendationStart:
+    "http://localhost:3000/api/recommendations/parent/1/babysitter/:id",
+  RecommendationEnd:
+    "http://localhost:3000/api/recommendations/parent/:id/babysitter/1",
+  RecommendationBoth:
+    "http://localhost:3000/api/recommendations/parent/:id/babysitter/:id",
+  profileBaby: "http://localhost:3000/api/profile/babysitter/:id",
+  profileParent: "http://localhost:3000/api/profile/parent/:id",
   babysitters: "http://localhost:3000/api/babysitter/:id",
   parentProfile: "http://localhost:3000/api/profile/parent/:id",
   babysitterProfile: "http://localhost:3000/api/profile/babysitter/:id",

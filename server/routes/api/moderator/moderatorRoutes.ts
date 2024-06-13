@@ -21,27 +21,25 @@ moderatorRouter.get("/allUsers", async (req: Request, res: Response) => {
   }
 });
 
-moderatorRouter.get("/allContactRequests", async (req: Request, res: Response) => {
-  try {
-    const contactRequests = await handler.getContactRequests();
+moderatorRouter.get(
+  "/allContactRequests",
+  async (req: Request, res: Response) => {
+    try {
+      const contactRequests = await handler.getContactRequests();
 
-    return res.status(200).send(contactRequests);
-  } catch (e) {
-    console.log(
-      `Error message: ${(e as Error).message}\n${(e as Error).stack}`
-    );
-    return res.status(500).end();
+      return res.status(200).send(contactRequests);
+    } catch (e) {
+      console.log(
+        `Error message: ${(e as Error).message}\n${(e as Error).stack}`
+      );
+      return res.status(500).end();
+    }
   }
-});
+);
 
 moderatorRouter.put(
   "/editContactRequestStatus/:id",
-  [
-    param("id")
-      .notEmpty()
-      .isNumeric()
-      .withMessage(REQUEST_INVALID_INPUT_ERROR),
-  ],
+  [param("id").notEmpty().isNumeric().withMessage(REQUEST_INVALID_INPUT_ERROR)],
   async (req: Request, res: Response) => {
     try {
       const fieldValidationResult = validationResult(req);
@@ -74,5 +72,60 @@ moderatorRouter.put(
     }
   }
 );
+
+moderatorRouter.put(
+  "/activate/:role/:id",
+  [
+    param("role").notEmpty().withMessage("Invalid Role"),
+    param("id").notEmpty().isNumeric().withMessage(REQUEST_INVALID_INPUT_ERROR),
+  ],
+  async (req: Request, res: Response) => {
+    try {
+      const fieldValidationResult = validationResult(req);
+      if (!fieldValidationResult.isEmpty()) {
+        return res
+          .status(400)
+          .json({ message: fieldValidationResult.array()[0].msg });
+      }
+
+      const { role } = req.params;
+      const { id } = req.params;
+
+      const userRole = role + "s"; // Table Name is Plural
+      const userId = Number(id);
+      const userValidation = await handler.userValidation(userRole, userId);
+
+      if (!userValidation.isValid) {
+        return res.status(400).json({ error: userValidation.message });
+      }
+
+      await handler.activateUser(userRole, userId);
+
+      return res.status(204).end();
+    } catch (e) {
+      console.log(
+        `Error message: ${req.body.id}: ${(e as Error).message}\n${
+          (e as Error).stack
+        }`
+      );
+      return res.status(500).end();
+    }
+  }
+);
+
+moderatorRouter.get("/pending", async (req: Request, res: Response) => {
+  try {
+    const pendingUsers = await handler.getAllPendingUsers();
+
+    return res.status(200).json(pendingUsers);
+  } catch (e) {
+    console.log(
+      `Error message: ${req.body.id}: ${(e as Error).message}\n${
+        (e as Error).stack
+      }`
+    );
+    return res.status(500).end();
+  }
+});
 
 export default moderatorRouter;
