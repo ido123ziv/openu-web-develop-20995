@@ -55,9 +55,9 @@ babysitterRouter.get(
 
 babysitterRouter.put(
   "/image/:babysitterId",
-  // [
-  //   param("babysitterId").notEmpty().isNumeric().withMessage(BABYSITTER_INVALID_INPUT_ERROR)
-  // ],
+  [
+    param("babysitterId").notEmpty().isNumeric().withMessage(BABYSITTER_INVALID_INPUT_ERROR)
+  ],
   upload.single('image'),
   async (req: Request, res: Response) => {
     try {
