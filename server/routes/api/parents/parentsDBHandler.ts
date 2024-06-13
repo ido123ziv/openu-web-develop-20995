@@ -61,10 +61,11 @@ export default class DBHandler {
                               gender,
                               image_string AS "imageString",
                               comments,
-                              rating
+                              AVG(rating) AS rating
                        FROM babysitters AS b
                        JOIN recommendations AS r ON b.babysitter_id=r.babysitter_id
-                       WHERE end_timestamp = $1`;
+                       WHERE end_timestamp = $1
+                       GROUP BY b.babysitter_id`;
 
     const data = await db.query(query, [END_TIMESTAMP]);
     return data.rows;

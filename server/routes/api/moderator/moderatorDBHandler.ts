@@ -28,11 +28,12 @@ export default class DBHandler {
                                   experience,
                                   image_string AS "imageString",
                                   comments,
-                                  rating,
+                                  AVG(rating) AS rating,
                                   'babysitter' AS role
                           FROM babysitters AS b
                           JOIN recommendations AS r ON b.babysitter_id=r.babysitter_id
-                          WHERE end_timestamp = $1`;
+                          WHERE end_timestamp = $1
+                          GROUP BY b.babysitter_id`;
 
     const parents = await db.query(parentQuery, [END_TIMESTAMP]);
     const babysitters = await db.query(babysitterQuery, [END_TIMESTAMP]);
