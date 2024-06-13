@@ -131,10 +131,7 @@ CREATE table IF NOT EXISTS contact_requests (
 
 INSERT INTO contact_requests (request_status, user_name, user_email, message_title, user_message)
 VALUES
-('new', 'Nahum', 'nahum@test.com', 'Nahums Title', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                                                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                                                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-                                                    nisi ut aliquip ex ea commodo consequat.'),
+('new', 'Nahum', 'nahum@test.com', 'Review', 'Does this app works for men as well?'),
 ('working-on', 'Dana', 'Dana@test.com', 'Thanks', 'Hi, I want to express my gratitude for the excellent service you offer on this platform.'),
 ('seen','Robbi','robbi@test.com', 'Is your site safe?', 'Hi, how do I know your site safe and my data will not be leaked'),
 ('new','Dilen','dilen@test.com', 'Spontaneous', 'Can I find a babysitter spontaneously?'),
