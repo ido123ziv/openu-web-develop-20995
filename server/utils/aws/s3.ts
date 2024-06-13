@@ -16,6 +16,11 @@ import sharp from "sharp";
     forcePathStyle: true
   });
   
+  export const s3Uri = () => {
+    if ("AWS_ENDPOINT_URL" in process.env) // if working locally with localstack
+      return "localhost:4566";
+    return "s3.amazonaws.com";
+  };
   export const putImage = async (file: Express.Multer.File, imageName: string) => {
     const buffer = await sharp(file.buffer)
       .resize({ height: 1920, width: 1080, fit: "contain" })
