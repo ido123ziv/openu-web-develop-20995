@@ -28,6 +28,13 @@ export default class DBHandler {
 
     await db.query(query, [imageName, babysitterId]);
   }
+  async deleteProfileImage( babysitterId: number): Promise<void> {
+    const query = `UPDATE babysitters
+                   SET image_string = ''
+                   WHERE babysitter_id = $2`;
+
+    await db.query(query, [babysitterId]);
+  }
 
   async getProfileImageKey (babysitterId: number): Promise<string> {
     const query = `SELECT image_string AS imageString

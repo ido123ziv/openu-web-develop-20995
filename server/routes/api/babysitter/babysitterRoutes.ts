@@ -133,5 +133,41 @@ babysitterRouter.get(
     }
   }
 );
+babysitterRouter.delete(
+  "/image/:babysitterId",
+  [
+    param("babysitterId").notEmpty().isNumeric().withMessage(BABYSITTER_INVALID_INPUT_ERROR)
+  ],
+  async (req: Request, res: Response) => {
+    try {
+      const fieldValidationResult = validationResult(req);
+      if (!fieldValidationResult.isEmpty()) {
+        return res.status(400).json({
+          message: fieldValidationResult
+            .array()
+            .map((item) => item.msg)
+            .join(" "),
+        });
+      }
+      const { babysitterId } = req.params;
+      const validation = await handler.userValidation(Number(babysitterId));
+      if (!validation.isValid) {
+        return res.status(400).json({ error: validation.message });
+      }
+      const imageName = await handler.getProfileImage(Number(babysitterId));
+      await s3.deleteImage(imageName);
+      await handler.deleteProfileImage(Number(babysitterId));
+
+      res.status(200).json({ "message": "Image deleted safely." });
+    } catch (e) {
+      console.log(
+        `Error message: ${req.body.id}: ${(e as Error).message}\n${
+          (e as Error).stack
+        }`
+      );
+      return res.status(500).end();
+    }
+  }
+);
 
 export default babysitterRouter;
