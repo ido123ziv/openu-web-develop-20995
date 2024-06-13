@@ -1,11 +1,11 @@
 import DBHandler from "./moderatorDBHandler";
 import { User, ContactRequest, Validation } from "./moderatorTypes";
 
-enum RequestStatuses {
-  'new', 
-  'seen', 
-  'working-on', 
-  'done'
+enum RequestStatus {
+  "new",
+  "seen",
+  "working-on",
+  "done",
 }
 
 export default class Handler {
@@ -15,7 +15,10 @@ export default class Handler {
     this.dbHandler = new DBHandler();
   }
 
-  requestValidation = async (requestId: number, newStatus: string): Promise<Validation> => {
+  requestValidation = async (
+    requestId: number,
+    newStatus: string
+  ): Promise<Validation> => {
     const contactRequest = await this.dbHandler.getContactRequest(requestId);
     if (!newStatus) {
       return { isValid: false, message: "field 'status' is undefined" };
@@ -25,8 +28,21 @@ export default class Handler {
       return { isValid: false, message: "Incorrect id" };
     }
 
-    if (typeof newStatus !== "string" || !Object.values(RequestStatuses).includes(newStatus)) {
+    if (
+      typeof newStatus !== "string" ||
+      !Object.values(RequestStatus).includes(newStatus)
+    ) {
       return { isValid: false, message: "Incorrect status" };
+    }
+
+    return { isValid: true };
+  };
+
+  userValidation = async (role: string, id: number): Promise<Validation> => {
+    const user = await this.dbHandler.getPendingUser(role, id);
+
+    if (!user) {
+      return { isValid: false, message: "Invalid User" };
     }
 
     return { isValid: true };
@@ -40,7 +56,18 @@ export default class Handler {
     return this.dbHandler.getContactRequests();
   };
 
-  editContactRequestStatus = async (requestId: number, newStatus: string): Promise<void> => {
+  editContactRequestStatus = async (
+    requestId: number,
+    newStatus: string
+  ): Promise<void> => {
     return this.dbHandler.editContactRequestStatus(requestId, newStatus);
+  };
+
+  activateUser = async (role: string, id: number): Promise<void> => {
+    return this.dbHandler.activateUser(role, id);
+  };
+
+  getAllPendingUsers = async (): Promise<User[]> => {
+    return await this.dbHandler.getAllPendingUsers();
   };
 }
