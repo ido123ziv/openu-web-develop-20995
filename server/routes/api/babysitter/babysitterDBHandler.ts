@@ -1,5 +1,6 @@
 import db from "../../../utils/db/db";
 import { END_TIMESTAMP } from "../../../utils/global/globals";
+import { interactionsData } from "./babysitterTypes";
 
 export default class DBHandler {
   async getBabysitter(babysitterId: number): Promise<number> {
@@ -42,5 +43,17 @@ export default class DBHandler {
             WHERE babysitter_id = ($1)`
     const imageName = await db.query(query, [babysitterId])
     return imageName.rows[0].imagestring; 
+  }
+
+  async getInteractionsData(id: number): Promise<interactionsData> {
+    const query = `SELECT COUNT(*) AS "totalCount",
+                          SUM(CASE WHEN contacted = TRUE THEN 1 ELSE 0 END) AS contacted,
+                          SUM(CASE WHEN worked_with = TRUE THEN 1 ELSE 0 END) AS "workedWith"
+                  FROM parents_babysitters_interactions
+                  WHERE babysitter_id = $1
+                  GROUP BY babysitter_id`;
+
+    const { rows } = await db.query(query, [id]);
+    return rows[0];
   }
 }

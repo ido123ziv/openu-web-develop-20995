@@ -16,9 +16,9 @@ const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
 
 babysitterRouter.get(
-  "/:babysitterId",
+  "/interactions/:id",
   [
-    param("babysitterId").notEmpty().isNumeric().withMessage(BABYSITTER_INVALID_INPUT_ERROR)
+    param("id").notEmpty().isNumeric().withMessage(BABYSITTER_INVALID_INPUT_ERROR)
   ],
   async (req: Request, res: Response) => {
     try {
@@ -32,16 +32,15 @@ babysitterRouter.get(
         });
       }
 
-      const { babysitterId } = req.params;
+      const { id } = req.params;
 
-      const validation = await handler.userValidation(Number(babysitterId));
+      const validation = await handler.userValidation(Number(id));
       if (!validation.isValid) {
         return res.status(400).json({ error: validation.message });
       }
+      const data = await handler.getInteractions(Number(id));
 
-      const numOfViews = await handler.numOfViews(Number(babysitterId));
-
-      res.status(200).json({ numOfViews });
+      return res.status(200).json({ data });
     } catch (e) {
       console.log(
         `Error message: ${req.body.id}: ${(e as Error).message}\n${

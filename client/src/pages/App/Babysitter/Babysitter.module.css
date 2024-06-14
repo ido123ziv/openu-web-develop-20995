@@ -6,10 +6,8 @@
   width: fit-content;
   height: fit-content;
   background-color: white;
-  border: 1px solid #000;
-  border-radius: 0.375rem;
   margin: 0 auto;
-  margin-top: 0.5vh;
+  margin-bottom: 2rem;
 }
 
 .iconContainer .icon {
@@ -76,4 +74,16 @@
   justify-content: center !important;
   margin-top: 5vh !important;
   margin-left: 1vh;
+}
+
+.borderedDiv {
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  z-index: 1;
+  margin: auto;
+  margin-top: 25px;
 }
