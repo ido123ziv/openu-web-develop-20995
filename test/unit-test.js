@@ -7,7 +7,7 @@ const postUrlsMap = {
     login: "http://localhost:3000/login",
     signupBabysitter: "http://localhost:3000/signup/babysitters",
     signupParent: "http://localhost:3000/signup/parents",
-    recommendationText: "http://localhost:3000/api/recommendations/:id"
+    // recommendationText: "http://localhost:3000/api/recommendations/:id"
 };
 const putUrlsMap = {
     signupBabysitter: "http://localhost:3000/api/profile/babysitter/update/:id",
@@ -91,8 +91,10 @@ function getGoodInputs(schema, min, max) {
     const parsedData = {};
     for (const [key, type] of Object.entries(schema)) {
         if (type === "string") parsedData[key] = generateRandomString(12);
-        if (type === "number") parsedData[key] = Math.floor(Math.random() *(max - min + 1) + min);
-        if (type === "email") parsedData[key] = `${generateRandomString(8)}@${generateRandomString(6)}.com`;
+        else if (type === "number") parsedData[key] = Math.floor(Math.random() *(max - min + 1) + min);
+        else if (type === "email") parsedData[key] = `${generateRandomString(8)}@${generateRandomString(6)}.com`;
+        else parsedData[key] = type;
+
     }
     return parsedData;
 }
@@ -229,13 +231,13 @@ async function testInValidIdsRequest(urlMap, method, min, max){
     const min = 1;
     const max = Math.max(usersCount.babysitters, usersCount.parents);
     console.log("--Testing Valid Requests--\n");
-    // await testValidRequests(postUrlsMap,'POST',getRandomNumber(min,max), min, max);
+    await testValidRequests(postUrlsMap,'POST',getRandomNumber(min,max), min, max);
     // await testValidRequests(putUrlsMap,'PUT',getRandomNumber(min,max), min, max);
 
     console.log("--Testing Invalid Requests--\n");
-    // await testInValidRequest(postUrlsMap, 'POST', getRandomNumber(min,max), min, max);
+    await testInValidRequest(postUrlsMap, 'POST', getRandomNumber(min,max), min, max);
     // await testInValidRequest(putUrlsMap, 'PUT', getRandomNumber(min,max), min, max);
-    // console.log("--Testing Invalid Ids Requests--\n");
+    console.log("--Testing Invalid Ids Requests--\n");
     await testInValidIdsRequest(postUrlsMap, 'POST', min, max);
     // await testInValidIdsRequest(putUrlsMap, 'PUT', min, max);
 
