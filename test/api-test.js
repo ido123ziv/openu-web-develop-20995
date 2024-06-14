@@ -11,10 +11,7 @@ const urls = {
   name: "http://localhost:3000/hello/name",
   dbHealth: "http://localhost:3000/db/health",
   dbTables: "http://localhost:3000/db/tables",
-<<<<<<< HEAD
   awsHealth: "http://localhost:3000/aws/health",
-=======
->>>>>>> main
   parents: "http://localhost:3000/api/parents/allBabysitters",
   allUsers: "http://localhost:3000/api/moderator/allUsers",
   recommendations: "http://localhost:3000/api/recommendations/",
@@ -22,12 +19,9 @@ const urls = {
   profileParent: "http://localhost:3000/api/profile/parent/:id",
   rating: "http://localhost:3000/api/recommendations/babysitter/rating/:id",
   allContactRequests: "http://localhost:3000/api/moderator/allContactRequests",
-<<<<<<< HEAD
-  babySitterImage: "http://localhost:3000/api/babysitter/image/:id"
-=======
+  babySitterImage: "http://localhost:3000/api/babysitter/image/:id",
   getInteraction: "http://localhost:3000/api/babysitter/interactions/:id",
-  getAllPendingUsers: "http://localhost:3000/api/moderator/pending/",
->>>>>>> main
+  getAllPendingUsers: "http://localhost:3000/api/moderator/pending/"
 };
 
 const inputUrls = {
