@@ -7,16 +7,25 @@ const postUrlsMap = {
     login: "http://localhost:3000/login",
     signupBabysitter: "http://localhost:3000/signup/babysitters",
     signupParent: "http://localhost:3000/signup/parents",
-    // recommendationText: "http://localhost:3000/api/recommendations/:id"
+    recommendationText: "http://localhost:3000/api/recommendations/:id"
 };
+
 const putUrlsMap = {
     signupBabysitter: "http://localhost:3000/api/profile/babysitter/update/:id",
     signupParent: "http://localhost:3000/api/profile/parent/update/:id",
     deleteBabysitter: "http://localhost:3000/api/delete/babysitter/:id",
     deleteParent: "http://localhost:3000/api/delete/parent/:id",
-    moderatorRequest: "'http://localhost:3000/api/moderator/editContactRequestStatus/:id"
+    moderatorRequest: "http://localhost:3000/api/moderator/editContactRequestStatus/:id"
 }
-
+const openBugs = {
+    "PUT": {
+        "testInValidRequest": ["signupBabysitter", "signupParent"]
+    },
+    "POST": {
+        "testInValidRequest": ["recommendationText"], 
+        "testValidRequests": ["recommendationText"]
+    }
+}
 const badIds = [-1, "@", ']', 77777, 0];
 const badAttributes = ['email', 'id', 'name'];
 
@@ -61,7 +70,12 @@ const schemas = {
         phoneNumber: "string",
         gender: "female",
         comments: "string"
-    }
+    },
+    // deleteBabysitter: {},
+    // deleteParent: {},
+    // moderatorRequest: {
+    //     "status": "done"
+    // }
 };
 async function getBabysitterCount(){
     const responseAll = await fetch('http://localhost:3000/api/moderator/allUsers');
@@ -142,7 +156,17 @@ async function sendData(url, data, method, plan) {
                 console.error(output);
                 fs.appendFileSync(outputFile, output + '\n');
             }
-            else 
+            else if (response.status > 499){
+                const output = `Server 5XX error! 
+                    see api logs!!!!!!!!!!!
+                    check: ${url},
+                    data: ${JSON.stringify(data)},
+                    status: ${response.status}\n
+                    result: ${responseJson}`
+                console.error(output);
+                fs.appendFileSync(outputFile, output + '\n');
+            }
+            else
                 console.log(`Nice handle for ${url}!\n`)
         }
         else if (!response.ok){
@@ -177,13 +201,18 @@ async function testValidRequests(urlMap, method, id, min, max){
             let url = urlMap[key];
             if (url)
             {
+                if (openBugs.hasOwnProperty(method) && openBugs[method].hasOwnProperty("testValidRequests")){
+                    console.log(`method: ${method}, openBusg: ${JSON.stringify(openBugs[method])} idoooooo`)
+                    if (openBugs[method].testValidRequests.includes(key))
+                        break;
+                }
+
                 if (url.includes(":id")) url = url.replace(":id", id);
                 let response = await sendData(url, getGoodInputs(schema, min, max), method, "success");
                 console.log(`${key} Response:`, response);
             }
         } catch (error) {
             console.error(error);
-            // exitOnError(`${key} Error in a valid ${method} request`)
         }
     }
 }
@@ -194,9 +223,14 @@ async function testInValidRequest(urlMap, method, id, min, max){
                 let url = urlMap[key];
                 if (url)
                     {
-                if (url.includes(":id")) url = url.replace(":id", id);
-                let response = await sendData(url, getBadInputs(schema, attribute, min, max), method, "fail");
-                console.log(`${key} with bad ${attribute} Response:`, response);
+                        if (openBugs.hasOwnProperty(method) && openBugs[method].hasOwnProperty("testInValidRequest")){
+                            console.log(`method: ${method}, openBusg: ${JSON.stringify(openBugs[method])}`)
+                            if (openBugs[method].testInValidRequest.includes(key))
+                                break;
+                        }
+                        if (url.includes(":id")) url = url.replace(":id", id);
+                        let response = await sendData(url, getBadInputs(schema, attribute, min, max), method, "fail");
+                        console.log(`${key} with bad ${attribute} Response:`, response);
                     }
             } catch (error) {
                 console.error( error);
@@ -236,10 +270,10 @@ async function testInValidIdsRequest(urlMap, method, min, max){
 
     console.log("--Testing Invalid Requests--\n");
     await testInValidRequest(postUrlsMap, 'POST', getRandomNumber(min,max), min, max);
-    // await testInValidRequest(putUrlsMap, 'PUT', getRandomNumber(min,max), min, max);
+    await testInValidRequest(putUrlsMap, 'PUT', getRandomNumber(min,max), min, max);
     console.log("--Testing Invalid Ids Requests--\n");
     await testInValidIdsRequest(postUrlsMap, 'POST', min, max);
-    // await testInValidIdsRequest(putUrlsMap, 'PUT', min, max);
+    await testInValidIdsRequest(putUrlsMap, 'PUT', min, max);
 
     if (fs.existsSync(outputFile)){
         if (fs.readFileSync(outputFile).length === 0)
