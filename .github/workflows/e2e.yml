@@ -60,6 +60,9 @@ jobs:
             echo "__unit test passed!__ ✅" >> $GITHUB_STEP_SUMMARY
           fi
           echo "passed=$passed" >> $GITHUB_OUTPUT
+          cat output.txt >> $GITHUB_STEP_SUMMARY || echo "no output.txt"          
+          rm output.txt || echo "no output"
+          echo "passed=$passed" >> $GITHUB_OUTPUT
       - name: ui test
         id: ui_test
         working-directory: ./test
