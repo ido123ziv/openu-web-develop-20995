@@ -59,7 +59,7 @@ const inputUrls = {
 async function testUrl(url, outputFile) {
   try {
     const response = await fetch(url);
-    if (response.status !== 200) {
+    if (response.status > 299) {
       const output =
         `**Error with: ${url} ->` +
         JSON.stringify(response.json()) +
