@@ -4,10 +4,10 @@ const fs = require('fs');
 const outputFile = 'output.txt';
 const postUrlsMap = {
     contact: "http://localhost:3000/contact",
-    // login: "http://localhost:3000/login",
-    // signupBabysitter: "http://localhost:3000/signup/babysitters",
-    // signupParent: "http://localhost:3000/signup/parents",
-    // recommendationText: "http://localhost:3000/api/recommendations/:id"
+    login: "http://localhost:3000/login",
+    signupBabysitter: "http://localhost:3000/signup/babysitters",
+    signupParent: "http://localhost:3000/signup/parents",
+    recommendationText: "http://localhost:3000/api/recommendations/:id"
 };
 const putUrlsMap = {
     signupBabysitter: "http://localhost:3000/api/profile/babysitter/update/:id",
@@ -116,6 +116,12 @@ async function sendData(url, data, method, plan) {
     if (!url) throw new Error(`URL for key "${url}" not found`);
     console.log(`testing: ${url}, with: ${JSON.stringify(data)}, method: ${method} and the plan is to ${plan}\n`)
     try {
+        if (url.includes("login") && plan === "success"){
+            data = {
+                email: "ido@test.com",
+                password: "1234"
+            }
+        }
 
         const response = await fetch(url, {
             method: method,
