@@ -232,7 +232,7 @@ async function testInValidIdsRequest(urlMap, method, min, max){
     const max = Math.max(usersCount.babysitters, usersCount.parents);
     console.log("--Testing Valid Requests--\n");
     await testValidRequests(postUrlsMap,'POST',getRandomNumber(min,max), min, max);
-    // await testValidRequests(putUrlsMap,'PUT',getRandomNumber(min,max), min, max);
+    await testValidRequests(putUrlsMap,'PUT',getRandomNumber(min,max), min, max);
 
     console.log("--Testing Invalid Requests--\n");
     await testInValidRequest(postUrlsMap, 'POST', getRandomNumber(min,max), min, max);
