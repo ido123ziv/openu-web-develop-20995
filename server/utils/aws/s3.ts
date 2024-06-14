@@ -18,23 +18,27 @@ import sharp from "sharp";
   
   export const s3Uri = () => {
     if ("AWS_ENDPOINT_URL" in process.env) // if working locally with localstack
-      return "localhost:4566";
+      return "localhost";
     return "s3.amazonaws.com";
   };
   export const putImage = async (file: Express.Multer.File, imageName: string) => {
-    const buffer = await sharp(file.buffer)
-      .resize({ height: 1920, width: 1080, fit: "contain" })
-      .toBuffer();
+    try {
+      const buffer = await sharp(file.buffer)
+        .resize({ height: 1920, width: 1080, fit: "contain" })
+        .toBuffer();
+      
+      const params = {
+        Bucket: bucket as string,
+        Key: imageName,
+        Body: buffer,
+        ContentType: file.mimetype,
+      };
     
-    const params = {
-      Bucket: bucket as string,
-      Key: imageName,
-      Body: buffer,
-      ContentType: file.mimetype,
-    };
-  
-    const command = new PutObjectCommand(params);
-    await s3.send(command);
+      const command = new PutObjectCommand(params);
+      await s3.send(command);
+    } catch (e) {
+      console.error(`Error uploading image: ${(e as Error).message}`);
+    }
   };
   
   export const getImageUrl = async (imageName: string) => {
