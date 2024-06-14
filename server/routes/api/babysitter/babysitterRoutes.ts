@@ -82,7 +82,10 @@ babysitterRouter.put(
         return res.status(400).json({ error: `Missing file input.` });
       }
       
-      s3.putImage(req.file, imageName);
+      const response = await s3.putImage(req.file, imageName);
+      if (!response) {
+        return res.status(500).json({ message: `Couldn't upload image` });
+      }
       await handler.putProfileImage(imageName, Number(babysitterId));
 
       return res.status(200).json({ message: `Image profile uploaded.` });
@@ -118,7 +121,12 @@ babysitterRouter.get(
       if (!validation.isValid) {
         return res.status(400).json({ error: validation.message });
       }
+
       const imageName = await handler.getProfileImage(Number(babysitterId));
+      if (!imageName) {
+        return res.status(204).json({ message: `User doen't have an image` });
+      }
+      
       const localStackImageUrl = await s3.getImageUrl(imageName);
       const imageUrl = localStackImageUrl.replace('s3-local', s3.s3Uri);
 

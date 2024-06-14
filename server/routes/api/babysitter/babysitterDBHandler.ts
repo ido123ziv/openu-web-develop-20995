@@ -31,7 +31,7 @@ export default class DBHandler {
   async deleteProfileImage( babysitterId: number): Promise<void> {
     const query = `UPDATE babysitters
                    SET image_string = ''
-                   WHERE babysitter_id = $2`;
+                   WHERE babysitter_id = $1`;
 
     await db.query(query, [babysitterId]);
   }

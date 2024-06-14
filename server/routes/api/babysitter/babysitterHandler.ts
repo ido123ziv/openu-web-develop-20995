@@ -27,7 +27,7 @@ export default class Handler {
   getProfileImage = async (babysitterId: number): Promise<string> => {
     return this.dbHandler.getProfileImageKey(babysitterId);
   };
-  deleteProfileImage = async (babysitterId: number): Promise<string> => {
-    return this.dbHandler.getProfileImageKey(babysitterId);
+  deleteProfileImage = async (babysitterId: number): Promise<void> => {
+    return this.dbHandler.deleteProfileImage(babysitterId);
   };
 }

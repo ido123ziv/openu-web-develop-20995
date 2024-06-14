@@ -35,9 +35,16 @@ import sharp from "sharp";
       };
     
       const command = new PutObjectCommand(params);
-      await s3.send(command);
+      const response = await s3.send(command);
+      if (!response.ETag) {
+        throw new Error(`Upload image faild. Try again.`);
+      }
+      
+      return true;
     } catch (e) {
-      console.error(`Error uploading image: ${(e as Error).message}`);
+      const error = `Error uploading image: ${(e as Error).message}`;
+      console.error(error);
+      return false;
     }
   };
   
