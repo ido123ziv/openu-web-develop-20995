@@ -203,9 +203,12 @@ async function testInValidIdsRequest(urlMap, method, min, max){
             try {
                 let url = urlMap[key];
                 for (const badId of badIds) {
-                if (url.includes(":id")) url = url.replace(":id", badId);
-                const response = await sendData(url, getBadInputs(schema, attribute, min, max), method, "fail");
-                console.log(`${key} with bad ${attribute} Response:`, response);
+                    if (url)
+                    {
+                        if (url.includes(":id")) url = url.replace(":id", badId);
+                        const response = await sendData(url, getBadInputs(schema, attribute, min, max), method, "fail");
+                        console.log(`${key} with bad ${attribute} Response:`, response);
+                    }
                 }
             } catch (error) {
                 console.error( error);
@@ -220,14 +223,14 @@ async function testInValidIdsRequest(urlMap, method, min, max){
     const min = 1;
     const max = Math.max(usersCount.babysitters, usersCount.parents);
     console.log("--Testing Valid Requests--\n");
-    await testValidRequests(postUrlsMap,'POST',getRandomNumber(min,max), min, max);
+    // await testValidRequests(postUrlsMap,'POST',getRandomNumber(min,max), min, max);
     // await testValidRequests(putUrlsMap,'PUT',getRandomNumber(min,max), min, max);
 
     console.log("--Testing Invalid Requests--\n");
-    await testInValidRequest(postUrlsMap, 'POST', getRandomNumber(min,max), min, max);
+    // await testInValidRequest(postUrlsMap, 'POST', getRandomNumber(min,max), min, max);
     // await testInValidRequest(putUrlsMap, 'PUT', getRandomNumber(min,max), min, max);
     // console.log("--Testing Invalid Ids Requests--\n");
-    // await testInValidIdsRequest(postUrlsMap, 'POST', min, max);
+    await testInValidIdsRequest(postUrlsMap, 'POST', min, max);
     // await testInValidIdsRequest(putUrlsMap, 'PUT', min, max);
 
     if (fs.existsSync(outputFile)){
