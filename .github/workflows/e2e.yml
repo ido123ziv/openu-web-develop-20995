@@ -48,6 +48,18 @@ jobs:
           cat output.txt >> $GITHUB_STEP_SUMMARY || echo "no output.txt"          
           rm output.txt || echo "no output"
           echo "passed=$passed" >> $GITHUB_OUTPUT
+      - name: unit test
+        id: unit_test
+        working-directory: ./test
+        run: |
+          passed=""
+          node unit-test.js || passed="false"
+          if [[ -n "$passed" ]]; then
+            echo "__unit test failed!__ ❌" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "__unit test passed!__ ✅" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "passed=$passed" >> $GITHUB_OUTPUT
       - name: ui test
         id: ui_test
         working-directory: ./test
@@ -84,7 +96,8 @@ jobs:
           api=${{ steps.api_test.outputs.passed }}
           ui=${{ steps.ui_test.outputs.passed }}
           login=${{ steps.parent_signup_login.outputs.passed }}
-          if [[ -n "$api" ]] || [[ -n "$ui" ]] || [[ -n "$login" ]]; then
+          unit=${{ steps.unit_test.outputs.passed }}
+          if [[ -n "$api" ]] || [[ -n "$ui" ]] || [[ -n "$login" ]] || [[ -n "$unit" ]]; then
             echo "not all test passed, failing the workflow"
             exit 1
           else
