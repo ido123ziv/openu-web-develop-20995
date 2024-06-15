@@ -19,7 +19,6 @@ const putUrlsMap = {
 }
 const openBugs = {
     "PUT": {
-        "testInValidRequest": ["signupBabysitter", "signupParent"]
     },
     "POST": {
         "testInValidRequest": ["recommendationText"], 
