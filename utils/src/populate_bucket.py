@@ -36,7 +36,7 @@ def validate_bucket(aws: aws_connection, bucket_name):
         if not files:
             raise ValueError("No files in bucket")
         for file in files:
-            logging.info("found: {} in bucket".format(file))
+            logging.info("found: {} in bucket".format(file.get('Key')))
     except Exception as e:
         logging.error(str(e))
 

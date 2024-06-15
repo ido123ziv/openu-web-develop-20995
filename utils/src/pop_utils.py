@@ -1,6 +1,7 @@
 import psycopg2
 import boto3
 import os
+import json
 from botocore.exceptions import ClientError
 import logging
 
@@ -97,6 +98,12 @@ class aws_connection():
             logging.error(str(e))
             return None
 
+
+    def __get_cors__(self):
+        with open('cors.json', 'r') as cors_file:
+            return json.load(cors_file)
+        
+
     def create_bucket(self, bucket_name):
         try:
             response = self._s3_client.create_bucket(
@@ -104,6 +111,9 @@ class aws_connection():
             )
             if response:
                 logging.info("Successfully created a bucket named: {}".format(bucket_name))
+                logging.info(self.__get_cors__())
+                self._s3_client.put_bucket_cors(Bucket=bucket_name,CORSConfiguration=self.__get_cors__())
+                logging.info("Successfully put cors policy: {}".format(bucket_name))
                 return True
             raise ValueError("didn't create bucket.")
         except ClientError as e:
@@ -112,6 +122,9 @@ class aws_connection():
         except ValueError as e:
             logging.error(str(e))
             return False
+    
+
+
 
 
     
