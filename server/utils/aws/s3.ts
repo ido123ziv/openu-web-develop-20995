@@ -5,7 +5,6 @@ import {
     DeleteObjectCommand,
     ListObjectsV2Command 
   } from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner"
 import sharp from "sharp";
 
   
@@ -33,7 +32,6 @@ import sharp from "sharp";
         Body: buffer,
         ContentType: file.mimetype,
       };
-    
       const command = new PutObjectCommand(params);
       const response = await s3.send(command);
       if (!response.ETag) {
@@ -55,11 +53,9 @@ import sharp from "sharp";
     }
 
     const command = new GetObjectCommand(params);
-    const seconds = 3600
     const response = await s3.send(command);
     if (!response.ETag)
       return undefined;
-    // const url = await getSignedUrl(s3, command, { expiresIn: seconds });
     else {
       const url = `${process.env.AWS_ENDPOINT_URL}/${bucket}/${imageName}`.replace("s3-local", s3Uri);
       return url

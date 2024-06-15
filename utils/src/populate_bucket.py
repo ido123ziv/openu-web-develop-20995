@@ -9,10 +9,10 @@ def upload_files(aws: aws_connection, bucket_name: str, images_path=None):
             if images_path:
                 file_path = images_path + '/' + file
             else:
-                file_path = file
-            object_name = remove_image_prefix(file).replace(images_path,"")
-            logging.info(object_name)
-            success = aws.upload_file(file_name=file_path,object_name=object_name, bucket_name=bucket_name)
+                file_path = file            
+            content_type = "image/" + file.split('.')[-1]
+            logging.info(f"content_type: {content_type}")
+            success = aws.upload_file(file_name=file_path,object_name=file, bucket_name=bucket_name, content_type=content_type)
             if success:
                 logging.info("uploading {}".format(file))
             else:

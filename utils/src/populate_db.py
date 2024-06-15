@@ -19,8 +19,8 @@ def get_images_names_from_s3(aws: aws_connection, bucket_name: str):
             for file in files:
                 logging.info("working on: {}".format(file))
                 db_images.append({
-                    'id': file.get('Key').replace("babysitter_",""),
-                    'key': remove_image_prefix(file.get('Key'))
+                    'id': remove_image_prefix(file.get('Key')).replace("babysitter_",""),
+                    'key': file.get('Key')
                 })
     except Exception as e:
         logging.error("Got unexpected error on getting images: {}".format(str(e)))

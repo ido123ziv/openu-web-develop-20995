@@ -71,7 +71,7 @@ class aws_connection():
     def s3_client(self):
         return self._s3_client
     
-    def upload_file(self, file_name, bucket_name, object_name=None):
+    def upload_file(self, file_name, bucket_name, object_name=None, content_type=None):
         """Upload a file to an S3 bucket
 
         :param file_name: File to upload
@@ -83,9 +83,14 @@ class aws_connection():
         # If S3 object_name was not specified, use file_name
         if object_name is None:
             object_name = os.path.basename(file_name)
-
+        if content_type is None:
+            extra_args= None
+        else:
+            extra_args = {
+                'ContentType': content_type
+            }
         try:
-            self._s3_client.upload_file(file_name, bucket_name, object_name)
+            self._s3_client.upload_file(file_name, bucket_name, object_name, ExtraArgs=extra_args)
         except ClientError as e:
             logging.error(str(e))
             return False
@@ -117,7 +122,6 @@ class aws_connection():
             )
             if response:
                 logging.info("Successfully created a bucket named: {}".format(bucket_name))
-                logging.info(self.__get_cors__())
                 self._s3_client.put_bucket_cors(Bucket=bucket_name,CORSConfiguration=self.__get_cors__())
                 logging.info("Successfully put cors policy: {}".format(bucket_name))
                 return True
