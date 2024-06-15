@@ -1,5 +1,5 @@
 import os
-from pop_utils import aws_connection
+from pop_utils import aws_connection, remove_image_prefix
 import logging
 
 def upload_files(aws: aws_connection, bucket_name: str, images_path=None):
@@ -10,7 +10,9 @@ def upload_files(aws: aws_connection, bucket_name: str, images_path=None):
                 file_path = images_path + '/' + file
             else:
                 file_path = file
-            success = aws.upload_file(file_name=file_path, bucket_name=bucket_name)
+            object_name = remove_image_prefix(file).replace(images_path,"")
+            logging.info(object_name)
+            success = aws.upload_file(file_name=file_path,object_name=object_name, bucket_name=bucket_name)
             if success:
                 logging.info("uploading {}".format(file))
             else:

@@ -1,5 +1,5 @@
 import logging
-from pop_utils import db_connection, aws_connection
+from pop_utils import db_connection, aws_connection, remove_image_prefix
 UPDATE_QUERY = """
 UPDATE babysitters
 SET image_string = %s
@@ -10,12 +10,6 @@ SELECT image_string
 FROM babysitters
 WHERE babysitter_id = %s
 """
-IMAGE_FORMATS = ["jpg", "jpeg", "pdf","bmp","svg","gif","png","tiff"]
-def remove_image_prefix(image_name: str):
-    for format in IMAGE_FORMATS:
-        image_name = image_name.replace(f".{format}","")
-    return image_name.replace("babysitter_","")
-
 
 def get_images_names_from_s3(aws: aws_connection, bucket_name: str):
     db_images = []
@@ -25,8 +19,8 @@ def get_images_names_from_s3(aws: aws_connection, bucket_name: str):
             for file in files:
                 logging.info("working on: {}".format(file))
                 db_images.append({
-                    'key': file.get('Key'),
-                    'id': remove_image_prefix(file.get('Key'))
+                    'id': file.get('Key').replace("babysitter_",""),
+                    'key': remove_image_prefix(file.get('Key'))
                 })
     except Exception as e:
         logging.error("Got unexpected error on getting images: {}".format(str(e)))

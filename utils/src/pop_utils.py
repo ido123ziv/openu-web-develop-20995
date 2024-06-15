@@ -5,6 +5,12 @@ import json
 from botocore.exceptions import ClientError
 import logging
 
+IMAGE_FORMATS = ["jpg", "jpeg", "pdf","bmp","svg","gif","png","tiff"]
+def remove_image_prefix(image_name: str):
+    for format in IMAGE_FORMATS:
+        image_name = image_name.replace(f".{format}","")
+    return image_name
+
 class db_connection():
     def __init__(self) -> None:
         self._conn = psycopg2.connect(
