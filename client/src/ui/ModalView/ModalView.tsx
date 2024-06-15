@@ -24,11 +24,13 @@ import { userState } from "../../state/atoms/userAtom";
 import AddRecommendationModal from "../../pages/App/Parents/AddRecommendationModal/AddRecommendationModal";
 import {
   approveUser,
+  getBabysitterRecommendations,
   getInteraction,
   updateContacted,
   updateLastVisited,
   updateWorkedWith,
 } from "./modalViewServices";
+import RecommendationCards from "../../pages/App/Babysitter/RecommendationCards/RecommendationCards";
 
 const ModalView = ({ isOpen, setIsOpen, card, screen }: ModalViewProps) => {
   const [isOpenReviewModal, setIsOpenReviewModal] = useState<boolean>(false);
@@ -42,11 +44,9 @@ const ModalView = ({ isOpen, setIsOpen, card, screen }: ModalViewProps) => {
   const { data: interaction } = useQuery({
     queryKey: ["getInteraction"],
     queryFn: () => {
-      if (user.role !== "parent") {
-        return;
+      if (user.role === "parents") {
+        return getInteraction(user.id, card?.id as number);
       }
-
-      return getInteraction(user.id, card?.id as number);
     },
     onSuccess: (interaction) => {
       if (!interaction) {
@@ -61,7 +61,7 @@ const ModalView = ({ isOpen, setIsOpen, card, screen }: ModalViewProps) => {
   const { mutate: mutateLastVisited } = useMutation({
     mutationKey: ["updateLastVisit"],
     mutationFn: () => {
-      if (user.role !== "parent") {
+      if (user.role !== "parents") {
         return Promise.resolve();
       }
 
@@ -101,6 +101,16 @@ const ModalView = ({ isOpen, setIsOpen, card, screen }: ModalViewProps) => {
     },
   });
 
+  const { data: recommendations } = useQuery({
+    queryKey: ["babysitterRecommendations"],
+    queryFn: () => {
+      if (card?.role === "babysitter") {
+        return getBabysitterRecommendations(card?.id as number);
+      }
+    },
+    onError: (error) => console.log(error),
+  });
+
   const handleWorkedWith = () => {
     mutateWorkedWith();
   };
@@ -125,6 +135,7 @@ const ModalView = ({ isOpen, setIsOpen, card, screen }: ModalViewProps) => {
       onClose={() => setIsOpen(false)}
       onOpen={() => setIsOpen(true)}
       open={isOpen}
+      size="large"
     >
       <ModalHeader>{card?.name}</ModalHeader>
       <ModalContent image>
@@ -160,6 +171,11 @@ const ModalView = ({ isOpen, setIsOpen, card, screen }: ModalViewProps) => {
                 <p>
                   <Icon name="phone" className={styles.icon} />
                   {card?.phoneNumber}
+                </p>
+
+                <p>
+                  <Icon name="star" className={styles.icon} />
+                  Rating: {card?.rating || "N/A"}
                 </p>
               </div>
 
@@ -226,7 +242,7 @@ const ModalView = ({ isOpen, setIsOpen, card, screen }: ModalViewProps) => {
         </ModalDescription>
       </ModalContent>
       <ModalActions>
-        {user.role === "parents" && (
+        {user.role === "parent" && (
           <>
             <Button color="black" onClick={handleAddReview}>
               Add a review
@@ -263,6 +279,13 @@ const ModalView = ({ isOpen, setIsOpen, card, screen }: ModalViewProps) => {
           </>
         )}
       </ModalActions>
+
+      <div className={styles.recommendations}>
+        {(user.role === "parent" || user.role === "moderator") &&
+          recommendations?.length > 0 && (
+            <RecommendationCards data={recommendations} />
+          )}
+      </div>
 
       {isOpenReviewModal && (
         <AddRecommendationModal
