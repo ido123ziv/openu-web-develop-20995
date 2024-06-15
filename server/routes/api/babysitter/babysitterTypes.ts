@@ -8,3 +8,8 @@ export type interactionsData = {
   contacted: number;
   workedWith: number;
 };
+
+export type babysitterImageResponse = {
+  imageUrl: string,
+  responseCode: number
+}

@@ -81,11 +81,9 @@ babysitterRouter.put(
         return res.status(400).json({ error: `Missing file input.` });
       }
       
-      const response = await s3.putImage(req.file, imageName);
-      if (!response) {
-        return res.status(500).json({ message: `Couldn't upload image` });
-      }
-      await handler.putProfileImage(imageName, Number(babysitterId));
+      const response = await handler.putProfileImage(req.file, imageName, Number(babysitterId));
+      if (!response || response.length === 0)
+        throw new Error(response);
 
       return res.status(200).json({ message: `Image profile uploaded.` });
     } catch (e) {
@@ -121,16 +119,9 @@ babysitterRouter.get(
         return res.status(400).json({ error: validation.message });
       }
 
-      const imageName = await handler.getProfileImage(Number(babysitterId));
-      if (!imageName) {
-        return res.status(204).json({ message: `User doen't have an image` });
-      }
+      const response = await handler.getProfileImage(Number(babysitterId));
+      return res.status(response.responseCode).send(response.imageUrl);
       
-      const imageUrl = await s3.getImageUrl(imageName);
-      if (!imageUrl)
-        return res.status(404).json({ message: "Image not found"});
-
-      res.status(200).json({ imageUrl });
     } catch (e) {
       console.log(
         `Error message: ${req.body.id}: ${(e as Error).message}\n${
@@ -162,8 +153,6 @@ babysitterRouter.delete(
       if (!validation.isValid) {
         return res.status(400).json({ error: validation.message });
       }
-      const imageName = await handler.getProfileImage(Number(babysitterId));
-      await s3.deleteImage(imageName);
       await handler.deleteProfileImage(Number(babysitterId));
 
       res.status(200).json({ "message": "Image deleted safely." });
