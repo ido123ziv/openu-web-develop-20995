@@ -18,6 +18,10 @@ export interface CardsData {
   experience?: string;
   city?: string;
   street?: string;
+  distance?: number;
+  contacted?: boolean;
+  workedWith?: boolean;
+  rating?: number;
 }
 
 export interface CardsDataArr {

@@ -1,5 +1,6 @@
 import DBHandler from "./parentsDBHandler";
 import { Babysitter, Interaction, Validation } from "./parentsTypes";
+import { calculateDistance } from "./distanceApi";
 
 export default class Handler {
   private dbHandler: DBHandler;
@@ -41,8 +42,19 @@ export default class Handler {
     return { isValid: true };
   };
 
-  getAllBabysitters = async (): Promise<Babysitter[]> => {
-    return this.dbHandler.getAllBabysitters();
+  getAllBabysitters = async (parentId: number): Promise<Babysitter[]> => {
+    const parentAddress = await this.dbHandler.getParentAddress(parentId);
+    const parentAddressString = `${parentAddress.city}, ${parentAddress.street}, Israel`;
+
+    const babysitters = await this.dbHandler.getAllBabysitters(parentId);
+
+    return Promise.all(babysitters.map(async babysitter => {
+      const babysitterAddress = `${babysitter.city}, ${babysitter.street}, Israel`;
+      return {
+        ...babysitter,
+        distance: await calculateDistance(parentAddressString, babysitterAddress)
+      };
+    }));
   };
 
   getInteraction = async (

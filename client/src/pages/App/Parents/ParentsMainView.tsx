@@ -13,7 +13,7 @@ const ParentsMainView = () => {
 
     const {data} = useQuery({
         queryKey: ["getAllBabysitters"],
-        queryFn: getAllBabysitters,
+        queryFn: () => getAllBabysitters(user.id),
         onError: (error) => console.log(error),
     });
 

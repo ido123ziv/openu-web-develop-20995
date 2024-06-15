@@ -49,8 +49,18 @@ export default class DBHandler {
     return rowCount;
   }
 
-  async getAllBabysitters(): Promise<Babysitter[]> {
-    const query = `SELECT b.babysitter_id AS id,
+  async getParentAddress(parentId: number): Promise<{city: string, street: string}> {
+    const query = `SELECT city, street
+                   FROM parents
+                   WHERE parent_id = $1 AND
+                         end_timestamp = $2`;
+
+    const { rows } = await db.query(query, [parentId, END_TIMESTAMP]);
+    return rows[0];
+  }
+
+  async getAllBabysitters(parentId: number): Promise<Babysitter[]> {
+    const query = `SELECT DISTINCT b.babysitter_id AS id,
                               babysitter_name AS name,
                               email,
                               city,
@@ -61,13 +71,16 @@ export default class DBHandler {
                               gender,
                               image_string AS "imageString",
                               comments,
-                              ROUND(AVG(rating), 2) AS rating
+                              pbi.contacted,
+                              pbi.worked_with AS "workedWith",
+                              ROUND(AVG(rating) over (partition by b.babysitter_id), 2) AS rating
                        FROM babysitters AS b
                        LEFT JOIN recommendations AS r ON b.babysitter_id=r.babysitter_id
-                       WHERE end_timestamp = $1
-                       GROUP BY b.babysitter_id`;
+                       LEFT JOIN parents_babysitters_interactions AS pbi 
+                            ON b.babysitter_id=pbi.babysitter_id AND pbi.parent_id = $1
+                       WHERE end_timestamp = $2`;
 
-    const data = await db.query(query, [END_TIMESTAMP]);
+    const data = await db.query(query, [parentId, END_TIMESTAMP]);
     return data.rows;
   }
 

@@ -11,9 +11,11 @@ const parentsRouter = Router();
 
 const handler = new Handler();
 
-parentsRouter.get("/allBabysitters", async (req: Request, res: Response) => {
+parentsRouter.get("/allBabysitters/:parent", async (req: Request, res: Response) => {
   try {
-    const allBabysitters = await handler.getAllBabysitters();
+      const { parent } = req.params;
+
+    const allBabysitters = await handler.getAllBabysitters(Number(parent));
 
     return res.status(200).send(allBabysitters);
   } catch (e) {

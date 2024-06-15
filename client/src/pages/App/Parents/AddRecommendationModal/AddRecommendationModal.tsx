@@ -39,7 +39,9 @@ const AddRecommendationModal = ({
         title: "Your review has been submitted",
         icon: "success",
       });
+      setIsOpen(false);
     },
+
     onError: (error: unknown) => {
       reset();
       console.log(error);

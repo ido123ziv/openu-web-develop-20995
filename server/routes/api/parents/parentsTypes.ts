@@ -9,6 +9,10 @@ export type Babysitter = {
   phoneNumber: string;
   gender: string;
   comments?: string;
+  distance: number;
+  contacted?: boolean;
+  workedWith?: boolean;
+  rating: number;
 };
 
 export type Validation = {
