@@ -82,7 +82,7 @@ babysitterRouter.put(
       }
       
       const response = await handler.putProfileImage(req.file, imageName, Number(babysitterId));
-      if (!response || response.length === 0)
+      if (response || response.length > 0)
         throw new Error(response);
 
       return res.status(200).json({ message: `Image profile uploaded.` });
