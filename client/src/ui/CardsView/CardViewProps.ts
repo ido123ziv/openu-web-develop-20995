@@ -18,6 +18,7 @@ export interface CardsData {
   experience?: string;
   city?: string;
   street?: string;
+  rating?: string;
 }
 
 export interface CardsDataArr {

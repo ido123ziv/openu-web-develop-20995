@@ -92,7 +92,7 @@ recommendationsRouter.get(
         Number(babysitterId)
       );
       if (!babysitterExists) {
-        return res.status(404).send({ "message": "babysitter doesn't exists"})
+        return res.status(404).send({ message: "babysitter doesn't exists" });
       }
       const babysitterRating = await handler.getBabysitterRating(
         Number(babysitterId)
