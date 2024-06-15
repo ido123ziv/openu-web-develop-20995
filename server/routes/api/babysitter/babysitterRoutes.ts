@@ -126,8 +126,9 @@ babysitterRouter.get(
         return res.status(204).json({ message: `User doen't have an image` });
       }
       
-      const localStackImageUrl = await s3.getImageUrl(imageName);
-      const imageUrl = localStackImageUrl.replace('s3-local', s3.s3Uri);
+      const imageUrl = await s3.getImageUrl(imageName);
+      if (!imageUrl)
+        return res.status(404).json({ message: "Image not found"});
 
       res.status(200).json({ imageUrl });
     } catch (e) {

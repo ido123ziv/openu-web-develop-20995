@@ -55,10 +55,15 @@ import sharp from "sharp";
     }
 
     const command = new GetObjectCommand(params);
-    const seconds = 60
-    const url = await getSignedUrl(s3, command, { expiresIn: seconds });
-
-    return url
+    const seconds = 3600
+    const response = await s3.send(command);
+    if (!response.ETag)
+      return undefined;
+    // const url = await getSignedUrl(s3, command, { expiresIn: seconds });
+    else {
+      const url = `${process.env.AWS_ENDPOINT_URL}/${bucket}/${imageName}`.replace("s3-local", s3Uri);
+      return url
+    }
   };
 
   export const deleteImage = async (imageName: string) => {
