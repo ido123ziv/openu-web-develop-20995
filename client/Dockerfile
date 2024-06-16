@@ -11,10 +11,14 @@ CMD [ "npm", "run", "dev" ]
 FROM node:18-alpine as builder
 WORKDIR /app
 COPY package*.json .
-RUN npm install  && npm cache clean --force
+RUN npm install \
+    && npm prune --production \
+    && npm cache clean --force \
+    && rm -rf /tmp/*
 COPY src/ /app/src/
 COPY public/ /app/public/
 COPY index.html *config* /app/
+COPY *ts* /app/
 RUN npm run build 
 
 FROM node:18-alpine as production
