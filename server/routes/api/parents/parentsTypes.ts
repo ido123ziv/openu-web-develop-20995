@@ -13,7 +13,7 @@ export type Babysitter = {
   contacted?: boolean;
   workedWith?: boolean;
   rating: number;
-  didParentRate: boolean;
+  didParentRate: number;
 };
 
 export type Validation = {

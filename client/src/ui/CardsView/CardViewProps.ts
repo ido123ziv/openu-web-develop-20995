@@ -22,7 +22,7 @@ export interface CardsData {
   contacted?: boolean;
   workedWith?: boolean;
   rating?: number;
-  didParentRate?: boolean;
+  didParentRate?: number;
 }
 
 export interface CardsDataArr {

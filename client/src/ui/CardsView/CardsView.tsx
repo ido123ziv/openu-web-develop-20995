@@ -36,7 +36,7 @@ const CardsView = ({data, screen}: CardsDataArr) => {
                             key={element.email}
                             className={styles.card}
                             image={
-                                element.imageString || element.role === "parent"
+                                element.imageString || element.role === "parents"
                                     ? "/baby.svg"
                                     : "/babysitter.svg"
                             }
