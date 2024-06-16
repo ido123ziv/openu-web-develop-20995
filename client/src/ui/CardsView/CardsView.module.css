@@ -21,6 +21,12 @@
   text-overflow: ellipsis;
 }
 
+@media (max-width: 1440px) {
+  .card {
+    height: 60vh; /* Height for smaller screens */
+  }
+}
+
 .card img {
   width: 270px !important;
   height: 220px !important;
