@@ -22,6 +22,7 @@ jobs:
           npm install
       - name: launch application
         run: |
+          echo 'LOCATION_API_KEY=${{ secrets.LOCATION_API_KEY }}' > .env
           docker compose build
           docker compose up -d
       - name: wait for api

@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   app:
-    image: ghcr.io/ido123ziv/openu-web-develop-20995/app:latest
+    image: ghcr.io/ido123ziv/openu-web-develop-20995/app:latest-dev
     build:
       context: client
       target: development
@@ -17,11 +17,13 @@ services:
     networks:
       - my_network
   api:
-    image: ghcr.io/ido123ziv/openu-web-develop-20995/api:latest
+    image: ghcr.io/ido123ziv/openu-web-develop-20995/api:latest-dev
     restart: always
     build:
       context: server
       target: development
+    secrets:
+      - server-keys
     ports:
       - 3000:3000
     depends_on:
@@ -47,7 +49,7 @@ services:
       - my_network
 
   db:
-    image: ghcr.io/ido123ziv/openu-web-develop-20995/db:latest
+    image: ghcr.io/ido123ziv/openu-web-develop-20995/db:latest-dev
     build: ./db
     depends_on:
       populate:
@@ -91,7 +93,7 @@ services:
     depends_on: 
       s3:
         condition: service_healthy
-    image: ghcr.io/ido123ziv/openu-web-develop-20995/populate:latest
+    image: ghcr.io/ido123ziv/openu-web-develop-20995/populate:latest-dev
     build:
       context: ./utils
     environment:
@@ -114,7 +116,7 @@ services:
         condition: service_healthy
       populate:
         condition: service_completed_successfully
-    image: ghcr.io/ido123ziv/openu-web-develop-20995/populate:latest
+    image: ghcr.io/ido123ziv/openu-web-develop-20995/populate:latest-dev
     environment:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-test}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-testsecret}
@@ -136,3 +138,7 @@ volumes:
 
 networks:
   my_network:
+
+secrets:
+  server-keys:
+    file: .env

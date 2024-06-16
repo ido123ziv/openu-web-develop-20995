@@ -21,6 +21,8 @@ services:
       target: production
     ports:
       - 3000:3000
+    secrets:
+      - server-keys
     depends_on:
       db:
         condition: service_healthy
@@ -129,3 +131,7 @@ volumes:
 
 networks:
   my_network:
+
+secrets:
+  server-keys:
+    file: .env
