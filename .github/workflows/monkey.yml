@@ -1,10 +1,12 @@
-name: end to end testing
-run-name: Running End to End testing on ${{ github.head_ref || github.ref_name }} -> ${{ github.sha }}
+name: prod image testing
+run-name: Running image testing on ${{ github.head_ref || github.ref_name }} 
 on:
   workflow_dispatch:
-  pull_request:
-    # The branches below must be a subset of the branches above
-    branches: [ "main" ]
+  workflow_run:
+    workflows: [Create and publish a Docker image]
+    types:
+    - completed
+
 env:
   DB_PASSWORD: 1234
 
@@ -23,8 +25,7 @@ jobs:
       - name: launch application
         run: |
           echo 'LOCATION_API_KEY=${{ secrets.LOCATION_API_KEY }}' > .env
-          docker compose build
-          docker compose up -d
+          docker compose -f compose-prod.yml up -d
       - name: wait for api
         run: |
           if ! curl "http://localhost:3000/api/hello"; then
