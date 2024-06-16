@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { validationResult, param } from "express-validator";
+import { validationResult, param, body } from "express-validator";
 
 import {
   BABYSITTER_INVALID_INPUT_ERROR,
@@ -90,10 +90,9 @@ profileRouter.get(
 profileRouter.put(
   "/babysitter/update/:id",
   [
-    param("id")
-      .notEmpty()
-      .isNumeric()
-      .withMessage(BABYSITTER_INVALID_INPUT_ERROR),
+    param("id").notEmpty().isNumeric().withMessage(BABYSITTER_INVALID_INPUT_ERROR),
+    body("name").isString().notEmpty().withMessage("Name must be a string"),
+    body("email").isEmail().notEmpty().withMessage("Invalid email"),
   ],
   async (req: Request, res: Response) => {
     try {
@@ -163,7 +162,11 @@ profileRouter.put(
 
 profileRouter.put(
   "/parent/update/:id",
-  [param("id").notEmpty().isNumeric().withMessage(PARENT_INVALID_INPUT_ERROR)],
+  [
+    param("id").notEmpty().isNumeric().withMessage(PARENT_INVALID_INPUT_ERROR),
+    body("name").isString().notEmpty().withMessage("Name must be a string"),
+    body("email").isEmail().notEmpty().withMessage("Invalid email"),
+  ],
   async (req: Request, res: Response) => {
     try {
       const fieldValidationResult = validationResult(req);
