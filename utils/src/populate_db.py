@@ -1,5 +1,5 @@
 import logging
-from pop_utils import db_connection, aws_connection
+from pop_utils import db_connection, aws_connection, remove_image_prefix
 UPDATE_QUERY = """
 UPDATE babysitters
 SET image_string = %s
@@ -19,11 +19,8 @@ def get_images_names_from_s3(aws: aws_connection, bucket_name: str):
             for file in files:
                 logging.info("working on: {}".format(file))
                 db_images.append({
-                    'key': file.get('Key'),
-                    'id': file.get('Key').replace(".png","").replace("babysitter_",""),
-                    'url': aws.create_presigned_url(bucket_name=bucket_name,
-                                                    object_name=file.get('Key'),
-                                                    expiration=604800)       
+                    'id': remove_image_prefix(file.get('Key')).replace("babysitter_",""),
+                    'key': file.get('Key')
                 })
     except Exception as e:
         logging.error("Got unexpected error on getting images: {}".format(str(e)))
@@ -33,7 +30,7 @@ def get_images_names_from_s3(aws: aws_connection, bucket_name: str):
 def update_image_in_table(images: list, db=db_connection):
     try:
         for image in images:
-            db.execute(UPDATE_QUERY, (image.get('url'), image.get('id')))
+            db.execute(UPDATE_QUERY, (image.get('key'), image.get('id')))
             db.commit()
             result = db.query(VALIDATE_QUERY, (image.get('id')))
             for row in result:

@@ -34,7 +34,7 @@ services:
       DATABASE_URL: db
       DATABASE_PORT: ${DATABASE_PORT:-5432}
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-test}
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-testsecret}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-test}
       AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION:-us-east-1}
       AWS_ENDPOINT_URL: http://s3-local:4566
       BUCKET_NAME: ${BUCKET_NAME:-data}
@@ -78,7 +78,7 @@ services:
       - DEBUG=${AWS_DEBUG:-0}
       - SERVICES=s3:4566
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-test}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-testsecret}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-test}
       - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-us-east-1}
     volumes:
       - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
@@ -94,7 +94,7 @@ services:
       context: ./utils
     environment:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-test}
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-testsecret}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-test}
       AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION:-us-east-1}
       AWS_ENDPOINT_URL: http://s3-local:4566
       BUCKET_NAME: ${BUCKET_NAME:-data}
@@ -115,7 +115,7 @@ services:
     image: ghcr.io/ido123ziv/openu-web-develop-20995/populate:latest
     environment:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-test}
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-testsecret}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-test}
       AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION:-us-east-1}
       AWS_ENDPOINT_URL: http://s3-local:4566
       BUCKET_NAME: ${BUCKET_NAME:-data}
