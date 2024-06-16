@@ -12,7 +12,6 @@ FROM node:18-alpine as builder
 WORKDIR /app
 COPY package*.json .
 RUN npm install \
-    && npm prune --production \
     && npm cache clean --force \
     && rm -rf /tmp/*
 COPY src/ /app/src/
@@ -21,13 +20,9 @@ COPY index.html *config* /app/
 COPY *ts* /app/
 RUN npm run build 
 
-FROM node:18-alpine as production
-WORKDIR /app
-COPY package*.json ./
-COPY public/ /app/public/
-COPY index.html *config* /app/
-COPY --from=builder /app/dist/ .
-COPY --from=builder /app/node_modules/ ./node_modules/
+FROM nginx:1.27-alpine as production
+COPY --from=builder /app/dist/ /var/www/html/
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 8080
-CMD ["npm", "run", "preview"]
+ENTRYPOINT ["nginx","-g","daemon off;"]
 

@@ -6,7 +6,7 @@ services:
       context: client
       target: production
     ports:
-      - 4173:4173
+      - 8080:8080
     depends_on:
       - api
     environment:
