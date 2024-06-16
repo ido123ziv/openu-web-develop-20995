@@ -6,13 +6,7 @@ on:
     workflows: [Create and publish a Docker image]
     types:
     - completed
-  push:
-    branches: ['main']
-    paths: 
-      - 'server/**'
-      - 'client/**'
-      - 'db/**'
-      - 'utils/**'
+
 env:
   DB_PASSWORD: 1234
 
