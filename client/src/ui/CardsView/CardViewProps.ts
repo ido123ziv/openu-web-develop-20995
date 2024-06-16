@@ -18,7 +18,7 @@ export interface CardsData {
   experience?: string;
   city?: string;
   street?: string;
-  distance?: number;
+  distance?: string;
   contacted?: boolean;
   workedWith?: boolean;
   rating?: number;
