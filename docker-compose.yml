@@ -9,6 +9,8 @@ services:
       - 5172:5172
     depends_on:
       - api
+    environment:
+      APP_PORT: ${APP_PORT:-5172}
     volumes:
       - ./client:/app/
       - /app/node_modules

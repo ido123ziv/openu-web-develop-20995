@@ -6,9 +6,11 @@ services:
       context: client
       target: production
     ports:
-      - 8080:5172
+      - 4173:4173
     depends_on:
       - api
+    environment:
+      APP_PORT: ${APP_PORT:-4173}
     networks:
       - my_network
   api:
