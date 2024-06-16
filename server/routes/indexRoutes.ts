@@ -1,5 +1,6 @@
 import { Router } from "express";
 import db from "../utils/db/db";
+import { listBucket } from "../utils/aws/s3";
 const router = Router();
 
 // TESTING ROUTES
@@ -60,5 +61,17 @@ const isValidDb = async (tableName: string) => {
   console.log("Table: " + tableName + " found: " + rowCount.rowCount + " rows");
   return true;
 };
+
+router.get('/aws/health', async (request, response) => {
+  try{
+    const objects = await listBucket();
+    const images = objects.Contents?.map((item) => (item.Key));
+    response.status(200).send(images);
+  }
+  catch(e){
+    console.error(e);
+    response.status(500).end();
+  }
+});
 
 export default router;
