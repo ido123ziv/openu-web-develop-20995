@@ -19,7 +19,7 @@ const putUrlsMap = {
 }
 const openBugs = {
     "PUT": {
-        
+
     },
     "POST": {
         "testInValidRequest": ["recommendationText"], 
@@ -108,7 +108,7 @@ function getGoodInputs(schema, min, max) {
         else if (type === "number") parsedData[key] = Math.floor(Math.random() *(max - min + 1) + min);
         else if (type === "email") parsedData[key] = `${generateRandomString(8)}@${generateRandomString(6)}.com`;
         else parsedData[key] = type;
-
+        if (key === "rating") parsedData[key] = 4;
     }
     return parsedData;
 }
