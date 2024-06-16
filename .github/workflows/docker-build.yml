@@ -58,7 +58,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/${{ matrix.images }}
           flavor: |
             latest=${{ github.ref_name == 'main' && 'true' || 'auto'}}
-            suffix=${{ matrix.stage == 'development' && 'dev'}},onlatest=true
+            suffix=${{ matrix.stage == 'development' && '-dev' || null }},onlatest=true
           tags: |
             type=ref,event=branch
             type=sha
