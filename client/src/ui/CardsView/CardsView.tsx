@@ -30,7 +30,7 @@ const CardsView = ({data, screen}: CardsDataArr) => {
                     </div>
 
                     const rating =
-                        <Rating icon='star' rating={Number(element.rating)} maxRating={5} disabled></Rating>
+                        <Rating icon='star' rating={element.rating} maxRating={5} disabled></Rating>
 
                         return (<Card
                             key={element.email}
@@ -41,7 +41,7 @@ const CardsView = ({data, screen}: CardsDataArr) => {
                                     : "/babysitter.svg"
                             }
                             header={element.name}
-                            meta={element.distance ? `Distance: ${element.distance} km` : element.role}
+                            meta={element?.distance ? `Distance: ${element.distance} km` : element.role}
                             description={description}
                             extra={rating}
                             onClick={(_e) => handleClick(element)}

@@ -42,9 +42,8 @@ export async function calculateDistance(address1: string, address2: string): Pro
 
         const route = data.resourceSets[0].resources[0];
         const distance = route.travelDistance; // distance in kilometers
-        // const duration = route.travelDuration; // duration in minutes
 
-        return distance.toFixed(2);
+        return Number(distance.toFixed(2));
     } catch (e) {
         console.error('Error:', (e as Error).message);
         throw e;

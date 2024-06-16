@@ -29,7 +29,6 @@ import {
   updateLastVisited,
   updateWorkedWith,
 } from "./modalViewServices";
-import {set} from "react-hook-form";
 
 const ModalView = ({ isOpen, setIsOpen, card, screen }: ModalViewProps) => {
   const [isOpenReviewModal, setIsOpenReviewModal] = useState<boolean>(false);
@@ -39,6 +38,9 @@ const ModalView = ({ isOpen, setIsOpen, card, screen }: ModalViewProps) => {
   const handleAddReview = () => {
     setIsOpenReviewModal(true);
   };
+
+  // todo: remove the getInteraction and make sure to trigger it with card is clicked
+  // todo: dont let the parent rate without clicking on worked with
 
   const { data: interaction } = useQuery({
     queryKey: ["getInteraction"],
@@ -230,11 +232,11 @@ const ModalView = ({ isOpen, setIsOpen, card, screen }: ModalViewProps) => {
           {user.role === "parents" && (
               <>
                 <Button
-                    color={card?.rating ? "green" : "grey"}
+                    color={card?.didParentRate ? "green" : "grey"}
                     onClick={handleAddReview}
-                    positive={!!card?.rating}
+                    positive={!!card?.didParentRate}
                 >
-                  {card?.rating ? "Rated" : "Add a review"}
+                  {card?.didParentRate ? "Rated" : "Add a review"}
                 </Button>
                 <Button
                     color={card?.contacted ? "green" : "grey"}

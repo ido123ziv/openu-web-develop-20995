@@ -10,7 +10,7 @@
 }
 
 .card {
-  height: 60vh;
+  height: 50vh;
   width: calc(20% - 20px) !important;
   margin-top: 10px !important;
   margin-left: 10px !important;

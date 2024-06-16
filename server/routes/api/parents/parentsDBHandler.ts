@@ -73,6 +73,7 @@ export default class DBHandler {
                               comments,
                               pbi.contacted,
                               pbi.worked_with AS "workedWith",
+                              CASE WHEN r.parent_id = $1 THEN true ELSE false END AS "didParentRate",
                               ROUND(AVG(rating) over (partition by b.babysitter_id), 2) AS rating
                        FROM babysitters AS b
                        LEFT JOIN recommendations AS r ON b.babysitter_id=r.babysitter_id
