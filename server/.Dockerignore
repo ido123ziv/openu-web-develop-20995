@@ -9,3 +9,5 @@ npm-debug.log
 .aws
 .vscode
 .idea
+.dockerignore
+.gitignore
