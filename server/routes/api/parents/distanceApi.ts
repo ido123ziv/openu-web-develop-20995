@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const apiKey = 'AnRsPfslZKL-b7n6v3v3XsM3yz2lDBemqmkFfMm31zy9xvvbIUTIVDLvX1lKoHoq';
+// const apiKey = 'AnRsPfslZKL-b7n6v3v3XsM3yz2lDBemqmkFfMm31zy9xvvbIUTIVDLvX1lKoHoq';
 
 interface Coordinates {
     lat: number;
@@ -8,7 +8,7 @@ interface Coordinates {
 }
 
 async function getCoordinates(address: string): Promise<Coordinates> {
-    const url = `http://dev.virtualearth.net/REST/v1/Locations?q=${encodeURIComponent(address)}&key=${apiKey}`;
+    const url = `http://dev.virtualearth.net/REST/v1/Locations?q=${encodeURIComponent(address)}&key=${process.env.LOCATION_API_KEY}`;
 
     try {
         const response = await axios.get(url);
@@ -31,7 +31,7 @@ export async function calculateDistance(address1: string, address2: string): Pro
         const coords1 = await getCoordinates(address1);
         const coords2 = await getCoordinates(address2);
 
-        const url = `http://dev.virtualearth.net/REST/v1/Routes?wp.0=${coords1.lat},${coords1.lon}&wp.1=${coords2.lat},${coords2.lon}&key=${apiKey}`;
+        const url = `http://dev.virtualearth.net/REST/v1/Routes?wp.0=${coords1.lat},${coords1.lon}&wp.1=${coords2.lat},${coords2.lon}&key=${process.env.LOCATION_API_KEY}`;
 
         const response = await axios.get(url);
         const data = response.data;

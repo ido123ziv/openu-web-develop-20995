@@ -23,7 +23,7 @@
 
 @media (max-width: 1440px) {
   .card {
-    height: 60vh; /* Height for smaller screens */
+    height: 55vh; /* Height for smaller screens */
   }
 }
 

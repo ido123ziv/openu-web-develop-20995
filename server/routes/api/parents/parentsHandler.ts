@@ -44,12 +44,12 @@ export default class Handler {
 
   getAllBabysitters = async (parentId: number): Promise<Babysitter[]> => {
     const parentAddress = await this.dbHandler.getParentAddress(parentId);
-    const parentAddressString = `${parentAddress.city}, ${parentAddress.street}, Israel`;
+    const parentAddressString = `${parentAddress?.city}, ${parentAddress?.street}, Israel`;
 
     const babysitters = await this.dbHandler.getAllBabysitters(parentId);
 
     return Promise.all(babysitters.map(async babysitter => {
-      const babysitterAddress = `${babysitter.city}, ${babysitter.street}, Israel`;
+      const babysitterAddress = `${babysitter?.city}, ${babysitter?.street}, Israel`;
       return {
         ...babysitter,
         distance: await calculateDistance(parentAddressString, babysitterAddress)
