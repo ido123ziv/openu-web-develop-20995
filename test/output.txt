@@ -1,1 +1,0 @@
-Headings from http://localhost:5172/app/babysitter: Hello,,Here you can see your analytics,Analytics,undefined People viewed your profile,You have 0 recommendations,0 AVG Rating,

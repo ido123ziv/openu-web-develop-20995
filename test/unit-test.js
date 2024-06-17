@@ -77,13 +77,13 @@ const schemas = {
   // }
 };
 async function getBabysitterCount() {
-  const responseAll = await fetch(
-    "http://localhost:3000/api/moderator/allUsers"
-  );
+  //   const responseAll = await fetch(
+  //     "http://localhost:3000/api/moderator/allUsers"
+  //   );
   const responseBaby = await fetch(
     "http://localhost:3000/api/babysitter/countBabysitters"
   );
-  const allUsers = await responseAll.json();
+  //   const allUsers = await responseAll.json();
   const babysitters = await responseBaby.json();
 
   const result = {
