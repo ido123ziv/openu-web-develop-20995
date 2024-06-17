@@ -13,6 +13,15 @@ export default class Handler {
     return this.dbHandler;
   }
 
+  parentValidation = async (parentId: number): Promise<Validation> => {
+    const parent = await this.dbHandler.getParent(parentId);
+    if (!parent) {
+      return { isValid: false, message: "Parent user doesn't exist" };
+    }
+
+    return { isValid: true };
+  };
+
   userValidation = async (
     parentId: number,
     babysitterId: number
@@ -48,13 +57,18 @@ export default class Handler {
 
     const babysitters = await this.dbHandler.getAllBabysitters(parentId);
 
-    return Promise.all(babysitters.map(async babysitter => {
-      const babysitterAddress = `${babysitter.city}, ${babysitter.street}, Israel`;
-      return {
-        ...babysitter,
-        distance: await calculateDistance(parentAddressString, babysitterAddress)
-      };
-    }));
+    return Promise.all(
+      babysitters.map(async (babysitter) => {
+        const babysitterAddress = `${babysitter.city}, ${babysitter.street}, Israel`;
+        return {
+          ...babysitter,
+          distance: await calculateDistance(
+            parentAddressString,
+            babysitterAddress
+          ),
+        };
+      })
+    );
   };
 
   getInteraction = async (
