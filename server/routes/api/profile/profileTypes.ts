@@ -21,6 +21,7 @@ export type BabysitterProfile = {
   experience: string;
   phoneNumber: string;
   gender: string;
+  imageString: string;
   comments?: string;
 };
 
