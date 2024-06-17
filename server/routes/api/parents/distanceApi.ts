@@ -54,7 +54,7 @@ async function getCoordinates(address: string): Promise<Coordinates> {
 export async function calculateDistance(
     address1: string,
     address2: string
-): Promise<number> {
+): Promise<string> {
     try {
         const coords1 = await getCoordinates(address1);
         const coords2 = await getCoordinates(address2);
@@ -71,7 +71,7 @@ export async function calculateDistance(
         const route = data.resourceSets[0].resources[0];
         const distance = route.travelDistance; // distance in kilometers
 
-        return parseFloat(distance.toFixed(2));
+        return distance.toFixed(2);
     } catch (e) {
         console.error("Error:", (e as Error).message);
         throw e;

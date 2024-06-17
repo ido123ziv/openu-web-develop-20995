@@ -9,7 +9,7 @@ export type Babysitter = {
   phoneNumber: string;
   gender: string;
   comments?: string;
-  distance: number;
+  distance: string;
   contacted?: boolean;
   workedWith?: boolean;
   rating: number;
