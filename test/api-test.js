@@ -12,7 +12,7 @@ const urls = {
   dbHealth: "http://localhost:3000/db/health",
   dbTables: "http://localhost:3000/db/tables",
   awsHealth: "http://localhost:3000/aws/health",
-  parents: "http://localhost:3000/api/parents/allBabysitters",
+  parents: "http://localhost:3000/api/parents/allBabysitters/:id",
   allUsers: "http://localhost:3000/api/moderator/allUsers",
   recommendations: "http://localhost:3000/api/recommendations/",
   profileBaby: "http://localhost:3000/api/profile/babysitter/:id",
@@ -21,7 +21,7 @@ const urls = {
   allContactRequests: "http://localhost:3000/api/moderator/allContactRequests",
   babySitterImage: "http://localhost:3000/api/babysitter/image/:id",
   getInteraction: "http://localhost:3000/api/babysitter/interactions/:id",
-  getAllPendingUsers: "http://localhost:3000/api/moderator/pending/"
+  getAllPendingUsers: "http://localhost:3000/api/moderator/pending/",
 };
 
 const inputUrls = {
