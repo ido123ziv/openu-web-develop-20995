@@ -1,4 +1,5 @@
 export type Babysitter = {
+  id: number;
   name: string;
   email: string;
   password: string;
@@ -8,6 +9,7 @@ export type Babysitter = {
   age: number;
   phoneNumber: string;
   gender: string;
+  imageString?: string;
   comments?: string;
 };
 

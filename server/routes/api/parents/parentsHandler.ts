@@ -1,3 +1,5 @@
+import * as s3 from "../../../utils/aws/s3";
+
 import DBHandler from "./parentsDBHandler";
 import { Babysitter, Interaction, Validation } from "./parentsTypes";
 
