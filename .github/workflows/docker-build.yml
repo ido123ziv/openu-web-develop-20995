@@ -26,6 +26,7 @@ jobs:
     strategy:
       matrix: 
         images: ["app", "api", "db", "populate"]
+        stage: ["development", "production"]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -34,8 +35,10 @@ jobs:
         run: |
             if [[ "${{ matrix.images }}" =~ "app" ]]; then
                 echo "context=./client" >> $GITHUB_OUTPUT
+                echo "target=${{ matrix.stage }}"  >> $GITHUB_OUTPUT
             elif [[ "${{matrix.images}}" =~ "api" ]]; then
               echo "context=./server" >> $GITHUB_OUTPUT
+              echo "target=${{ matrix.stage }}"  >> $GITHUB_OUTPUT
             elif [[ "${{matrix.images}}" =~ "populate" ]]; then
                 echo "context=./utils" >> $GITHUB_OUTPUT
             else
@@ -55,6 +58,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/${{ matrix.images }}
           flavor: |
             latest=${{ github.ref_name == 'main' && 'true' || 'auto'}}
+            suffix=${{ matrix.stage == 'development' && '-dev' || null }},onlatest=true
           tags: |
             type=ref,event=branch
             type=sha
@@ -63,6 +67,6 @@ jobs:
         with:
           context: ${{ steps.context.outputs.context }}
           push: true
-          target: ${{ matrix.images != 'db' && 'development' || null }}
+          target: ${{ steps.context.outputs.target  || null }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

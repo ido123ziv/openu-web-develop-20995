@@ -1,8 +1,15 @@
 import psycopg2
 import boto3
 import os
+import json
 from botocore.exceptions import ClientError
 import logging
+
+IMAGE_FORMATS = ["jpg", "jpeg", "pdf","bmp","svg","gif","png","tiff"]
+def remove_image_prefix(image_name: str):
+    for format in IMAGE_FORMATS:
+        image_name = image_name.replace(f".{format}","")
+    return image_name
 
 class db_connection():
     def __init__(self) -> None:
@@ -64,7 +71,7 @@ class aws_connection():
     def s3_client(self):
         return self._s3_client
     
-    def upload_file(self, file_name, bucket_name, object_name=None):
+    def upload_file(self, file_name, bucket_name, object_name=None, content_type=None):
         """Upload a file to an S3 bucket
 
         :param file_name: File to upload
@@ -76,9 +83,14 @@ class aws_connection():
         # If S3 object_name was not specified, use file_name
         if object_name is None:
             object_name = os.path.basename(file_name)
-
+        if content_type is None:
+            extra_args= None
+        else:
+            extra_args = {
+                'ContentType': content_type
+            }
         try:
-            self._s3_client.upload_file(file_name, bucket_name, object_name)
+            self._s3_client.upload_file(file_name, bucket_name, object_name, ExtraArgs=extra_args)
         except ClientError as e:
             logging.error(str(e))
             return False
@@ -97,6 +109,12 @@ class aws_connection():
             logging.error(str(e))
             return None
 
+
+    def __get_cors__(self):
+        with open('cors.json', 'r') as cors_file:
+            return json.load(cors_file)
+        
+
     def create_bucket(self, bucket_name):
         try:
             response = self._s3_client.create_bucket(
@@ -104,6 +122,8 @@ class aws_connection():
             )
             if response:
                 logging.info("Successfully created a bucket named: {}".format(bucket_name))
+                self._s3_client.put_bucket_cors(Bucket=bucket_name,CORSConfiguration=self.__get_cors__())
+                logging.info("Successfully put cors policy: {}".format(bucket_name))
                 return True
             raise ValueError("didn't create bucket.")
         except ClientError as e:
@@ -112,6 +132,9 @@ class aws_connection():
         except ValueError as e:
             logging.error(str(e))
             return False
+    
+
+
 
 
     

@@ -1,4 +1,4 @@
-import { Icon } from "semantic-ui-react";
+import { Header, Icon } from "semantic-ui-react";
 import { useRecoilValue } from "recoil";
 import { useQuery } from "react-query";
 
@@ -21,13 +21,17 @@ const ParentsMainView = () => {
     <>
       <BackgroundSVG />
 
-      <div className={styles.iconContainer}>
-        <Icon name="address card outline" size="huge" className={styles.icon} />
-        <p>Here you can see the babysitters available in your area</p>
-      </div>
-      <h1 className={styles.h1}>Hello, {user.name}</h1>
+      <div className={styles.borderedDiv}>
+        <div className={styles.iconContainer}>
+          <Header as="h2" icon textAlign="center">
+            <Icon name="address card outline" circular />
+            <Header.Content>Hello, {user?.name}</Header.Content>
+          </Header>
+          <p>Here you can see the babysitters available in your area</p>
+        </div>
 
-      <CardsView data={data} />
+        <CardsView data={data} />
+      </div>
     </>
   );
 };

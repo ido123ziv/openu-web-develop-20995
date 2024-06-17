@@ -18,6 +18,7 @@ export default class DBHandler {
                                  gender,
                                  experience,
                                  phone_number AS "phoneNumber",
+                                 image_string AS "imageString",
                                  comments
                                  FROM babysitters
                                  WHERE babysitter_id = ($1)

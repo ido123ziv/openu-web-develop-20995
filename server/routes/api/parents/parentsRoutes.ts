@@ -11,7 +11,7 @@ const parentsRouter = Router();
 
 const handler = new Handler();
 
-parentsRouter.get("/", async (req: Request, res: Response) => {
+parentsRouter.get("/allBabysitters", async (req: Request, res: Response) => {
   try {
     const allBabysitters = await handler.getAllBabysitters();
 

@@ -1,0 +1,110 @@
+name: prod image testing
+run-name: Running image testing on ${{ github.head_ref || github.ref_name }} 
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: [Create and publish a Docker image]
+    types:
+    - completed
+
+env:
+  DB_PASSWORD: 1234
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - name: setup tests
+        working-directory: ./test
+        run:
+          npm install
+      - name: launch application
+        run: |
+          echo 'LOCATION_API_KEY=${{ secrets.LOCATION_API_KEY }}' > .env
+          docker compose -f compose-prod.yml up -d
+      - name: wait for api
+        run: |
+          if ! curl "http://localhost:3000/api/hello"; then
+            sleep 5;
+          fi
+      - name: see containers
+        run: docker ps
+      - name: see logs
+        run: docker compose logs
+      - name: api test
+        id: api_test
+        working-directory: ./test
+        run: |
+          passed=""
+          echo "# Test Results! 🚀" >> $GITHUB_STEP_SUMMARY
+          node api-test.js || passed="false"
+          if [[ -n "$passed" ]]; then
+            echo "__API test failed!__ ❌" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "__API test passed!__ ✅" >> $GITHUB_STEP_SUMMARY
+          fi
+          cat output.txt >> $GITHUB_STEP_SUMMARY || echo "no output.txt"          
+          rm output.txt || echo "no output"
+          echo "passed=$passed" >> $GITHUB_OUTPUT
+      - name: unit test
+        id: unit_test
+        working-directory: ./test
+        run: |
+          passed=""
+          node unit-test.js || passed="false"
+          if [[ -n "$passed" ]]; then
+            echo "__unit test failed!__ ❌" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "__unit test passed!__ ✅" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "passed=$passed" >> $GITHUB_OUTPUT
+          cat output.txt >> $GITHUB_STEP_SUMMARY || echo "no output.txt"          
+          rm output.txt || echo "no output"
+          echo "passed=$passed" >> $GITHUB_OUTPUT
+      - name: ui test
+        id: ui_test
+        working-directory: ./test
+        run: |
+          passed=""
+          node browser-test.js || passed="false"
+          if [[ -n "$passed" ]]; then
+            echo "__Browser test failed!__ ❌" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "__Browser test passed!__ ✅" >> $GITHUB_STEP_SUMMARY
+          fi
+          cat output.txt >> $GITHUB_STEP_SUMMARY || echo "no output.txt"
+          rm output.txt || echo "no output"
+          echo "passed=$passed" >> $GITHUB_OUTPUT
+      - name: parent e2e
+        id: parent_signup_login
+        working-directory: ./test
+        run: |
+          passed=""
+          node login-test.js || passed="false"
+          if [[ -n "$passed" ]]; then
+            echo "__Parent signup & Login test failed!__ ❌" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "__Parent signup & Login test passed!__ ✅" >> $GITHUB_STEP_SUMMARY
+          fi
+          cat output.txt >> $GITHUB_STEP_SUMMARY || echo "no output.txt"
+          rm output.txt || echo "no output"
+          echo "passed=$passed" >> $GITHUB_OUTPUT
+      - name: post test logs
+        run: docker compose logs
+      - name: consolidate
+        run: |
+          docker compose down
+          api=${{ steps.api_test.outputs.passed }}
+          ui=${{ steps.ui_test.outputs.passed }}
+          login=${{ steps.parent_signup_login.outputs.passed }}
+          unit=${{ steps.unit_test.outputs.passed }}
+          if [[ -n "$api" ]] || [[ -n "$ui" ]] || [[ -n "$login" ]] || [[ -n "$unit" ]]; then
+            echo "not all test passed, failing the workflow"
+            exit 1
+          else
+            echo "__Great Success!__" >> $GITHUB_STEP_SUMMARY
+          fi

@@ -11,15 +11,34 @@ const urls = {
   name: "http://localhost:3000/hello/name",
   dbHealth: "http://localhost:3000/db/health",
   dbTables: "http://localhost:3000/db/tables",
-  parents: "http://localhost:3000/api/parents",
+  awsHealth: "http://localhost:3000/aws/health",
+  parents: "http://localhost:3000/api/parents/allBabysitters",
   allUsers: "http://localhost:3000/api/moderator/allUsers",
   recommendations: "http://localhost:3000/api/recommendations/",
   profileBaby: "http://localhost:3000/api/profile/babysitter/:id",
   profileParent: "http://localhost:3000/api/profile/parent/:id",
   rating: "http://localhost:3000/api/recommendations/babysitter/rating/:id",
   allContactRequests: "http://localhost:3000/api/moderator/allContactRequests",
+  babySitterImage: "http://localhost:3000/api/babysitter/image/:id",
+  getInteraction: "http://localhost:3000/api/babysitter/interactions/:id",
+  getAllPendingUsers: "http://localhost:3000/api/moderator/pending/"
 };
+
 const inputUrls = {
+  babysitters: "http://localhost:3000/api/babysitter/:id",
+  parentProfile: "http://localhost:3000/api/profile/parent/:id",
+  babysitterProfile: "http://localhost:3000/api/profile/babysitter/:id",
+  babysitterRecommendation:
+    "http://localhost:3000/api/recommendations/babysitter/:id",
+  parentRecommendation: "http://localhost:3000/api/recommendations/parent/:id",
+  RecommendationStart:
+    "http://localhost:3000/api/recommendations/parent/1/babysitter/:id",
+  RecommendationEnd:
+    "http://localhost:3000/api/recommendations/parent/:id/babysitter/1",
+  RecommendationBoth:
+    "http://localhost:3000/api/recommendations/parent/:id/babysitter/:id",
+  profileBaby: "http://localhost:3000/api/profile/babysitter/:id",
+  profileParent: "http://localhost:3000/api/profile/parent/:id",
   babysitters: "http://localhost:3000/api/babysitter/:id",
   parentProfile: "http://localhost:3000/api/profile/parent/:id",
   babysitterProfile: "http://localhost:3000/api/profile/babysitter/:id",
@@ -40,7 +59,7 @@ const inputUrls = {
 async function testUrl(url, outputFile) {
   try {
     const response = await fetch(url);
-    if (response.status !== 200) {
+    if (response.status > 299) {
       const output =
         `**Error with: ${url} ->` +
         JSON.stringify(response.json()) +
@@ -57,6 +76,7 @@ async function testUrl(url, outputFile) {
     process.exit(1); // Exit with code 1 if any error occurs
   }
 }
+
 async function testApiBadInput(url, outputFile) {
   console.log(`Testing ${url}`);
   try {

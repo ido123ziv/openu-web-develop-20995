@@ -4,6 +4,7 @@ import {
   FormButton,
   FormField,
   FormGroup,
+  Header,
   Icon,
   Image,
 } from "semantic-ui-react";
@@ -43,6 +44,8 @@ const BabysitterProfile = () => {
     queryFn: () => getProfile(user.id),
     onError: (error) => console.log(error),
   });
+
+  console.log(userData);
 
   const defaultFormValues = useMemo(
     () => ({
@@ -120,107 +123,109 @@ const BabysitterProfile = () => {
     <>
       <BackgroundSVG />
 
-      <div className={styles.iconContainer}>
-        <Icon
-          name="address card outline"
-          size="massive"
-          className={styles.icon}
-        />
-      </div>
-
-      <div className={styles.container}>
-        <div className={styles.imageContainer}>
-          <Image
-            src="https://react.semantic-ui.com/images/wireframe/square-image.png"
-            size="medium"
-            rounded
-          />
-          <UploadButton />
+      <div className={styles.borderedDiv}>
+        <div className={styles.iconContainer}>
+          <Header as="h2" icon textAlign="center">
+            <Icon name="address card outline" circular />
+            <Header.Content>Your profile</Header.Content>
+          </Header>
         </div>
 
-        <div className={styles.dataContainer}>
-          <Form size="big" widths="equal" onSubmit={handleSubmit(onSubmit)}>
-            <h1>{userData?.name}</h1>
-            <div className={styles.formContentContainer}>
-              <div className={styles.leftContainer}>
-                <FormGroup>
-                  <FormField>
-                    <label>Full Name</label>
-                    <input {...register("name")} />
-                  </FormField>
+        <div className={styles.container}>
+          <div className={styles.imageContainer}>
+            <Image
+              // src="https://react.semantic-ui.com/images/wireframe/square-image.png"
+              src={userData?.imageString || "/babysitter.svg"}
+              size="medium"
+              rounded
+            />
+            <UploadButton />
+          </div>
+
+          <div className={styles.dataContainer}>
+            <Form size="big" widths="equal" onSubmit={handleSubmit(onSubmit)}>
+              <h1>{userData?.name}</h1>
+              <div className={styles.formContentContainer}>
+                <div className={styles.leftContainer}>
+                  <FormGroup>
+                    <FormField>
+                      <label>Full Name</label>
+                      <input {...register("name")} />
+                    </FormField>
+
+                    <FormField>
+                      <label>Email</label>
+                      <input value={userData?.email} readOnly />
+                    </FormField>
+                  </FormGroup>
+
+                  <FormGroup>
+                    <FormField>
+                      <label>City</label>
+                      <input {...register("city")} />
+                    </FormField>
+
+                    <FormField>
+                      <label>Street</label>
+                      <input {...register("street")} />
+                    </FormField>
+                  </FormGroup>
 
                   <FormField>
-                    <label>Email</label>
-                    <input value={userData?.email} readOnly />
+                    <label>Phone Number</label>
+                    <input {...register("phoneNumber")} />
                   </FormField>
-                </FormGroup>
-
-                <FormGroup>
                   <FormField>
-                    <label>City</label>
-                    <input {...register("city")} />
+                    <label>Experience</label>
+                    <Controller
+                      name="experience"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.Select
+                          options={experience}
+                          placeholder={
+                            userData?.experience &&
+                            experience.find(
+                              (el) => el.value === userData.experience
+                            )?.text
+                          }
+                          onChange={(_e, { value }) => onChange(value)}
+                          value={value}
+                        />
+                      )}
+                    />
                   </FormField>
+                </div>
 
-                  <FormField>
-                    <label>Street</label>
-                    <input {...register("street")} />
-                  </FormField>
-                </FormGroup>
-
-                <FormField>
-                  <label>Phone Number</label>
-                  <input {...register("phoneNumber")} />
-                </FormField>
-                <FormField>
-                  <label>Experience</label>
-                  <Controller
-                    name="experience"
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.Select
-                        options={experience}
-                        placeholder={
-                          userData?.experience &&
-                          experience.find(
-                            (el) => el.value === userData.experience
-                          )?.text
-                        }
-                        onChange={(_e, { value }) => onChange(value)}
-                        value={value}
-                      />
-                    )}
-                  />
+                <FormField className={styles.commentsField}>
+                  <label>Comments</label>
+                  <textarea {...register("comments")} />
                 </FormField>
               </div>
 
-              <FormField className={styles.commentsField}>
-                <label>Comments</label>
-                <textarea {...register("comments")} />
-              </FormField>
-            </div>
+              <div className={styles.submitContainer}>
+                <FormButton
+                  primary
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={styles.saveBtn}
+                  size="large"
+                >
+                  Save Changes
+                </FormButton>
+              </div>
+            </Form>
+          </div>
 
-            <div className={styles.submitContainer}>
-              <FormButton
-                primary
-                type="submit"
-                disabled={isSubmitting}
-                className={styles.saveBtn}
-                size="large"
-              >
-                Save Changes
-              </FormButton>
-            </div>
-          </Form>
-        </div>
-
-        <div className={styles.delete}>
-          <Button
-            color="red"
-            className={styles.deleteBtn}
-            onClick={handleDelete}
-          >
-            Delete Profile
-          </Button>
+          <div className={styles.delete}>
+            <Button
+              color="red"
+              className={styles.deleteBtn}
+              onClick={handleDelete}
+            >
+              Delete Profile
+            </Button>
+          </div>
         </div>
       </div>
     </>
