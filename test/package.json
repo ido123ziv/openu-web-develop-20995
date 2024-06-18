@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "node-fetch": "^2.7.0",
-    "puppeteer": "^22.6.5"
+    "puppeteer": "^22.11.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.1.1",
