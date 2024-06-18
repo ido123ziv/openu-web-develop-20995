@@ -83,6 +83,8 @@ async function getBabysitterCount() {
   const responseBaby = await fetch(
     "http://localhost:3000/api/babysitter/countBabysitters"
   );
+  console.log(responseAll);
+  console.log(responseBaby);
   const allUsers = await responseAll.json();
   const babysitters = await responseBaby.json();
 
