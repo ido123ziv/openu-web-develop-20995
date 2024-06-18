@@ -92,8 +92,8 @@ async function signUpToPage(url, email, password) {
 }
 
 async function loginToPage(url, email, password, outputFile) {
-  // const browser = await puppeteer.launch({ headless: false }); // headless: false to see the browser in action
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({ headless: false }); // headless: false to see the browser in action
+  // const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
   try {
@@ -108,19 +108,20 @@ async function loginToPage(url, email, password, outputFile) {
     await page.click('button[type="submit"]');
     await page.waitForNavigation();
 
-    if (email.includes("parent")) {
+    if (email.includes("parent")) { 
       await page.waitForSelector(".ui.card");
+      await new Promise(resolve => setTimeout(resolve, 10000));
       const cardElements = await page.$$(".ui.card");
 
       for (const cardElement of cardElements) {
         const headerText = await cardElement.$eval(".header", (header) =>
           header.textContent.trim()
         );
-        const descriptionText = await cardElement.$eval(
-          ".description",
-          (description) => description.textContent.trim()
+        const metaText = await cardElement.$eval(
+          ".meta",
+          (meta) => meta.textContent.trim()
         );
-        const output = `Header: ${headerText}\nDescription: ${descriptionText}`;
+        const output = `Header: ${headerText}\nMeta: ${metaText}`;
         console.log(output);
         fs.appendFileSync(outputFile, output + "\n");
       }
