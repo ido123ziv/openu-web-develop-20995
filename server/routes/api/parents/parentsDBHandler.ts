@@ -3,6 +3,15 @@ import { END_TIMESTAMP } from "../../../utils/global/globals";
 import { Babysitter, Interaction } from "./parentsTypes";
 
 export default class DBHandler {
+  async countParents(): Promise<number> {
+    const query = `SELECT COUNT(*)
+                    FROM parents`;
+
+    const parents = await db.query(query);
+    return parents.rows[0].count;
+
+  }
+
   async getParent(parentId: number): Promise<number> {
     const query = `SELECT parent_id AS "parentId"
                     FROM parents
@@ -15,9 +24,9 @@ export default class DBHandler {
 
   async getBabysitter(babysitterId: number): Promise<number> {
     const query = `SELECT babysitter_id AS "babysitterId"
-                    FROM babysitters
-                    WHERE babysitter_id = $1 AND 
-                          end_timestamp = $2`;
+                   FROM babysitters
+                   WHERE babysitter_id = $1 AND 
+                         end_timestamp = $2`;
 
     const { rows } = await db.query(query, [babysitterId, END_TIMESTAMP]);
     return rows[0];
@@ -49,8 +58,20 @@ export default class DBHandler {
     return rowCount;
   }
 
-  async getAllBabysitters(): Promise<Babysitter[]> {
-    const query = `SELECT babysitter_id AS id,
+  async getParentAddress(
+    parentId: number
+  ): Promise<{ city: string; street: string }> {
+    const query = `SELECT city, street
+                   FROM parents
+                   WHERE parent_id = $1 AND
+                         end_timestamp = $2`;
+
+    const { rows } = await db.query(query, [parentId, END_TIMESTAMP]);
+    return rows[0];
+  }
+
+  async getAllBabysitters(parentId: number): Promise<Babysitter[]> {
+    const query = `SELECT DISTINCT b.babysitter_id AS id,
                               babysitter_name AS name,
                               email,
                               city,
@@ -60,11 +81,18 @@ export default class DBHandler {
                               phone_number AS "phoneNumber",
                               gender,
                               image_string AS "imageString",
-                              comments
-                       FROM babysitters
-                       WHERE end_timestamp = $1`;
+                              comments,
+                              pbi.contacted,
+                              pbi.worked_with AS "workedWith",
+                              MAX(CASE WHEN r.parent_id = $1 THEN 1 ELSE 0 END) over (partition by b.babysitter_id) AS "didParentRate",
+                              ROUND(AVG(rating) over (partition by b.babysitter_id), 2) AS rating
+                       FROM babysitters AS b
+                       LEFT JOIN recommendations AS r ON b.babysitter_id=r.babysitter_id
+                       LEFT JOIN parents_babysitters_interactions AS pbi 
+                            ON b.babysitter_id=pbi.babysitter_id AND pbi.parent_id = $1
+                       WHERE end_timestamp = $2`;
 
-    const data = await db.query(query, [END_TIMESTAMP]);
+    const data = await db.query(query, [parentId, END_TIMESTAMP]);
     return data.rows;
   }
 

@@ -18,8 +18,16 @@ export interface CardsData {
   experience?: string;
   city?: string;
   street?: string;
+  distance?: string;
+  contacted?: boolean;
+  workedWith?: boolean;
+  rating?: number;
+  didParentRate?: number;
 }
 
 export interface CardsDataArr {
   data: CardsData[] | undefined;
+
+  // Moderator Screen
+  screen?: string;
 }

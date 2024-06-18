@@ -68,9 +68,12 @@ signupRouter.post(
   async (req: Request, res: Response) => {
     const fieldValidationResult = validationResult(req);
     if (!fieldValidationResult.isEmpty()) {
-      return res
-        .status(400)
-        .json({ message: fieldValidationResult.array()[0].msg });
+      return res.status(400).json({
+        message: fieldValidationResult
+          .array()
+          .map((item) => item.msg)
+          .join(" "),
+      });
     }
 
     const {

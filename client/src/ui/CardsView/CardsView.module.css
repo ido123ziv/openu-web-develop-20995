@@ -10,6 +10,7 @@
 }
 
 .card {
+  height: 50vh;
   width: calc(20% - 20px) !important;
   margin-top: 10px !important;
   margin-left: 10px !important;
@@ -18,20 +19,15 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+@media (max-width: 1440px) {
+  .card {
+    height: 55vh; /* Height for smaller screens */
+  }
 }
 
 .card img {
   width: 270px !important;
   height: 220px !important;
-}
-
-.card {
-  width: calc(20% - 20px) !important;
-  margin-top: 10px !important;
-  margin-left: 10px !important;
-  margin-right: 10px !important;
-  margin-bottom: 10px !important;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }

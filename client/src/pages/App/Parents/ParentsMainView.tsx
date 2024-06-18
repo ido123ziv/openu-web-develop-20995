@@ -1,4 +1,10 @@
-import { Dropdown, DropdownItem, DropdownMenu, Icon } from "semantic-ui-react";
+import {
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  Header,
+  Icon,
+} from "semantic-ui-react";
 import { useRecoilValue } from "recoil";
 import { useQuery } from "react-query";
 import { useEffect, useState } from "react";
@@ -77,7 +83,7 @@ const ParentsMainView = () => {
 
   const { data } = useQuery({
     queryKey: ["getAllBabysitters"],
-    queryFn: getAllBabysitters,
+    queryFn: () => getAllBabysitters(user.id),
     onError: (error) => console.log(error),
   });
 
@@ -96,12 +102,14 @@ const ParentsMainView = () => {
     <>
       <BackgroundSVG />
 
-      <div className={styles.iconContainer}>
-        <Icon name="address card outline" size="huge" className={styles.icon} />
-        <p>Here you can see the babysitters available in your area</p>
-      </div>
-      <div className={styles.headerContainer}>
-        <h1 className={styles.h1}>Hello, {user.name}</h1>
+      <div className={styles.borderedDiv}>
+        <div className={styles.iconContainer}>
+          <Header as="h2" icon textAlign="center">
+            <Icon name="address card outline" circular />
+            <Header.Content>Hello, {user?.name}</Header.Content>
+          </Header>
+          <p>Here you can see the babysitters available in your area</p>
+        </div>
 
         <div className={styles.sortersContainer}>
           <Dropdown

@@ -19,6 +19,16 @@ and some important tools we are working with [linter](#linter) & [pre-commit](#p
 ---
 
 # How To Run
+First of all copy the value of the `LOCATION_API_KEY` sent to you and save it in a file called `.env` at the repo root (where [README](./README.md) is at)
+
+```.env
+LOCATION_API_KEY = shhhhhhh!
+```
+then run the python code to setup the .env:
+```bash
+python3 setup-env.py
+```
+then start the magic
 ```bash
 export DB_PASSWORD=1234
 docker-compose up

@@ -8,7 +8,13 @@ export type Babysitter = {
   age: number;
   phoneNumber: string;
   gender: string;
+  imageString?: string;
   comments?: string;
+  distance: string;
+  contacted?: boolean;
+  workedWith?: boolean;
+  rating: number;
+  didParentRate: number;
 };
 
 export type Validation = {
