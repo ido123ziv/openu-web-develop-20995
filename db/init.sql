@@ -99,6 +99,12 @@ CREATE table IF NOT EXISTS parents_babysitters_interactions (
 	PRIMARY KEY(parent_id, babysitter_id)
 );
 
+INSERT INTO parents_babysitters_interactions (parent_id, babysitter_id, contacted, worked_with)
+VALUES
+(1, 1, TRUE, TRUE),
+(2, 2, TRUE, FALSE),
+(3, 3, TRUE, TRUE);
+
 CREATE table IF NOT EXISTS moderator_requests (
     request_id SERIAL PRIMARY KEY,
     request_status moderator_status DEFAULT 'new',
