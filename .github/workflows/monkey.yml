@@ -38,6 +38,8 @@ jobs:
       - name: api test
         id: api_test
         working-directory: ./test
+        env:
+          APP_PORT: 3000
         run: |
           passed=""
           echo "# Test Results! 🚀" >> $GITHUB_STEP_SUMMARY
@@ -53,6 +55,8 @@ jobs:
       - name: unit test
         id: unit_test
         working-directory: ./test
+        env:
+          APP_PORT: 3000
         run: |
           passed=""
           node unit-test.js || passed="false"

@@ -1,5 +1,6 @@
 const puppeteer = require("puppeteer");
 const fs = require("fs");
+const APP_PORT = process.env.APP_PORT || 5172;
 
 const time = new Date().getTime();
 const name = `testuser${time}`;
@@ -194,7 +195,7 @@ async function test(outputFile) {
   const types = ["babysitter", "parents"];
   for (const element of types) {
     const signUpSuccess = await signUpToPage(
-      `http://localhost:5172/signup/${element}`,
+      `http://localhost:${APP_PORT}/signup/${element}`,
       `${time}+${element}@test.com`,
       "1234"
     );
@@ -207,7 +208,7 @@ async function test(outputFile) {
 
     await approveUser();
     const loginSuccess = await loginToPage(
-      "http://localhost:5172/login",
+      "http://localhost:${APP_PORT}/login",
       `${time}+${element}@test.com`,
       "1234",
       outputFile
