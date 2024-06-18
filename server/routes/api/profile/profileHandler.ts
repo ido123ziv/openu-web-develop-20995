@@ -62,9 +62,11 @@ export default class Handler {
         const profile = await this.dbHandler.getBabySitterProfile(babysitterId);
         const babysitterProfile =  profile[0];
         try {
-            const imageUrl = await s3.getImageUrl(babysitterProfile.imageString);
-            if (!imageUrl) throw new Error('Error fetching image from s3');
-            babysitterProfile.imageString = imageUrl;
+            if (babysitterProfile.imageString && babysitterProfile.imageString.length > 0){
+                const imageUrl = await s3.getImageUrl(babysitterProfile.imageString);
+                if (!imageUrl) throw new Error('Error fetching image from s3');
+                babysitterProfile.imageString = imageUrl;
+            }
           } catch (error) {
             console.error(`Error fetching image for babysitter ${babysitterProfile.name}: ${(error as Error).message}`);
           }
