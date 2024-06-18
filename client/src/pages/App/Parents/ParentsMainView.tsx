@@ -41,6 +41,7 @@ const sortingOptions = [
 ];
 
 const filterOptions = [
+  { key: "clear", text: "Clear Filters" },
   {
     key: "experience",
     text: "Experience",
@@ -66,20 +67,30 @@ const ParentsMainView = () => {
   const user = useRecoilValue(userState);
   const [sorter, setSorter] = useState<string>("");
   const [filters, setFilters] = useState<string[]>([]);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [babysitters, setBabysitters] = useState<CardsData[] | undefined>(
     undefined
   );
 
-  // const handleSetFilters = ({
-  //   newFilterKey,
-  //   newFilterValue,
-  // }: {
-  //   key: string;
-  //   value: string;
-  // }) => {
-  //   // setFilters([...new Set([...filters, newFilter])]);
-  // };
+  const clearFilters = (filterKey: string) => {
+    if (filterKey === "clear") {
+      setFilters([]);
+    }
+  };
+
+  const handleSetFilters = (filterKey: string) => {
+    if (filterKey === "clear") {
+      setFilters([]);
+      return;
+    }
+
+    setFilters((prevFilters) => {
+      if (prevFilters.includes(filterKey)) {
+        return prevFilters.filter((filter) => filter !== filterKey);
+      } else {
+        return [...prevFilters, filterKey];
+      }
+    });
+  };
 
   const { data } = useQuery({
     queryKey: ["getAllBabysitters"],
@@ -87,15 +98,21 @@ const ParentsMainView = () => {
     onError: (error) => console.log(error),
   });
 
+  console.log(filters);
+  console.log(babysitters);
+
   useEffect(() => {
     if (!data) {
       return;
     }
 
-    // const array = filterBabysitters(data, filters);
+    const filteredBabysitters = filterBabysitters(data, filters);
+    const sortedAndFilteredBabysitters = sortBabysitters(
+      filteredBabysitters,
+      sorter
+    );
 
-    // setBabysitters(sortBabysitters(array, sorter));
-    setBabysitters(data);
+    setBabysitters(sortedAndFilteredBabysitters);
   }, [data, sorter, filters]);
 
   return (
@@ -127,23 +144,16 @@ const ParentsMainView = () => {
                   <DropdownItem
                     key={option.key}
                     className={styles.itemSelect}
-                    onClick={(_e) => console.log(option)}
+                    onClick={(_e) => clearFilters(option.key)}
                   >
                     {option.text}
                     {option.optionsArr && (
-                      <DropdownMenu
-                        scrolling
-                        open={isOpen}
-                        className={styles.subMenu}
-                      >
+                      <DropdownMenu scrolling className={styles.subMenu}>
                         {option.optionsArr.map((el) => (
                           <DropdownItem
                             {...el}
                             className={styles.optionsArr}
-                            onClick={
-                              (_e) => console.log(el)
-                              //   handleSetFilters(option.key, el.key)
-                            }
+                            onClick={(_e) => handleSetFilters(el.key)}
                           />
                         ))}
                       </DropdownMenu>
@@ -174,9 +184,8 @@ const ParentsMainView = () => {
             </DropdownMenu>
           </Dropdown>
         </div>
+        <CardsView data={babysitters || data} />
       </div>
-
-      <CardsView data={babysitters} />
     </>
   );
 };

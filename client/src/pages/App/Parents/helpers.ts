@@ -8,27 +8,41 @@ export const sortBabysitters = (data: CardsData[], key: string) => {
       return data.sort((a, b) =>
         (a.experience as string).localeCompare(b.experience as string)
       );
-    // case "rating":
-    //     return data.sort((a, b) =>
-    //         (a.r as string).localeCompare(b.experience as string)
-    //       );
-    // case "proximity":
-    // return data.sort((a, b) =>
-    //         (a.r as string).localeCompare(b.experience as string)
-    //       );
+    case "rating":
+      return data.sort((a, b) => (b.rating as number) - (a.rating as number));
+    case "proximity":
+      return data.sort((a, b) => Number(a.distance) - Number(b.distance));
     default:
-      console.log("bad swtich"); //TODO: REMEMBER TO ERASE BEFORE SHELLY GETS MAD
       break;
   }
 };
 
 export const filterBabysitters = (
   data: CardsData[],
-  filterOptions: string[]
+  filters: string[]
 ): CardsData[] => {
-  return data;
+  console.log(data);
+  const newData = data.filter((babysitter) => {
+    return filters.every((filter) => {
+      console.log(filter);
+      if (filter === "goodRating") {
+        return (babysitter.rating as number) >= 3;
+      }
+      if (filter === "badRating") {
+        return (babysitter.rating as number) < 3;
+      }
+      if (filter === "No Experience") {
+        return babysitter.experience === "no_experience";
+      }
+      if (filter === "1-3 Years") {
+        return babysitter.experience === "mid";
+      }
+      if (filter === "3+ years") {
+        return babysitter.experience === "high";
+      }
+      return true;
+    });
+  });
+  console.log(newData);
+  return newData;
 };
-
-// const parseFilter = ({newFilterKey, newFilterValue}: {key:string, value: string}) => {
-//     return
-// }
