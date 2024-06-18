@@ -11,11 +11,11 @@ const parentsRouter = Router();
 
 const handler = new Handler();
 
-parentsRouter.get("/allBabysitters", async (req: Request, res: Response) => {
+parentsRouter.get("/countParents", async (req: Request, res: Response) => {
   try {
-    const allBabysitters = await handler.getAllBabysitters();
+    const parentCount = await handler.countParents();
 
-    return res.status(200).send(allBabysitters);
+    return res.status(200).json({ parentCount });
   } catch (e) {
     console.log(
       `Error message: ${req.body.id}: ${(e as Error).message}\n${
@@ -25,6 +25,31 @@ parentsRouter.get("/allBabysitters", async (req: Request, res: Response) => {
     return res.status(500).end();
   }
 });
+
+parentsRouter.get(
+  "/allBabysitters/:parent",
+  async (req: Request, res: Response) => {
+    try {
+      const { parent } = req.params;
+
+      const parentValidation = await handler.parentValidation(Number(parent));
+      if (!parentValidation.isValid) {
+        return res.status(400).json({ error: parentValidation.message });
+      }
+
+      const allBabysitters = await handler.getAllBabysitters(Number(parent));
+
+      return res.status(200).send(allBabysitters);
+    } catch (e) {
+      console.log(
+        `Error message: ${req.body.id}: ${(e as Error).message}\n${
+          (e as Error).stack
+        }`
+      );
+      return res.status(500).end();
+    }
+  }
+);
 
 parentsRouter.get(
   "/:parent/babysitter/:babysitter",

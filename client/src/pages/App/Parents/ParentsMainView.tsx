@@ -11,11 +11,11 @@ import { getAllBabysitters } from "./parentServices";
 const ParentsMainView = () => {
   const user = useRecoilValue(userState);
 
-  const { data } = useQuery({
-    queryKey: ["getAllBabysitters"],
-    queryFn: getAllBabysitters,
-    onError: (error) => console.log(error),
-  });
+    const {data} = useQuery({
+        queryKey: ["getAllBabysitters"],
+        queryFn: () => getAllBabysitters(user.id),
+        onError: (error) => console.log(error),
+    });
 
   return (
     <>
