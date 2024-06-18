@@ -8,7 +8,7 @@ export type Babysitter = {
   age: number;
   phoneNumber: string;
   gender: string;
-  imageString: string;
+  imageString?: string;
   comments?: string;
 };
 
