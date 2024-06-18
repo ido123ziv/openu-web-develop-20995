@@ -51,6 +51,12 @@ export default class Handler {
     return { isValid: true };
   };
 
+  countParents = async (): Promise<number> => {
+    const count = await this.dbHandler.countParents();
+
+    return count;
+  };
+
   getAllBabysitters = async (parentId: number): Promise<Babysitter[]> => {
     const parentAddress = await this.dbHandler.getParentAddress(parentId);
     const parentAddressString = `${parentAddress?.city}, ${parentAddress?.street}, Israel`;

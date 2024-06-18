@@ -3,6 +3,14 @@ import { END_TIMESTAMP } from "../../../utils/global/globals";
 import { Babysitter, Interaction } from "./parentsTypes";
 
 export default class DBHandler {
+  async countParents(): Promise<number> {
+    const query = `SELECT COUNT(*)
+                    FROM parents`;
+
+    const parents = await db.query(query);
+    return parents.rows.length;
+  }
+
   async getParent(parentId: number): Promise<number> {
     const query = `SELECT parent_id AS "parentId"
                     FROM parents
@@ -49,7 +57,9 @@ export default class DBHandler {
     return rowCount;
   }
 
-  async getParentAddress(parentId: number): Promise<{city: string, street: string}> {
+  async getParentAddress(
+    parentId: number
+  ): Promise<{ city: string; street: string }> {
     const query = `SELECT city, street
                    FROM parents
                    WHERE parent_id = $1 AND
