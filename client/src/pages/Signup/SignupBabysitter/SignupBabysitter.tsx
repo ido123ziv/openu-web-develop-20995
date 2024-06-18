@@ -11,6 +11,7 @@ import { FaBabyCarriage } from "react-icons/fa6";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useMutation } from "react-query";
+import Swal from "sweetalert2";
 
 import styles from "./SignupBabysitter.module.css";
 import BackgroundSVG from "../../../ui/BackgroundSVG/BackgroundSVG";
@@ -49,6 +50,10 @@ const SignupBabySitter = () => {
     mutationKey: ["babysitterSignup"],
     mutationFn: babysitterSignup,
     onSuccess: () => {
+      Swal.fire({
+        title: "Your account is now pending moderator activation",
+        icon: "success",
+      });
       navigate("/login");
     },
     onError: (error) => {

@@ -81,7 +81,13 @@ async function signUpToPage(url, email, password) {
       await page.waitForSelector(".ui.large.button");
       await page.click(".ui.large.button");
     }
+
     await page.waitForNavigation();
+    await page.waitForSelector(".swal2-confirm.swal2-styled", {
+      visible: true,
+    });
+    await page.click(".swal2-confirm.swal2-styled");
+
     return true;
   } catch (error) {
     console.error("Error during signup:", error);
