@@ -17,12 +17,12 @@ import { ModalAddReviewProps } from "./RecommendationModalInterfaces";
 import { addRecommendation } from "./recommendationServices";
 
 const AddRecommendationModal = ({
-  isOpen,
-  setIsOpen,
-  parentId,
-  babysitterId,
-  babysitterName,
-}: ModalAddReviewProps) => {
+                                  isOpen,
+                                  setIsOpen,
+                                  parentId,
+                                  babysitterId,
+                                  babysitterName,
+                                }: ModalAddReviewProps) => {
   const [rating, setRating] = useState<number>(-1);
   const {
     register,
@@ -34,15 +34,17 @@ const AddRecommendationModal = ({
   const { mutate } = useMutation({
     mutationKey: ["addRecommendation"],
     mutationFn: addRecommendation,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log("Success:", data);
       Swal.fire({
         title: "Your review has been submitted",
         icon: "success",
       });
+      setIsOpen(false);
     },
     onError: (error: unknown) => {
+      console.error("Error:", error);
       reset();
-      console.log(error);
     },
   });
 
@@ -50,51 +52,52 @@ const AddRecommendationModal = ({
     if (rating < 0) {
       return;
     }
+    console.log("Submitting:", { data, babysitterId, parentId, rating });
     mutate({ data, babysitterId, parentId, rating });
   };
 
   return (
-    <Modal
-      closeIcon
-      onClose={() => setIsOpen(false)}
-      onOpen={() => setIsOpen(true)}
-      open={isOpen}
-    >
-      <ModalHeader>{`Post a review about ${babysitterName}`}</ModalHeader>
-      <ModalContent>
-        <ModalDescription>
-          <Form onSubmit={handleSubmit(onSubmit)}>
-            <FormField>
+      <Modal
+          closeIcon
+          onClose={() => setIsOpen(false)}
+          onOpen={() => setIsOpen(true)}
+          open={isOpen}
+      >
+        <ModalHeader>{`Post a review about ${babysitterName}`}</ModalHeader>
+        <ModalContent>
+          <ModalDescription>
+            <Form onSubmit={handleSubmit(onSubmit)}>
+              <FormField>
               <textarea
-                placeholder="Add your review"
-                {...register("recommendationText", {
-                  required: "please provide an review",
-                })}
+                  placeholder="Add your review"
+                  {...register("recommendationText", {
+                    required: "please provide an review",
+                  })}
               />
-            </FormField>
+              </FormField>
 
-            <FormField>
-              <label>Rating</label>
-              <Rating
-                size="massive"
-                icon="star"
-                defaultRating={0}
-                maxRating={5}
-                onRate={(_event, data) => {
-                  setRating(Number(data.rating));
-                }}
-              />
-            </FormField>
+              <FormField>
+                <label>Rating</label>
+                <Rating
+                    size="massive"
+                    icon="star"
+                    defaultRating={0}
+                    maxRating={5}
+                    onRate={(_event, data) => {
+                      setRating(Number(data.rating));
+                    }}
+                />
+              </FormField>
 
-            <p>Are you sure you want to post this review?</p>
+              <p>Are you sure you want to post this review?</p>
 
-            <Button type="submit" secondary disabled={isSubmitting}>
-              Submit
-            </Button>
-          </Form>
-        </ModalDescription>
-      </ModalContent>
-    </Modal>
+              <Button type="submit" secondary disabled={isSubmitting}>
+                Submit
+              </Button>
+            </Form>
+          </ModalDescription>
+        </ModalContent>
+      </Modal>
   );
 };
 

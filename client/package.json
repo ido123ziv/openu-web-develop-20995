@@ -22,7 +22,7 @@
     "recoil": "^0.7.7",
     "semantic-ui-css": "^2.5.0",
     "semantic-ui-react": "^2.1.5",
-    "sweetalert2": "^11.11.0"
+    "sweetalert2": "^11.6.13"
   },
   "devDependencies": {
     "@eslint/js": "^9.1.1",

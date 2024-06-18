@@ -2,6 +2,7 @@ import * as s3 from "../../../utils/aws/s3";
 
 import DBHandler from "./parentsDBHandler";
 import { Babysitter, Interaction, Validation } from "./parentsTypes";
+import { calculateDistance } from "./distanceApi";
 
 export default class Handler {
   private dbHandler: DBHandler;
@@ -13,6 +14,15 @@ export default class Handler {
   getDBHandler() {
     return this.dbHandler;
   }
+
+  parentValidation = async (parentId: number): Promise<Validation> => {
+    const parent = await this.dbHandler.getParent(parentId);
+    if (!parent) {
+      return { isValid: false, message: "Parent user doesn't exist" };
+    }
+
+    return { isValid: true };
+  };
 
   userValidation = async (
     parentId: number,
@@ -43,32 +53,49 @@ export default class Handler {
     return { isValid: true };
   };
 
-  getAllBabysitters = async (): Promise<Babysitter[]> => {
-    // Fetch all babysitters from the database
-    const allBabysitters = await this.dbHandler.getAllBabysitters();
+  countParents = async (): Promise<number> => {
+    const count = await this.dbHandler.countParents();
 
-    // Define a helper function to fetch and replace image string
-    const fetchImageUrl = async (babysitter: Babysitter) => {
-      const { imageString } = babysitter;
-      if (imageString && imageString.length > 0) {
-        try {
-          const imageUrl = await s3.getImageUrl(imageString);
-          if (!imageUrl) throw new Error("Error fetching image from s3");
-          babysitter.imageString = imageUrl;
-        } catch (error) {
-          console.error(
-            `Error fetching image for babysitter ${babysitter.name}: ${
-              (error as Error).message
-            }`
-          );
+    return count;
+  };
+
+  getAllBabysitters = async (parentId: number): Promise<Babysitter[]> => {
+    const parentAddress = await this.dbHandler.getParentAddress(parentId);
+    const parentAddressString = `${parentAddress?.city}, ${parentAddress?.street}, Israel`;
+
+    const babysitters = await this.dbHandler.getAllBabysitters(parentId);
+
+    return Promise.all(
+      babysitters.map(async (babysitter) => {
+        let imageUrl;
+        const { imageString } = babysitter;
+        const babysitterAddress = `${babysitter?.city}, ${babysitter?.street}, Israel`;
+
+        if (imageString && imageString.length > 0) {
+          try {
+            imageUrl = await s3.getImageUrl(imageString);
+            if (!imageUrl) {
+              throw new Error("Error fetching image from s3");
+            }
+          } catch (error) {
+            console.error(
+              `Error fetching image for babysitter ${babysitter.name}: ${
+                (error as Error).message
+              }`
+            );
+          }
         }
-      }
-    };
 
-    // Use Promise.all to fetch image URLs in parallel
-    await Promise.all(allBabysitters.map(fetchImageUrl));
-
-    return allBabysitters;
+        return {
+          ...babysitter,
+          distance: await calculateDistance(
+            parentAddressString,
+            babysitterAddress
+          ),
+          imageString: imageUrl,
+        };
+      })
+    );
   };
 
   getInteraction = async (

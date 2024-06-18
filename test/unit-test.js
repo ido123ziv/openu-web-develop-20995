@@ -49,8 +49,8 @@ const schemas = {
     name: "string",
     email: "email",
     password: "string",
-    city: "string",
-    street: "string",
+    city: "Holon",
+    street: "Ben Yehuda",
     gender: "string",
     phoneNumber: "string",
     minKidAge: "number",
@@ -62,8 +62,8 @@ const schemas = {
     name: "string",
     email: "email",
     password: "string",
-    city: "string",
-    street: "string",
+    city: "Holon",
+    street: "Sokolov",
     experience: "mid",
     age: "number",
     phoneNumber: "string",
@@ -77,20 +77,19 @@ const schemas = {
   // }
 };
 async function getBabysitterCount() {
-  const responseAll = await fetch(
-    "http://localhost:3000/api/moderator/allUsers"
+  const responseParents = await fetch(
+    "http://localhost:3000/api/parents/countParents"
   );
   const responseBaby = await fetch(
-    "http://localhost:3000/api/parents/allBabysitters"
+    "http://localhost:3000/api/babysitter/countBabysitters"
   );
-  const allUsers = await responseAll.json();
+  const parents = await responseParents.json();
   const babysitters = await responseBaby.json();
-
   const result = {
-    babysitters: babysitters.length,
-    parents: allUsers.length - babysitters.length,
+    babysitters: babysitters.babysittersCount,
+    parents: parents.parentCount,
   };
-  console.log(result);
+  console.log(JSON.stringify(result));
   return result;
 }
 function generateRandomString(length) {
@@ -294,6 +293,7 @@ async function testInValidIdsRequest(urlMap, method, min, max) {
   const usersCount = await getBabysitterCount();
   const min = 1;
   const max = Math.max(usersCount.babysitters, usersCount.parents);
+  console.log(`max: ${max}, min: ${min}`);
   console.log("--Testing Valid Requests--\n");
   await testValidRequests(
     postUrlsMap,

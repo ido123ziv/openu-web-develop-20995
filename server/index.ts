@@ -2,6 +2,7 @@
 import express from "express";
 import path from "path";
 import bodyParser from "body-parser";
+import * as dotenv from 'dotenv';
 
 import router from "./routes/indexRoutes";
 import parentsRouter from "./routes/api/parents/parentsRoutes";
@@ -21,6 +22,14 @@ const app = express();
 
 // Define a port number
 const port = 3000;
+
+dotenv.config({ path: `/run/secrets/server-keys` });
+
+// Verify that the required environment variable is set
+if (!process.env.LOCATION_API_KEY) {
+  console.error("ERROR: LOCATION_API_KEY is not set.");
+  process.exit(1); // Exit the process with an error code
+}
 
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, "../client")));

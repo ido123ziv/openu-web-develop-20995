@@ -15,8 +15,9 @@ import { MdOutlineChildCare } from "react-icons/md";
 import { FaChildren } from "react-icons/fa6";
 import { GiRank1, GiRank2, GiRank3 } from "react-icons/gi";
 import { useRecoilValue } from "recoil";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import Swal from "sweetalert2";
 
 import styles from "./ModalView.module.css";
 import { ModalViewProps } from "./ModalViewInterface";
@@ -34,6 +35,8 @@ import RecommendationCards from "../../pages/App/Babysitter/RecommendationCards/
 
 const ModalView = ({ isOpen, setIsOpen, card, screen }: ModalViewProps) => {
   const [isOpenReviewModal, setIsOpenReviewModal] = useState<boolean>(false);
+  const [showWorkedWithMessage, setShowWorkedWithMessage] =
+    useState<boolean>(false);
   const user = useRecoilValue(userState);
   const queryClient = useQueryClient();
 
@@ -104,10 +107,15 @@ const ModalView = ({ isOpen, setIsOpen, card, screen }: ModalViewProps) => {
   const { data: recommendations } = useQuery({
     queryKey: ["babysitterRecommendations"],
     queryFn: () => {
+      console.log(card?.role);
       if (card?.role === "babysitter") {
         return getBabysitterRecommendations(card?.id as number);
       }
+
+      return Promise.resolve([]);
     },
+    enabled: true,
+    onSuccess: (data) => console.log(data),
     onError: (error) => console.log(error),
   });
 
@@ -129,6 +137,23 @@ const ModalView = ({ isOpen, setIsOpen, card, screen }: ModalViewProps) => {
     setIsOpen(false);
   };
 
+  const handleAddReviewClick = () => {
+    if (interaction?.workedWith) {
+      handleAddReview();
+    } else {
+      setShowWorkedWithMessage(true);
+    }
+  };
+
+  useEffect(() => {
+    if (showWorkedWithMessage) {
+      Swal.fire({
+        title: "Please click 'Worked with' before adding a review",
+        icon: "info",
+      }).then(() => setShowWorkedWithMessage(false));
+    }
+  }, [showWorkedWithMessage]);
+
   return (
     <Modal
       closeIcon
@@ -143,7 +168,7 @@ const ModalView = ({ isOpen, setIsOpen, card, screen }: ModalViewProps) => {
           size="medium"
           src={
             card?.imageString
-              ? `${card.imageString}`
+              ? card.imageString
               : card?.role === "parent"
               ? "/baby.svg"
               : "/babysitter.svg"
@@ -244,10 +269,17 @@ const ModalView = ({ isOpen, setIsOpen, card, screen }: ModalViewProps) => {
         </ModalDescription>
       </ModalContent>
       <ModalActions>
-        {user.role === "parent" && (
+        {user.role === "parents" && (
           <>
-            <Button color="black" onClick={handleAddReview}>
-              Add a review
+            <Button
+              onClick={() => {
+                if (!card?.didParentRate) {
+                  handleAddReviewClick();
+                }
+              }}
+              positive={card?.didParentRate === 1}
+            >
+              {card?.didParentRate ? "Rated" : "Add a review"}
             </Button>
             <Button
               content="Contacted"
@@ -283,7 +315,7 @@ const ModalView = ({ isOpen, setIsOpen, card, screen }: ModalViewProps) => {
       </ModalActions>
 
       <div className={styles.recommendations}>
-        {(user.role === "parent" || user.role === "moderator") &&
+        {(user.role === "parents" || user.role === "moderator") &&
           recommendations?.length > 0 && (
             <RecommendationCards data={recommendations} />
           )}
