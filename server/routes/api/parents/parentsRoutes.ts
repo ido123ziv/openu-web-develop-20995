@@ -11,6 +11,21 @@ const parentsRouter = Router();
 
 const handler = new Handler();
 
+parentsRouter.get("/countParents", async (req: Request, res: Response) => {
+  try {
+    const parentCount = await handler.countParents();
+
+    return res.status(200).json({ parentCount });
+  } catch (e) {
+    console.log(
+      `Error message: ${req.body.id}: ${(e as Error).message}\n${
+        (e as Error).stack
+      }`
+    );
+    return res.status(500).end();
+  }
+});
+
 parentsRouter.get(
   "/allBabysitters/:parent",
   async (req: Request, res: Response) => {
