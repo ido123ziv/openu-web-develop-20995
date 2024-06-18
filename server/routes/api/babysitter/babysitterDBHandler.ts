@@ -8,8 +8,7 @@ export default class DBHandler {
                     FROM babysitters`;
 
     const totalBabysitters = await db.query(query);
-
-    return totalBabysitters.rows.length;
+    return totalBabysitters.rows[0].count;
   }
 
   async getBabysitter(babysitterId: number): Promise<number> {

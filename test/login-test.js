@@ -4,7 +4,7 @@ const fs = require("fs");
 const time = new Date().getTime();
 const name = `testuser${time}`;
 const city = "Holon";
-const street = "main";
+const street = "Golda Meir";
 const phoneNumber = `+${time}`;
 const youngestChild = "1";
 const oldestChild = "8";
@@ -108,19 +108,20 @@ async function loginToPage(url, email, password, outputFile) {
     await page.click('button[type="submit"]');
     await page.waitForNavigation();
 
-    if (email.includes("parent")) {
+    if (email.includes("parent")) { 
       await page.waitForSelector(".ui.card");
+      await new Promise(resolve => setTimeout(resolve, 10000));
       const cardElements = await page.$$(".ui.card");
 
       for (const cardElement of cardElements) {
         const headerText = await cardElement.$eval(".header", (header) =>
           header.textContent.trim()
         );
-        const descriptionText = await cardElement.$eval(
-          ".description",
-          (description) => description.textContent.trim()
+        const metaText = await cardElement.$eval(
+          ".meta",
+          (meta) => meta.textContent.trim()
         );
-        const output = `Header: ${headerText}\nDescription: ${descriptionText}`;
+        const output = `Header: ${headerText}\nMeta: ${metaText}`;
         console.log(output);
         fs.appendFileSync(outputFile, output + "\n");
       }
