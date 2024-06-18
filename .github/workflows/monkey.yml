@@ -90,8 +90,6 @@ jobs:
         env:
           APP_PORT: 8080
         working-directory: ./test
-        env:
-          APP_PORT: 8080
         run: |
           passed=""
           node login-test.js || passed="false"
