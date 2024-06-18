@@ -4,7 +4,7 @@ const fs = require("fs");
 const time = new Date().getTime();
 const name = `testuser${time}`;
 const city = "Holon";
-const street = "main";
+const street = "Golda Meir";
 const phoneNumber = `+${time}`;
 const youngestChild = "1";
 const oldestChild = "8";
@@ -92,8 +92,8 @@ async function signUpToPage(url, email, password) {
 }
 
 async function loginToPage(url, email, password, outputFile) {
-  const browser = await puppeteer.launch({ headless: false }); // headless: false to see the browser in action
-  // const browser = await puppeteer.launch();
+  // const browser = await puppeteer.launch({ headless: false }); // headless: false to see the browser in action
+  const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
   try {
