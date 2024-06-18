@@ -1,5 +1,5 @@
-name: prod image testing
-run-name: Running image testing on ${{ github.head_ref || github.ref_name }} 
+name: post deploy testing
+run-name: Running chaos monkey on prod images on ${{ github.head_ref || github.ref_name }} by ${{ github.actor }}
 on:
   workflow_dispatch:
   workflow_run:
@@ -87,6 +87,8 @@ jobs:
           echo "passed=$passed" >> $GITHUB_OUTPUT
       - name: parent e2e
         id: parent_signup_login
+        env:
+          APP_PORT: 8080
         working-directory: ./test
         env:
           APP_PORT: 8080

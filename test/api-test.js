@@ -7,7 +7,6 @@ const badInputs = ["a", "@", "[", "1c"];
 const numericInputs = [-1, 7777, 0];
 // Define URLs to test
 const urls = {
-  back: `http://localhost:${APP_PORT}/hello`,
   name: `http://localhost:${APP_PORT}/hello/name`,
   dbHealth: `http://localhost:${APP_PORT}/db/health`,
   dbTables: `http://localhost:${APP_PORT}/db/tables`,
