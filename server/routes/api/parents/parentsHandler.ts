@@ -1,7 +1,8 @@
+import * as s3 from "../../../utils/aws/s3";
+
 import DBHandler from "./parentsDBHandler";
 import { Babysitter, Interaction, Validation } from "./parentsTypes";
 import { calculateDistance } from "./distanceApi";
-import * as s3 from "../../../utils/aws/s3";
 
 export default class Handler {
   private dbHandler: DBHandler;
@@ -73,11 +74,15 @@ export default class Handler {
         if (imageString && imageString.length > 0) {
           try {
             imageUrl = await s3.getImageUrl(imageString);
-            if (!imageUrl){
-              throw new Error('Error fetching image from s3');
+            if (!imageUrl) {
+              throw new Error("Error fetching image from s3");
             }
           } catch (error) {
-            console.error(`Error fetching image for babysitter ${babysitter.name}: ${(error as Error).message}`);
+            console.error(
+              `Error fetching image for babysitter ${babysitter.name}: ${
+                (error as Error).message
+              }`
+            );
           }
         }
 
@@ -87,7 +92,7 @@ export default class Handler {
             parentAddressString,
             babysitterAddress
           ),
-          imageString: imageUrl
+          imageString: imageUrl,
         };
       })
     );

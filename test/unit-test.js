@@ -88,7 +88,6 @@ async function getBabysitterCount() {
   const result = {
     babysitters: babysitters.babysittersCount,
     parents: parents.parentCount,
-
   };
   console.log(JSON.stringify(result));
   return result;
