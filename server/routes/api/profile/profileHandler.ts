@@ -1,5 +1,6 @@
 import DBHandler from "./profileDBHandler";
 import {ParentProfile, BabysitterProfile, Validation, BabysitterUpdate, ParentUpdate} from "./profileTypes";
+import * as s3 from "../../../utils/aws/s3"
 
 
 export default class Handler {
@@ -59,7 +60,17 @@ export default class Handler {
 
     getBabysitterProfile = async (babysitterId: number): Promise<BabysitterProfile> => {
         const profile = await this.dbHandler.getBabySitterProfile(babysitterId);
-        return profile[0];
+        const babysitterProfile =  profile[0];
+        try {
+            if (babysitterProfile.imageString && babysitterProfile.imageString.length > 0){
+                const imageUrl = await s3.getImageUrl(babysitterProfile.imageString);
+                if (!imageUrl) throw new Error('Error fetching image from s3');
+                babysitterProfile.imageString = imageUrl;
+            }
+          } catch (error) {
+            console.error(`Error fetching image for babysitter ${babysitterProfile.name}: ${(error as Error).message}`);
+          }
+        return babysitterProfile;
     }
 
     getParentProfile = async (parentId: number): Promise<ParentProfile> => {
