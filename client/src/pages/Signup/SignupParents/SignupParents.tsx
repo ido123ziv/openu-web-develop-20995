@@ -11,6 +11,7 @@ import { useForm, FieldValues, Controller } from "react-hook-form";
 import { useMutation } from "react-query";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 import styles from "./SignupParents.module.css";
 import BackgroundSVG from "../../../ui/BackgroundSVG/BackgroundSVG";
@@ -43,6 +44,10 @@ const SignupParents = () => {
     mutationKey: ["parentSignup"],
     mutationFn: parentSignup,
     onSuccess: async () => {
+      Swal.fire({
+        title: "Your account is now pending moderator activation",
+        icon: "success",
+      });
       navigate("/login");
     },
     onError: (error) => {
