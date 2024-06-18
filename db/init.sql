@@ -94,7 +94,7 @@ VALUES
 (3, 3, 0, 'Would not hire'),
 (1, 4, 0, 'Not recommended'),
 (2, 4, 0, 'Not recommended At all'),
-(3, 4, 0, 'Would not hire');
+(3, 4, 0, 'Would not hire'),
 (1, 5, 5, 'The best Ive ever had'),
 (2, 5, 5, 'Number One! u good u'),
 (3, 5, 4, 'Ate all the snacks in the house but still did a good job'),
