@@ -148,7 +148,8 @@ const ParentsMainView = () => {
                       <DropdownMenu scrolling className={styles.subMenu}>
                         {option.optionsArr.map((el) => (
                           <DropdownItem
-                            {...el}
+                            key={el.key}
+                            text={el.text}
                             className={styles.optionsArr}
                             onClick={(_e) => handleSetFilters(el.key)}
                           />
@@ -173,7 +174,9 @@ const ParentsMainView = () => {
               <DropdownMenu scrolling>
                 {sortingOptions.map((option) => (
                   <DropdownItem
-                    {...option}
+                    key={option.key}
+                    text={option.text}
+                    icon={option.icon}
                     onClick={() => setSorter(option.key)}
                   />
                 ))}

@@ -107,7 +107,6 @@ const ModalView = ({ isOpen, setIsOpen, card, screen }: ModalViewProps) => {
   const { data: recommendations } = useQuery({
     queryKey: ["babysitterRecommendations"],
     queryFn: () => {
-      console.log(card?.role);
       if (card?.role === "babysitter") {
         return getBabysitterRecommendations(card?.id as number);
       }
@@ -115,7 +114,6 @@ const ModalView = ({ isOpen, setIsOpen, card, screen }: ModalViewProps) => {
       return Promise.resolve([]);
     },
     enabled: true,
-    onSuccess: (data) => console.log(data),
     onError: (error) => console.log(error),
   });
 
