@@ -8,7 +8,7 @@ export default class DBHandler {
                     FROM parents`;
 
     const parents = await db.query(query);
-    return parents.rows.length;
+    return parents.rows[0].count;
   }
 
   async getParent(parentId: number): Promise<number> {

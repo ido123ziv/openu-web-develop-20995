@@ -85,13 +85,11 @@ async function getBabysitterCount() {
   );
   const parents = await responseParents.json();
   const babysitters = await responseBaby.json();
-  console.log(parents);
-  console.log(babysitters);
   const result = {
-    babysitters: babysitters,
-    parents: parents,
+    babysitters: babysitters.babysittersCount,
+    parents: parents.parentCount,
   };
-  console.log(result);
+  console.log(JSON.stringify(result));
   return result;
 }
 function generateRandomString(length) {
@@ -295,6 +293,7 @@ async function testInValidIdsRequest(urlMap, method, min, max) {
   const usersCount = await getBabysitterCount();
   const min = 1;
   const max = Math.max(usersCount.babysitters, usersCount.parents);
+  console.log(`max: ${max}, min: ${min}`);
   console.log("--Testing Valid Requests--\n");
   await testValidRequests(
     postUrlsMap,
