@@ -142,7 +142,9 @@ const ModalView = ({ isOpen, setIsOpen, card, screen }: ModalViewProps) => {
         <Image
           size="medium"
           src={
-            card?.imageString || card?.role === "parent"
+            card?.imageString
+              ? `${card.imageString}`
+              : card?.role === "parent"
               ? "/baby.svg"
               : "/babysitter.svg"
           }

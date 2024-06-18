@@ -124,11 +124,7 @@ const ParentProfile = () => {
 
         <div className={styles.container}>
           <div className={styles.imageContainer}>
-            <Image
-              src="https://react.semantic-ui.com/images/wireframe/square-image.png"
-              size="medium"
-              rounded
-            />
+            <Image src="/baby.svg" size="medium" rounded />
             <UploadButton />
           </div>
 

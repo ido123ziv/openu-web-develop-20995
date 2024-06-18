@@ -2,7 +2,6 @@ import * as s3 from "../../../utils/aws/s3";
 
 import DBHandler from "./parentsDBHandler";
 import { Babysitter, Interaction, Validation } from "./parentsTypes";
-import * as s3 from "../../../utils/aws/s3"
 
 export default class Handler {
   private dbHandler: DBHandler;
@@ -47,24 +46,28 @@ export default class Handler {
   getAllBabysitters = async (): Promise<Babysitter[]> => {
     // Fetch all babysitters from the database
     const allBabysitters = await this.dbHandler.getAllBabysitters();
-  
+
     // Define a helper function to fetch and replace image string
     const fetchImageUrl = async (babysitter: Babysitter) => {
       const { imageString } = babysitter;
       if (imageString && imageString.length > 0) {
         try {
           const imageUrl = await s3.getImageUrl(imageString);
-          if (!imageUrl) throw new Error('Error fetching image from s3');
+          if (!imageUrl) throw new Error("Error fetching image from s3");
           babysitter.imageString = imageUrl;
         } catch (error) {
-          console.error(`Error fetching image for babysitter ${babysitter.name}: ${(error as Error).message}`);
+          console.error(
+            `Error fetching image for babysitter ${babysitter.name}: ${
+              (error as Error).message
+            }`
+          );
         }
       }
     };
-  
+
     // Use Promise.all to fetch image URLs in parallel
     await Promise.all(allBabysitters.map(fetchImageUrl));
-  
+
     return allBabysitters;
   };
 
