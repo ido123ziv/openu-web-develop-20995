@@ -1,5 +1,6 @@
 import DBHandler from "./moderatorDBHandler";
 import { User, ContactRequest, Validation } from "./moderatorTypes";
+import * as s3 from "../../../utils/aws/s3"
 
 enum RequestStatus {
   "new",
@@ -49,7 +50,23 @@ export default class Handler {
   };
 
   getAllUsers = async (): Promise<User[]> => {
-    return this.dbHandler.getAllUsers();
+    const allUsers = await this.dbHandler.getAllUsers();
+    for (const user of allUsers) {
+      try {
+        if (user.role === 'babysitter') {
+          const { imageString } = user;
+          if (imageString) {
+            const imageUrl = await s3.getImageUrl(imageString);
+            if (!imageUrl) throw new Error('Error fetching image from s3');
+            user.imageString = imageUrl;
+          }
+        }
+      }
+      catch (error) {
+        console.error(`Error fetching image for babysitter ${user.name}: ${(error as Error).message}`);
+      }
+    }
+    return allUsers;
   };
 
   getContactRequests = async (): Promise<ContactRequest[]> => {
