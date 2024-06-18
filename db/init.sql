@@ -91,7 +91,16 @@ VALUES
 (3, 2, 4, 'Not too bad, thanks again'),
 (1, 3, 0, 'Not recommended'),
 (2, 3, 0, 'Not recommended At all'),
-(3, 3, 0, 'Would not hire');
+(3, 3, 0, 'Would not hire'),
+(1, 4, 0, 'Not recommended'),
+(2, 4, 0, 'Not recommended At all'),
+(3, 4, 0, 'Would not hire');
+(1, 5, 5, 'The best Ive ever had'),
+(2, 5, 5, 'Number One! u good u'),
+(3, 5, 4, 'Ate all the snacks in the house but still did a good job'),
+(1, 6, 4, 'Quite decent to say the least'),
+(2, 6, 3, 'Expected an average performance and was not disappointed'),
+(3, 6, 4, 'Not too bad, thanks again');
 
 CREATE table IF NOT EXISTS parents_babysitters_interactions (
     last_visit_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -136,6 +145,21 @@ VALUES
 ('seen','Robbi','robbi@test.com', 'Is your site safe?', 'Hi, how do I know your site safe and my data will not be leaked'),
 ('new','Dilen','dilen@test.com', 'Spontaneous', 'Can I find a babysitter spontaneously?'),
 ('seen','Ivgeny','ivgeny@test.com', 'Languages', 'Which languages are available in this site?'),
+('new','Abbi', 'example@mail.com', 'Business Partnership Inquiry', 'I hope this message finds you well. 
+                                    I am reaching out to explore potential partnership opportunities between our companies. 
+                                    Lets discuss how we can collaborate for mutual growth.
+'),
+('new','Anonymous', 'Anonymous@mail.com', 'Issue with a babysitter', 'I am writing to report an issue with a babysitter i have connected to through your platform. 
+                                                                      i will love to hear back from you.'),
+('new','Alice', 'example@mail.com', 'Thanks for the amazing opportunity', 'I am excited to start working with you!'),
+('new','Or', 'example@mail.com', 'Great Platform!', `I came across your profile and was impressed by your work. 
+                                                     I'd love to connect and discuss any potential synergies or opportunities for collaboration.`),
+('new','Alona', 'alona@mail.com', 'Inquiry About Additional Services', `I'm curious if any of the babysitters on your app also offer tutoring or help with homework. 
+                                                                        It would be great to find someone who can assist with my child's schoolwork.`),
+('new','Sara', 'sara@mail.com', 'A compliment', `I wanted to let you know that [Babysitter's Name] did an excellent job taking care of my kids yesterday. 
+                                                 She was punctual, kind, and very professional. I highly recommend her!`),
+('new','Aviv', 'aviv@mail.com', 'Feedback on Babysitter Service', `I wanted to provide feedback on the babysitter I booked through your app last week. 
+                                                                   [Babysitter's Name] was fantastic with my children, and I would love to book her again in the future.`),
 ('working-on','Shoshi','shoshi@test.com', 'New Region', 'When will you be available in Beer Sheva?'),
 ('done','Yuval','yuval@test.com', 'exposer', 'I feel like I do not see any request on my profile, what should I do'),
 ('new','Eran', 'eran@example.com', 'new user', 'I want to join this site I heard a lot about it!'),
