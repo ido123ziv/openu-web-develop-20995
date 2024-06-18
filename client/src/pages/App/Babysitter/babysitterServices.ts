@@ -22,3 +22,11 @@ export const getInteractionsData = async (
     )
   ).data.data;
 };
+
+export const getImage = async (babysitterId: number) => {
+  return (
+    await axios.get(
+      `http://localhost:3000/api/babysitter/image/${babysitterId}`
+    )
+  ).data;
+};
