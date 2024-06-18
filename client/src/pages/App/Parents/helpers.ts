@@ -21,10 +21,8 @@ export const filterBabysitters = (
   data: CardsData[],
   filters: string[]
 ): CardsData[] => {
-  console.log(data);
   const newData = data.filter((babysitter) => {
     return filters.every((filter) => {
-      console.log(filter);
       if (filter === "goodRating") {
         return (babysitter.rating as number) >= 3;
       }
@@ -43,6 +41,6 @@ export const filterBabysitters = (
       return true;
     });
   });
-  console.log(newData);
+
   return newData;
 };

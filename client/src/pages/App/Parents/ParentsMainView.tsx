@@ -55,7 +55,7 @@ const filterOptions = [
   {
     key: "rating",
     text: "Rating",
-    icon: "search",
+    icon: "star",
     optionsArr: [
       { key: "goodRating", text: "More then 3 Stars" },
       { key: "badRating", text: "Less then 3 Stars" },
@@ -97,9 +97,6 @@ const ParentsMainView = () => {
     queryFn: () => getAllBabysitters(user.id),
     onError: (error) => console.log(error),
   });
-
-  console.log(filters);
-  console.log(babysitters);
 
   useEffect(() => {
     if (!data) {
