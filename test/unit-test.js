@@ -1,23 +1,26 @@
-const fetch = require("node-fetch");
-const fs = require("fs");
+const fetch = require('node-fetch');
+const fs = require('fs');
+const APP_PORT = process.env.APP_PORT || 3000;
+
 
 const outputFile = "output.txt";
 const postUrlsMap = {
-  contact: "http://localhost:3000/contact",
-  login: "http://localhost:3000/login",
-  signupBabysitter: "http://localhost:3000/signup/babysitters",
-  signupParent: "http://localhost:3000/signup/parents",
-  recommendationText: "http://localhost:3000/api/recommendations/:id",
+
+    contact: `http://localhost:${APP_PORT}/contact`,
+    login: `http://localhost:${APP_PORT}/login`,
+    signupBabysitter: `http://localhost:${APP_PORT}/signup/babysitters`,
+    signupParent: `http://localhost:${APP_PORT}/signup/parents`,
+    recommendationText: `http://localhost:${APP_PORT}/api/recommendations/:id`
 };
 
 const putUrlsMap = {
-  signupBabysitter: "http://localhost:3000/api/profile/babysitter/update/:id",
-  signupParent: "http://localhost:3000/api/profile/parent/update/:id",
-  deleteBabysitter: "http://localhost:3000/api/delete/babysitter/:id",
-  deleteParent: "http://localhost:3000/api/delete/parent/:id",
-  moderatorRequest:
-    "http://localhost:3000/api/moderator/editContactRequestStatus/:id",
-};
+    signupBabysitter: `http://localhost:${APP_PORT}/api/profile/babysitter/update/:id`,
+    signupParent: `http://localhost:${APP_PORT}/api/profile/parent/update/:id`,
+    deleteBabysitter: `http://localhost:${APP_PORT}/api/delete/babysitter/:id`,
+    deleteParent: `http://localhost:${APP_PORT}/api/delete/parent/:id`,
+    moderatorRequest: `http://localhost:${APP_PORT}/api/moderator/editContactRequestStatus/:id`
+}
+
 const openBugs = {
   PUT: {},
   POST: {
@@ -76,12 +79,13 @@ const schemas = {
   //     "status": "done"
   // }
 };
+
 async function getBabysitterCount() {
   const responseParents = await fetch(
-    "http://localhost:3000/api/parents/countParents"
+    `http://localhost:${APP_PORT}/api/parents/countParents`
   );
   const responseBaby = await fetch(
-    "http://localhost:3000/api/babysitter/countBabysitters"
+    `http://localhost:${APP_PORT}/api/babysitter/countBabysitters`
   );
   const parents = await responseParents.json();
   const babysitters = await responseBaby.json();
