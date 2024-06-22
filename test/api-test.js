@@ -11,7 +11,7 @@ const urls = {
   dbHealth: `http://localhost:${APP_PORT}/db/health`,
   dbTables: `http://localhost:${APP_PORT}/db/tables`,
   awsHealth: `http://localhost:${APP_PORT}/aws/health`,
-  parents: `http://localhost:${APP_PORT}/api/parents/allBabysitters`,
+  parents: `http://localhost:${APP_PORT}/api/parents/allBabysitters/:id`,
   allUsers: `http://localhost:${APP_PORT}/api/moderator/allUsers`,
   recommendations: `http://localhost:${APP_PORT}/api/recommendations/`,
   profileBaby: `http://localhost:${APP_PORT}/api/profile/babysitter/:id`,
