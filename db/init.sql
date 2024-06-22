@@ -83,15 +83,12 @@ CREATE table IF NOT EXISTS recommendations (
 
 INSERT INTO recommendations (parent_id, babysitter_id, rating, recommendation_text)
 VALUES 
-(1, 1, 5, 'The best Ive ever had'),
 (2, 1, 5, 'Number One! u good u'),
 (3, 1, 4, 'Ate all the snacks in the house but still did a good job'),
 (1, 2, 4, 'Quite decent to say the least'),
-(2, 2, 3, 'Expected an average performance and was not disappointed'),
 (3, 2, 4, 'Not too bad, thanks again'),
 (1, 3, 0, 'Not recommended'),
-(2, 3, 0, 'Not recommended At all'),
-(3, 3, 0, 'Would not hire');
+(2, 3, 0, 'Not recommended At all');
 
 CREATE table IF NOT EXISTS parents_babysitters_interactions (
     last_visit_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -131,12 +128,15 @@ CREATE table IF NOT EXISTS contact_requests (
 
 INSERT INTO contact_requests (request_status, user_name, user_email, message_title, user_message)
 VALUES
-('new', 'Nahum', 'nahum@test.com', 'Review', 'Does this app works for men as well?'),
-('working-on', 'Dana', 'Dana@test.com', 'Thanks', 'Hi, I want to express my gratitude for the excellent service you offer on this platform.'),
-('seen','Robbi','robbi@test.com', 'Is your site safe?', 'Hi, how do I know your site safe and my data will not be leaked'),
-('new','Dilen','dilen@test.com', 'Spontaneous', 'Can I find a babysitter spontaneously?'),
-('seen','Ivgeny','ivgeny@test.com', 'Languages', 'Which languages are available in this site?'),
-('working-on','Shoshi','shoshi@test.com', 'New Region', 'When will you be available in Beer Sheva?'),
-('done','Yuval','yuval@test.com', 'exposer', 'I feel like I do not see any request on my profile, what should I do'),
-('new','Eran', 'eran@example.com', 'new user', 'I want to join this site I heard a lot about it!'),
-('new','Gili', 'gilig@example.com', 'time to market', 'I want to add my friends here this would be great for them!');
+
+('new','Ivgeny','ivgeny@test.com', 'Languages', 'Which languages are available in this site?'),
+('new','Abbi', 'example@mail.com', 'Business Partnership Inquiry', 'I hope this message finds you well. 
+                                    I am reaching out to explore potential partnership opportunities between our companies. 
+                                    Lets discuss how we can collaborate for mutual growth.'),
+('new','Anonymous', 'Anonymous@mail.com', 'Issue with a babysitter', 'I am writing to report an issue with a babysitter i have connected to through your platform. 
+                                                                      i will love to hear back from you.'),
+('new','Or', 'example@mail.com', 'Great Platform!', 'I came across your profile and was impressed by your work. 
+                                                     Id love to connect and discuss any potential synergies or opportunities for collaboration.'),
+('new','Alona', 'alona@mail.com', 'Inquiry About Additional Services', 'I am curious if any of the babysitters on your app also offer tutoring or help with homework. 
+                                                                        It would be great to find someone who can assist with my childs schoolwork.'),
+('new','Eran', 'eran@example.com', 'new user', 'I want to join this site I heard a lot about it!');
