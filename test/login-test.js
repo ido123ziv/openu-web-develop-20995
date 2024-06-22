@@ -208,7 +208,7 @@ async function test(outputFile) {
 
     await approveUser();
     const loginSuccess = await loginToPage(
-      "http://localhost:${APP_PORT}/login",
+      `http://localhost:${APP_PORT}/login`,
       `${time}+${element}@test.com`,
       "1234",
       outputFile
