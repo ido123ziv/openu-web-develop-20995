@@ -11,11 +11,11 @@ import {
 } from "semantic-ui-react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "react-query";
 
 import styles from "./Contact.module.css";
 import BackgroundSVG from "../../ui/BackgroundSVG/BackgroundSVG";
 import { IFormData, postContactRequest } from "./contactServices";
-import { useMutation } from "react-query";
 
 export default function ContactForm() {
   const navigate = useNavigate();
