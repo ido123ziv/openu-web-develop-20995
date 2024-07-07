@@ -57,26 +57,6 @@ export default function ContactForm() {
     mutate();
   }
 
-  // useEffect(() => {
-  //   async function postData() {
-  //     try {
-  //       const response = await postContactRequest(formData);
-
-  //       console.log(response);
-
-  //       await Swal.fire({
-  //         title: "Your contact request has been submitted",
-  //         icon: "success",
-  //       });
-  //       navigate("/");
-  //     } catch (error) {
-  //       console.error("There was a problem with the fetch operation:", error);
-  //     }
-  //   }
-
-  //   postData();
-  // }, [formData, navigate]);
-
   return (
     <>
       <BackgroundSVG />
