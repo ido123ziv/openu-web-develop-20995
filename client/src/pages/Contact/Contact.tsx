@@ -9,23 +9,39 @@ import {
   InputOnChangeData,
   TextAreaProps,
 } from "semantic-ui-react";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import { useMutation } from "react-query";
 
 import styles from "./Contact.module.css";
 import BackgroundSVG from "../../ui/BackgroundSVG/BackgroundSVG";
-
-interface IFormData {
-  name: string;
-  email: string;
-  title: string;
-  message: string;
-}
+import { IFormData, postContactRequest } from "./contactServices";
 
 export default function ContactForm() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<IFormData>({
     name: "",
     email: "",
     title: "",
     message: "",
+  });
+
+  const { mutate } = useMutation({
+    mutationKey: ["postContactRequest"],
+    mutationFn: () => postContactRequest(formData),
+    onSuccess: async () => {
+      await Swal.fire({
+        title: "Your contact request has been submitted",
+        icon: "success",
+      });
+      navigate("/");
+    },
+    onError: async () => {
+      await Swal.fire({
+        title: "Unable to submit your contact request, try again later",
+        icon: "error",
+      });
+    },
   });
 
   function handleChange(
@@ -36,11 +52,9 @@ export default function ContactForm() {
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   }
 
-  function handleSubmit(e: FormEvent): void {
+  async function handleSubmit(e: FormEvent): Promise<void> {
     e.preventDefault();
-    console.log(formData);
-    alert("Message submitted!");
-    window.location.reload();
+    mutate();
   }
 
   return (
