@@ -2,10 +2,10 @@ import { useRef } from "react";
 import { Button } from "semantic-ui-react";
 import axios from "axios";
 import { useRecoilValue } from "recoil";
+import { useMutation } from "react-query";
 
 import styles from "./UploadButton.module.css";
 import { userState } from "../../../state/atoms/userAtom";
-import { useMutation } from "react-query";
 
 const UploadButton = () => {
   const user = useRecoilValue(userState);
