@@ -27,3 +27,8 @@ export type Interaction = {
   contacted: boolean;
   workedWith: boolean;
 };
+
+export type parentImageResponse = {
+  imageUrl: string,
+  responseCode: number
+}
