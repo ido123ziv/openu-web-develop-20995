@@ -45,6 +45,7 @@ CREATE table IF NOT EXISTS parents (
     num_of_kids INT NOT NULL,
     end_timestamp bigint default '9999999999' NOT NULL,
     start_timestamp bigint default '0' NOT NULL,
+    image_string VARCHAR(255),
     comments TEXT
 );
 
