@@ -1,7 +1,7 @@
 # TAF (openu-web-develop-20995) 🚀
 TAF is a website for babysitters and parents to meet and schedule with each other for happier parents and happier babysitters
 
-This repo is for openu course [20995](https://www.openu.ac.il/courses/20995.htm) learning how to build web application in the cloud ☁️☁️☁️
+This [repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/about-repositories) is for openu course [20995](https://www.openu.ac.il/courses/20995.htm) learning how to build web application in the cloud ☁️☁️☁️
 * [how-to-run](#how-to-run)
 
 * [tech-stack](#tech-stack)
@@ -14,7 +14,7 @@ This repo is for openu course [20995](https://www.openu.ac.il/courses/20995.htm)
 # How To Run
 You can run the project with a one-liner!
 
-simply run from repo root:
+simply run from repository root:
 
 ```bash
 docker compose -f compose-prod.yml up
@@ -22,7 +22,7 @@ docker compose -f compose-prod.yml up
 
 If you want to enable the location feature you'll need to save it as a `.env` file:
 
-Copy the value of the `LOCATION_API_KEY` sent to you and save it in a file called `.env` at the repo root (where [README](./README.md) is at)
+Copy the value of the `LOCATION_API_KEY` sent to you and save it in a file called `.env` at the repository root (where [README](./README.md) is at)
 
 ```.env
 LOCATION_API_KEY = shhhhhhh!
