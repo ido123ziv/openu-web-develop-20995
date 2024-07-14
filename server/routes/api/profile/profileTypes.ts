@@ -9,6 +9,7 @@ export type ParentProfile = {
   minKidAge: number;
   maxKidAge: number;
   numOfKids: number;
+  imageString?: string;
   comments: string;
 };
 

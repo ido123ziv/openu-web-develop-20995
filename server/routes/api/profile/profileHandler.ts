@@ -75,7 +75,17 @@ export default class Handler {
 
     getParentProfile = async (parentId: number): Promise<ParentProfile> => {
         const profile = await this.dbHandler.getParentProfile(parentId);
-        return profile[0];
+        const parentProfile = profile[0];
+        try {
+            if (parentProfile.imageString && parentProfile.imageString.length > 0){
+                const imageUrl = await s3.getImageUrl(parentProfile.imageString);
+                if (!imageUrl) throw new Error('Error fetching image from s3');
+                parentProfile.imageString = imageUrl;
+            }
+          } catch (error) {
+            console.error(`Error fetching image for babysitter ${parentProfile.name}: ${(error as Error).message}`);
+          }
+        return parentProfile;
     }
 
     updateBabysitterProfile = async (babysitterId: number, babysitterData: BabysitterUpdate): Promise<void> => {
