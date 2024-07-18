@@ -11,3 +11,11 @@ export const getAllBabysitters = async (
     )
   ).data;
 };
+
+export const getImage = async (parentId: number) => {
+  return (
+    await axios.get(
+      `http://localhost:3000/api/babysitter/image/${parentId}`
+    )
+  ).data;
+};
