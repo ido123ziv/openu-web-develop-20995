@@ -1,11 +1,11 @@
 import * as s3 from "../../../utils/aws/s3";
 
 import DBHandler from "./parentsDBHandler";
-import { 
+import {
   Babysitter,
   Interaction,
   Validation,
-  parentImageResponse
+  ParentImageResponse,
 } from "./parentsTypes";
 import { calculateDistance } from "./distanceApi";
 
@@ -148,9 +148,7 @@ export default class Handler {
     return "";
   };
 
-  getProfileImage = async (
-    parentId: number
-  ): Promise<parentImageResponse> => {
+  getProfileImage = async (parentId: number): Promise<ParentImageResponse> => {
     const imageName = await this.dbHandler.getProfileImageKey(parentId);
     if (!imageName) {
       return {

@@ -28,7 +28,7 @@ export type Interaction = {
   workedWith: boolean;
 };
 
-export type parentImageResponse = {
-  imageUrl: string,
-  responseCode: number
-}
+export type ParentImageResponse = {
+  imageUrl: string;
+  responseCode: number;
+};
