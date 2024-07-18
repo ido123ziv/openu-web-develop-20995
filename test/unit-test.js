@@ -25,7 +25,6 @@ const openBugs = {
   PUT: {},
   POST: {
     testInValidRequest: ["recommendationText"],
-    // testValidRequests: ["recommendationText"],
   },
 };
 const badIds = [-1, "@", "]", 77777, 0];
@@ -76,7 +75,7 @@ const schemas = {
     comments: "string",
   },
   // deleteBabysitter: {},
-  // deleteParent: {},
+  deleteParent: {},
   // moderatorRequest: {
   //     "status": "done"
   // }
