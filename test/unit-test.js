@@ -75,7 +75,7 @@ const schemas = {
     comments: "string",
   },
   // deleteBabysitter: {},
-  deleteParent: {},
+  // deleteParent: {},
   // moderatorRequest: {
   //     "status": "done"
   // }
