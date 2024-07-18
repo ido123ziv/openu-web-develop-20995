@@ -1,7 +1,9 @@
 # TAF (openu-web-develop-20995) 🚀
-TAF is a website for babysitters and parents to meet and schedule with each other for happier parents and happier babysitters
+TAF is a website for babysitters and parents to meet and schedule with each other for happier parents and happier babysitters. 
 
 This [repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/about-repositories) is for openu course [20995](https://www.openu.ac.il/courses/20995.htm) learning how to build web application in the cloud ☁️☁️☁️
+* [repo](https://github.com/ido123ziv/openu-web-develop-20995)
+  
 * [how-to-run](#how-to-run)
 
 * [tech-stack](#tech-stack)
@@ -12,6 +14,12 @@ This [repository](https://docs.github.com/en/repositories/creating-and-managing-
 ---
 
 # How To Run
+
+**Important**
+You must have `docker` installed in order to run the project!!!!!
+
+If you don't have *docker* installed or any other container management cli tool please refer to [installation](#installation)
+
 You can run the project with a one-liner!
 
 simply run from repository root:
@@ -20,9 +28,9 @@ simply run from repository root:
 docker compose -f compose-prod.yml up
 ```
 
-If you want to enable the location feature you'll need to save it as a `.env` file:
+For local development we use a `.env` file (which holds the api keys used), either copy the file sent to you to the repo root or 
 
-Copy the value of the `LOCATION_API_KEY` sent to you and save it in a file called `.env` at the repository root (where [README](./README.md) is at)
+copy the value of the `LOCATION_API_KEY` sent to you and save it in a file called `.env` at the repository root (where [README](./README.md) is at)
 
 ```.env
 LOCATION_API_KEY = shhhhhhh!
