@@ -15,7 +15,7 @@ export const getAllBabysitters = async (
 export const getImage = async (parentId: number) => {
   return (
     await axios.get(
-      `http://localhost:3000/api/babysitter/image/${parentId}`
+      `http://localhost:3000/api/parents/image/${parentId}`
     )
   ).data;
 };
