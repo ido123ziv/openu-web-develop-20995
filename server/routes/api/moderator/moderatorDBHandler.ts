@@ -25,6 +25,7 @@ export default class DBHandler {
                                 min_kid_age AS "minKidAge",
                                 max_kid_age AS "maxKidAge", 
                                 num_of_kids AS "numOfKids", 
+                                image_string AS "imageString",
                                 comments, 
                                 'parent' AS role
                         FROM parents

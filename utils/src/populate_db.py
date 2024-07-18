@@ -1,14 +1,14 @@
 import logging
 from pop_utils import db_connection, aws_connection, remove_image_prefix
 UPDATE_QUERY = """
-UPDATE babysitters
-SET image_string = %s
-WHERE babysitter_id = %s
+UPDATE {table_name}
+SET "image_string" = '{image_string}'
+WHERE "{type_name}" = '{user_id}'
 """
 VALIDATE_QUERY = """
-SELECT image_string
-FROM babysitters
-WHERE babysitter_id = %s
+SELECT "image_string"
+FROM {table_name}
+WHERE "{type_name}" = '{user_id}'
 """
 
 def get_images_names_from_s3(aws: aws_connection, bucket_name: str):
@@ -19,7 +19,7 @@ def get_images_names_from_s3(aws: aws_connection, bucket_name: str):
             for file in files:
                 logging.info("working on: {}".format(file))
                 db_images.append({
-                    'id': remove_image_prefix(file.get('Key')).replace("babysitter_",""),
+                    'id': remove_image_prefix(file.get('Key')).replace("babysitter_","").replace("parent_",""),
                     'key': file.get('Key')
                 })
     except Exception as e:
@@ -30,9 +30,17 @@ def get_images_names_from_s3(aws: aws_connection, bucket_name: str):
 def update_image_in_table(images: list, db=db_connection):
     try:
         for image in images:
-            db.execute(UPDATE_QUERY, (image.get('key'), image.get('id')))
+            image_update_query=""
+            image_validate_query=""
+            if "babysitter" in image.get('key'):
+                image_update_query=UPDATE_QUERY.format(table_name="babysitters",type_name="babysitter_id",image_string=image.get('key'),user_id=image.get('id'))
+                image_validate_query=VALIDATE_QUERY.format(table_name="babysitters",type_name="babysitter_id",user_id=image.get('id'))
+            else:
+                image_update_query=UPDATE_QUERY.format(table_name="parents",type_name="parent_id",image_string=image.get('key'),user_id=image.get('id'))
+                image_validate_query=VALIDATE_QUERY.format(table_name="parents",type_name="parent_id",user_id=image.get('id'))
+            db.execute(image_update_query)
             db.commit()
-            result = db.query(VALIDATE_QUERY, (image.get('id')))
+            result = db.query(image_validate_query)
             for row in result:
                 logging.debug("found row: {}".format(row))
         return True
@@ -53,3 +61,4 @@ def main(bucket_name: str):
         logging.info("all images updated in db successfully")
     else:
         logging.error("Not all images updated.")
+        exit(1)
