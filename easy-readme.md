@@ -20,7 +20,9 @@ You must have `docker` installed in order to run the project!!!!!
 
 If you don't have *docker* installed or any other container management cli tool please refer to [installation](#installation)
 
-You can run the project with a one-liner!
+---
+
+For local development we use a `.env` file (which holds the api keys used), copy the file sent to you (attached to drive) to the repo root and then start the magic
 
 simply run from repository root:
 
@@ -28,19 +30,6 @@ simply run from repository root:
 docker compose -f compose-prod.yml up
 ```
 
-For local development we use a `.env` file (which holds the api keys used), either copy the file sent to you to the repo root or 
-
-copy the value of the `LOCATION_API_KEY` sent to you and save it in a file called `.env` at the repository root (where [README](./README.md) is at)
-
-```.env
-LOCATION_API_KEY = shhhhhhh!
-```
-
-then run the python code to setup the .env:
-```bash
-python3 setup-env.py
-```
-then start the magic
 ---
 # Tech Stack
 * Backend -> [nodejs](https://nodejs.org/en)
