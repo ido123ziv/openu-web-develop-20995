@@ -1,7 +1,12 @@
 import * as s3 from "../../../utils/aws/s3";
 
 import DBHandler from "./parentsDBHandler";
-import { Babysitter, Interaction, Validation } from "./parentsTypes";
+import {
+  Babysitter,
+  Interaction,
+  Validation,
+  ParentImageResponse,
+} from "./parentsTypes";
 import { calculateDistance } from "./distanceApi";
 
 export default class Handler {
@@ -129,5 +134,42 @@ export default class Handler {
     babysitterId: number
   ): Promise<void> => {
     await this.dbHandler.updateWorkedWith(parentId, babysitterId);
+  };
+  putProfileImage = async (
+    file: Express.Multer.File,
+    imageName: string,
+    parentId: number
+  ): Promise<string> => {
+    const response = await s3.putImage(file, imageName);
+    if (!response) {
+      return `Couldn't upload image`;
+    }
+    await this.dbHandler.putProfileImage(imageName, parentId);
+    return "";
+  };
+
+  getProfileImage = async (parentId: number): Promise<ParentImageResponse> => {
+    const imageName = await this.dbHandler.getProfileImageKey(parentId);
+    if (!imageName) {
+      return {
+        imageUrl: `User doesn't have an image`,
+        responseCode: 404,
+      };
+    }
+    const imageUrl = await s3.getImageUrl(imageName);
+    if (!imageUrl)
+      return {
+        imageUrl: "Image not found",
+        responseCode: 500,
+      };
+    return { imageUrl: imageUrl, responseCode: 200 };
+  };
+
+  deleteProfileImage = async (parentId: number): Promise<void> => {
+    const imageName = await this.dbHandler.getProfileImageKey(parentId);
+    if (imageName && imageName.length > 0) {
+      await s3.deleteImage(imageName);
+      return this.dbHandler.deleteProfileImage(parentId);
+    }
   };
 }

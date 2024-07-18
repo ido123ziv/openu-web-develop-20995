@@ -167,7 +167,6 @@ profileRouter.put(
   [
     param("id").notEmpty().isNumeric().withMessage(PARENT_INVALID_INPUT_ERROR),
     body("name").isString().notEmpty().withMessage("Name must be a string"),
-    body("email").isEmail().notEmpty().withMessage("Invalid email"),
   ],
   async (req: Request, res: Response) => {
     try {

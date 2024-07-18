@@ -26,6 +26,7 @@ import {
   updateProfile,
 } from "./parentProfileServices";
 import UploadButton from "../UploadButton/UploadButton";
+import { getImage } from "../../App/Parents/parentServices";
 
 const ParentProfile = () => {
   const user = useRecoilValue(userState);
@@ -45,6 +46,12 @@ const ParentProfile = () => {
   const { data: userData } = useQuery({
     queryKey: ["getProfile"],
     queryFn: () => getProfile(user.id),
+    onError: (error) => console.log(error),
+  });
+
+  const { data: image } = useQuery({
+    queryKey: ["geImage"],
+    queryFn: () => getImage(user.id),
     onError: (error) => console.log(error),
   });
 
@@ -124,7 +131,7 @@ const ParentProfile = () => {
 
         <div className={styles.container}>
           <div className={styles.imageContainer}>
-            <Image src="/baby.svg" size="medium" rounded />
+            <Image src={image || "/baby.svg"} size="medium" rounded />
             <UploadButton />
           </div>
 
