@@ -49,14 +49,14 @@ CREATE table IF NOT EXISTS parents (
     comments TEXT
 );
 
-INSERT INTO parents (parent_name, email, password, city, street, phone_number, gender, min_kid_age, max_kid_age, num_of_kids, comments)
+INSERT INTO parents (parent_name, email, password, city, street, phone_number, gender, min_kid_age, max_kid_age, num_of_kids, image_string, comments)
 VALUES
-('Dilen', 'dilen@test.com','$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG','Haifa', 'Habonim', '0500041247','F', 1, 1, 1, 'only the bex for my kids'),
-('Robbi','robbi@test.com','$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'Haifa', 'Herzel', '0500555557','M', 1, 4, 3, 'Experienced nanny? we want you!'),
-('Shoshi', 'shoshi@test.com','$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG','Holon', 'HaShalom', '0558748566', 'F', 2, 4, 2, 'Looking for a great babysitter.'),
-('Inbar', 'inbar@test.com','$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG','Givatayim', 'HaYarden', '0558748586', 'M', 2, 4, 2, 'I love my kids and only want the best for them'),
-('Ivgeny', 'ivgeny@test.com','$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG','Azor', 'Ezra', '0558748566', 'M', 2, 4, 2, 'Looking for a traditional babysitter to help with disciplining the kids'),
-('Nahum', 'nahum@test.com','$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG','Holon', 'Golda Meir', '0558748566', 'M', 2, 4, 2, 'My kids are difficult, be prepared');
+('Dilen', 'dilen@test.com','$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG','Haifa', 'Habonim', '0500041247','F', 1, 1, 1, '', 'only the bex for my kids'),
+('Robbi','robbi@test.com','$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG', 'Haifa', 'Herzel', '0500555557','M', 1, 4, 3, '', 'Experienced nanny? we want you!'),
+('Shoshi', 'shoshi@test.com','$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG','Holon', 'HaShalom', '0558748566', 'F', 2, 4, 2, '', 'Looking for a great babysitter.'),
+('Inbar', 'inbar@test.com','$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG','Givatayim', 'HaYarden', '0558748586', 'M', 2, 4, 2, '', 'I love my kids and only want the best for them'),
+('Ivgeny', 'ivgeny@test.com','$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG','Azor', 'Ezra', '0558748566', 'M', 2, 4, 2, '', 'Looking for a traditional babysitter to help with disciplining the kids'),
+('Nahum', 'nahum@test.com','$2a$12$0B.EaJM27vxqP7kZbzdbcukfKbVaPKnfyAvggeVWMB8MT/fFEmQMG','Holon', 'Golda Meir', '0558748566', 'M', 2, 4, 2, '', 'My kids are difficult, be prepared');
 
 CREATE table IF NOT EXISTS moderators (
     moderator_id SERIAL PRIMARY KEY,
