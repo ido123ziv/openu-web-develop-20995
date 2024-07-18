@@ -25,7 +25,7 @@ const openBugs = {
   PUT: {},
   POST: {
     testInValidRequest: ["recommendationText"],
-    testValidRequests: ["recommendationText"],
+    // testValidRequests: ["recommendationText"],
   },
 };
 const badIds = [-1, "@", "]", 77777, 0];
@@ -59,8 +59,9 @@ const schemas = {
     minKidAge: "number",
     maxKidAge: "number",
     numOfKids: "number",
+    imageString: "string",
     comments: "string",
-  },
+    },
   signupBabysitter: {
     name: "string",
     email: "email",
@@ -71,6 +72,7 @@ const schemas = {
     age: "number",
     phoneNumber: "string",
     gender: "female",
+    imageString: "string",
     comments: "string",
   },
   // deleteBabysitter: {},

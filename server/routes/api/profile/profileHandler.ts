@@ -1,5 +1,6 @@
 import DBHandler from "./profileDBHandler";
-import {ParentProfile, BabysitterProfile, Validation, BabysitterUpdate, ParentUpdate} from "./profileTypes";
+import {ParentProfile, BabysitterProfile, Validation, BabysitterUpdate, ParentUpdate, isOfTypeExperience} from "./profileTypes";
+import * as EmailValidator from "email-validator";
 import * as s3 from "../../../utils/aws/s3"
 
 
@@ -30,7 +31,10 @@ export default class Handler {
         if (allUndefined){
             return { isValid: false, message: 'All fields are undefined' };
         }
-
+        const { email } = parentData;
+        if (email && (!EmailValidator.validate(email))) {
+            return { isValid: false, message: "Email isn't valid" };
+          }
         return { isValid: true };
     }
     
@@ -54,7 +58,13 @@ export default class Handler {
         if (allUndefined){
             return { isValid: false, message: 'All fields are undefined' };
         }
-
+        const { experience, email } = babysitterData;
+        if ((experience) && (!isOfTypeExperience(experience))){
+            return { isValid: false, message: 'invalid experience' };
+        }
+        if (email && (!EmailValidator.validate(email))) {
+            return { isValid: false, message: "Email isn't valid" };
+          }
         return { isValid: true };
     }
 
