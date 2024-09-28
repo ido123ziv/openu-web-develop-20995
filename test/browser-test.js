@@ -57,13 +57,13 @@ async function processURLs(urls, outputFile) {
     await browser.close();
   }
 }
-
+const APP_PORT = process.env.APP_PORT || 5172;
 const urls = [
-  'http://localhost:5172/',
-  'http://localhost:5172/contact',
-  'http://localhost:5172/about',
-  'http://localhost:5172/signup',
-  'http://localhost:5172/login'
+  `http://localhost:${APP_PORT}/`,
+  `http://localhost:${APP_PORT}/contact`,
+  `http://localhost:${APP_PORT}/about`,
+  `http://localhost:${APP_PORT}/signup`,
+  `http://localhost:${APP_PORT}/login`
 ];
 const outputFile = 'output.txt';
 

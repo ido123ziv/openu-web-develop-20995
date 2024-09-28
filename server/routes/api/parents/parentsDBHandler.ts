@@ -165,4 +165,31 @@ export default class DBHandler {
 
     await db.query(query, [parentId, babysitterId]);
   }
+
+  async putProfileImage(
+    imageName: string,
+    parentId: number
+  ): Promise<void> {
+    const query = `UPDATE parents
+                   SET image_string = $1
+                   WHERE parent_id = $2`;
+
+    await db.query(query, [imageName, parentId]);
+  }
+  async deleteProfileImage(parentId: number): Promise<void> {
+    const query = `UPDATE parents
+                   SET image_string = ''
+                   WHERE parent_id = $1`;
+
+    await db.query(query, [parentId]);
+  }
+
+  async getProfileImageKey(parentId: number): Promise<string> {
+    const query = `SELECT image_string AS imageString
+            FROM parents
+            WHERE parent_id = ($1)`;
+    const imageName = await db.query(query, [parentId]);
+    return imageName.rows[0].imagestring;
+  }
+
 }

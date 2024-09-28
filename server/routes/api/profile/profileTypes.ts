@@ -9,6 +9,7 @@ export type ParentProfile = {
   minKidAge: number;
   maxKidAge: number;
   numOfKids: number;
+  imageString?: string;
   comments: string;
 };
 
@@ -54,3 +55,8 @@ export type ParentUpdate = {
   numOfKids?: number;
   comments?: string;
 };
+export type experience = 'no_experience' | 'mid' | 'high';
+
+export function isOfTypeExperience (keyInput: string): keyInput is experience {
+  return ['no_experience', 'mid', 'high'].includes(keyInput);
+}

@@ -1,58 +1,57 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const fetch = require("node-fetch");
 const fs = require("fs");
-
+const APP_PORT = process.env.APP_PORT || 3000;
 const outputFile = "output.txt";
 const badInputs = ["a", "@", "[", "1c"];
 const numericInputs = [-1, 7777, 0];
 // Define URLs to test
 const urls = {
-  back: "http://localhost:3000/hello",
-  name: "http://localhost:3000/hello/name",
-  dbHealth: "http://localhost:3000/db/health",
-  dbTables: "http://localhost:3000/db/tables",
-  awsHealth: "http://localhost:3000/aws/health",
-  parents: "http://localhost:3000/api/parents/allBabysitters/:id",
-  allUsers: "http://localhost:3000/api/moderator/allUsers",
-  recommendations: "http://localhost:3000/api/recommendations/",
-  profileBaby: "http://localhost:3000/api/profile/babysitter/:id",
-  profileParent: "http://localhost:3000/api/profile/parent/:id",
-  rating: "http://localhost:3000/api/recommendations/babysitter/rating/:id",
-  allContactRequests: "http://localhost:3000/api/moderator/allContactRequests",
-  babySitterImage: "http://localhost:3000/api/babysitter/image/:id",
-  getInteraction: "http://localhost:3000/api/babysitter/interactions/:id",
-  getAllPendingUsers: "http://localhost:3000/api/moderator/pending/",
+  name: `http://localhost:${APP_PORT}/hello/name`,
+  dbHealth: `http://localhost:${APP_PORT}/db/health`,
+  dbTables: `http://localhost:${APP_PORT}/db/tables`,
+  awsHealth: `http://localhost:${APP_PORT}/aws/health`,
+  parents: `http://localhost:${APP_PORT}/api/parents/allBabysitters/:id`,
+  allUsers: `http://localhost:${APP_PORT}/api/moderator/allUsers`,
+  recommendations: `http://localhost:${APP_PORT}/api/recommendations/`,
+  profileBaby: `http://localhost:${APP_PORT}/api/profile/babysitter/:id`,
+  profileParent: `http://localhost:${APP_PORT}/api/profile/parent/:id`,
+  rating: `http://localhost:${APP_PORT}/api/recommendations/babysitter/rating/:id`,
+  allContactRequests: `http://localhost:${APP_PORT}/api/moderator/allContactRequests`,
+  babySitterImage: `http://localhost:${APP_PORT}/api/babysitter/image/:id`,
+  getInteraction: `http://localhost:${APP_PORT}/api/babysitter/interactions/:id`,
+  getAllPendingUsers: `http://localhost:${APP_PORT}/api/moderator/pending/`
 };
 
 const inputUrls = {
-  babysitters: "http://localhost:3000/api/babysitter/:id",
-  parentProfile: "http://localhost:3000/api/profile/parent/:id",
-  babysitterProfile: "http://localhost:3000/api/profile/babysitter/:id",
+  babysitters: `http://localhost:${APP_PORT}/api/babysitter/:id`,
+  parentProfile: `http://localhost:${APP_PORT}/api/profile/parent/:id`,
+  babysitterProfile: `http://localhost:${APP_PORT}/api/profile/babysitter/:id`,
   babysitterRecommendation:
-    "http://localhost:3000/api/recommendations/babysitter/:id",
-  parentRecommendation: "http://localhost:3000/api/recommendations/parent/:id",
+    `http://localhost:${APP_PORT}/api/recommendations/babysitter/:id`,
+  parentRecommendation: `http://localhost:${APP_PORT}/api/recommendations/parent/:id`,
   RecommendationStart:
-    "http://localhost:3000/api/recommendations/parent/1/babysitter/:id",
+    `http://localhost:${APP_PORT}/api/recommendations/parent/1/babysitter/:id`,
   RecommendationEnd:
-    "http://localhost:3000/api/recommendations/parent/:id/babysitter/1",
+    `http://localhost:${APP_PORT}/api/recommendations/parent/:id/babysitter/1`,
   RecommendationBoth:
-    "http://localhost:3000/api/recommendations/parent/:id/babysitter/:id",
-  profileBaby: "http://localhost:3000/api/profile/babysitter/:id",
-  profileParent: "http://localhost:3000/api/profile/parent/:id",
-  babysitters: "http://localhost:3000/api/babysitter/:id",
-  parentProfile: "http://localhost:3000/api/profile/parent/:id",
-  babysitterProfile: "http://localhost:3000/api/profile/babysitter/:id",
+    `http://localhost:${APP_PORT}/api/recommendations/parent/:id/babysitter/:id`,
+  profileBaby: `http://localhost:${APP_PORT}/api/profile/babysitter/:id`,
+  profileParent: `http://localhost:${APP_PORT}/api/profile/parent/:id`,
+  babysitters: `http://localhost:${APP_PORT}/api/babysitter/:id`,
+  parentProfile: `http://localhost:${APP_PORT}/api/profile/parent/:id`,
+  babysitterProfile: `http://localhost:${APP_PORT}/api/profile/babysitter/:id`,
   babysitterRecommendation:
-    "http://localhost:3000/api/recommendations/babysitter/:id",
-  parentRecommendation: "http://localhost:3000/api/recommendations/parent/:id",
+    `http://localhost:${APP_PORT}/api/recommendations/babysitter/:id`,
+  parentRecommendation: `http://localhost:${APP_PORT}/api/recommendations/parent/:id`,
   RecommendationStart:
-    "http://localhost:3000/api/recommendations/parent/1/babysitter/:id",
+    `http://localhost:${APP_PORT}/api/recommendations/parent/1/babysitter/:id`,
   RecommendationEnd:
-    "http://localhost:3000/api/recommendations/parent/:id/babysitter/1",
+    `http://localhost:${APP_PORT}/api/recommendations/parent/:id/babysitter/1`,
   RecommendationBoth:
-    "http://localhost:3000/api/recommendations/parent/:id/babysitter/:id",
-  profileBaby: "http://localhost:3000/api/profile/babysitter/:id",
-  profileParent: "http://localhost:3000/api/profile/parent/:id",
+    `http://localhost:${APP_PORT}/api/recommendations/parent/:id/babysitter/:id`,
+  profileBaby: `http://localhost:${APP_PORT}/api/profile/babysitter/:id`,
+  profileParent: `http://localhost:${APP_PORT}/api/profile/parent/:id`,
 };
 
 // Function to perform HTTP GET request and check status code

@@ -7,8 +7,9 @@ const contactRouter = Router();
 
 const handler = new Handler();
 
-contactRouter.post("/", 
-  handler.fieldValidation(), 
+contactRouter.post(
+  "/",
+  handler.fieldValidation(),
   async (req: Request, res: Response) => {
     try {
       const fieldValidationResult = validationResult(req);
@@ -18,12 +19,7 @@ contactRouter.post("/",
           .json({ message: fieldValidationResult.array()[0].msg });
       }
 
-      const {
-        name,
-        email,
-        title,
-        message
-      } = req.body;
+      const { name, email, title, message } = req.body;
 
       const validation = await handler.contactValidation(email);
 
@@ -35,12 +31,19 @@ contactRouter.post("/",
         name,
         email,
         title,
-        message
+        message,
       });
 
-      return res.status(200).json({ message: "Message sent successfully" }).end();
+      return res
+        .status(200)
+        .json({ message: "Message sent successfully" })
+        .end();
     } catch (e) {
-      console.log(`Error message: ${req.body.id}: ${(e as Error).message}\n${(e as Error).stack}`);
+      console.log(
+        `Error message: ${req.body.id}: ${(e as Error).message}\n${
+          (e as Error).stack
+        }`
+      );
       return res.status(500).end();
     }
   }

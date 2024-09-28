@@ -97,11 +97,12 @@ babysitterRouter.put(
         return res.status(400).json({ error: validation.message });
       }
 
-      const imageName = `babysitter_${babysitterId}`;
-
       if (!req.file) {
         return res.status(400).json({ error: `Missing file input.` });
       }
+
+      const fileType = req.file.originalname.split(".")[1];
+      const imageName = `babysitter_${babysitterId}.${fileType}`;
 
       const response = await handler.putProfileImage(
         req.file,
