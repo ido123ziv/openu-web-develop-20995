@@ -34,7 +34,7 @@
     "typescript-eslint": "^7.7.1"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.592.0",
+    "@aws-sdk/client-s3": "^3.624.0",
     "@types/axios": "^0.14.0",
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
